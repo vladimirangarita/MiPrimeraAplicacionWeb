@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Periodo</h2>
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/cssPropio.css" rel="stylesheet" />
+<label>Ingrese nombre Periodo</label>
+<input type="text" id="txtnombre">
+<br />
+<button type="button" onclick="abrirModal(0)" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Agregar</button>
+<div id="tabla">
+
+
+
+</div>
+
+<!-- Trigger the modal with a button -->
+<!-- Modal -->
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <table style="width:80%;margin:auto">
+                    <tr>
+                        <td width="40%">Id Periodo</td>
+                        <td width="60%"><input class="borrar" type="text" id="txtIdPeriodo" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Ingrese Periodo</td>
+                        <td>
+                            <input class="borrar obligatorio" type="text" id="txtnombrePopup">
+                        </td>
+                    </tr>
+
+                    <tr>
+
+                        <td>Fecha inicio</td>
+                        <td> <input class="borrar obligatorio" id="datepickerInicio" type="text" /> </td>
+
+                    </tr>
+                    <tr>
+
+                        <td>Fecha Fin</td>
+                        <td> <input class="borrar obligatorio" id="datepickerFin" type="text" /> </td>
+
+                    </tr>
+                </table>
+                <div class="modal-footer">
+                    <button onclick="Agregar()" id="btnAceptar" type="button"  class="btn btn-success" data-dismiss="modal">Aceptar</button>
+                    <button id="btnCancelar" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
+<script src="~/Scripts/Periodo.js"></script>
+<script src="~/Scripts/datatables.min.js"></script>
+<link href="~/Content/datatables.css" rel="stylesheet" />
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
