@@ -131,6 +131,108 @@ function Eliminar(id) {
         });
     }
 }
+function abrirModal(id) {
+
+    var controlesObligatorios = document.getElementsByClassName("obligatorio");
+    var ncontroles = controlesObligatorios.length;
+
+    for (var i = 0; i < ncontroles; i++) {
+
+        controlesObligatorios[i].parentNode.classList.remove("error");
+
+
+    }
+    if (id == 0) {
+
+        BorrarDatos();
+
+    }
+    else {
+        $.get("Alumno/RecuperarInformacion/?id=" + id, function (data) {
+
+            document.getElementById("txtIdAlumno").value = data[0].IIDALUMNO;
+            document.getElementById("txtnombre").value = data[0].NOMBRE;
+            document.getElementById("txtapPaterno").value = data[0].APPATERNO;
+            document.getElementById("txtapMaterno").value = data[0].APMATERNO;
+            document.getElementById("cboSexoPopup").value = data[0].IIDSEXO;
+            document.getElementById("dtFechaNacimiento").value = data[0].FECHANAC;
+
+            document.getElementById("txtTelefonoPadre").value = data[0].TELEFONOPADRE;
+            document.getElementById("txtTelefonoMadre").value = data[0].TELEFONOMADRE;
+            document.getElementById("txtNumeroHermanos").value = data[0].NUMEROHERMANOS;
+        });
+        //alert("Se llamo desde el boton Editar")
+    }
+
+
+    //alert(id);
+
+}
+function abrirModal(id) {
+
+    var controlesObligatorios = document.getElementsByClassName("obligatorio");
+    var ncontroles = controlesObligatorios.length;
+
+    for (var i = 0; i < ncontroles; i++) {
+
+        controlesObligatorios[i].parentNode.classList.remove("error");
+
+
+    }
+    if (id == 0) {
+
+        BorrarDatos();
+
+    }
+    else {
+        $.get("Docente/RecuperarInformacion/?id=" + id, function (data) {
+
+            document.getElementById("txtIdDocente").value = data[0].IIDDOCENTE;
+            document.getElementById("txtNombre").value = data[0].NOMBRE;
+            document.getElementById("txtApPaterno").value = data[0].APPATERNO;
+            document.getElementById("txtApMaterno").value = data[0].APMATERNO;
+            document.getElementById("txtDireccion").value = data[0].DIRECCION;
+            document.getElementById("txttelefonofijo").value = data[0].TELEFONOFIJO;
+
+            document.getElementById("txttelefonocelular").value = data[0].TELEFONOCELULAR;
+            document.getElementById("txtemail").value = data[0].EMAIL;
+            document.getElementById("cbosexoPopup").value = data[0].IIDSEXO;
+
+            document.getElementById("dtFechaContrato").value = data[0].FECHACONTRAC;
+            document.getElementById("cboModalidadContratoPopup").value = data[0].IIDMODALIDADCONTRATO;
+
+        });
+        //alert("Se llamo desde el boton Editar")
+    }
+
+
+    //alert(id);
+
+}
+function llenarCombo(data, control, primerElemento) {
+
+    var contenido = "";
+    if (primerElemento == true) {
+
+        contenido += "<option value=''>--Seleccione--</option>"
+
+    }
+    for (var i = 0; i < data.length; i++) {
+
+
+        contenido += "<option value='" + data[i].IID + "'>";
+
+
+        contenido += data[i].NOMBRE;
+
+        contenido += "</option>";
+
+
+    }
+
+
+    control.innerHTML = contenido;
+}
 
 function DatosObligatorios() {
 

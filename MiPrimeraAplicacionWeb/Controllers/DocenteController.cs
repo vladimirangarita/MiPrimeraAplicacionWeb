@@ -14,19 +14,36 @@ namespace MiPrimeraAplicacionWeb.Controllers
             return View();
         }
 
+        public JsonResult  RecuperarInformacion(int id)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+            var lista = bd.Docente.Where(p => p.IIDDOCENTE.Equals(id)).Select(
+                   p => new
+                   {
+                       p.IIDDOCENTE,
+                       p.NOMBRE,
+                       p.APMATERNO,
+                       p.APPATERNO,
+                       p.DIRECCION,
+                       p.TELEFONOCELULAR,
+                       p.TELEFONOFIJO,
+                       p.EMAIL,
+                       p.IIDSEXO,
+                       FECHACONTRAC = ((DateTime)p.FECHACONTRATO).ToShortDateString(),
+                p.IIDMODALIDADCONTRATO,
+                p.FOTO
+                }
+
+
+
+                );
+
+            return Json(lista, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult ListarDocente()
         {
             PruebaDataContext bd = new PruebaDataContext();
-            //var lista = (from docente in bd.Docente
-            //             where docente.BHABILITADO.Equals(1)
-            //             select new
-            //             {
-            //                 docente.IIDDOCENTE,
-            //                 docente.NOMBRE,
-            //                 docente.APPATERNO,
-            //                 docente.APMATERNO,
-            //                 docente.EMAIL
-            //             }).ToList();
+           
 
             var lista = bd.Docente.Where(p => p.BHABILITADO.Equals(1)).Select(
                 p => new
