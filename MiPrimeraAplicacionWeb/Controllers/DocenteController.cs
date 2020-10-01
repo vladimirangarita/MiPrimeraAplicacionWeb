@@ -40,6 +40,49 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
+
+        public int GuardarDatos(Docente oDocente)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+            int nregistradosAfectados = 0;
+            try
+            {
+                int idDocente=oDocente.IIDDOCENTE;
+
+                if (idDocente.Equals(0))
+                {
+                    bd.Docente.InsertOnSubmit(oDocente);
+                    bd.SubmitChanges();
+                    nregistradosAfectados = 1;
+                }else
+                {
+                 Docente obj =   bd.Docente.Where(p => p.IIDDOCENTE.Equals(idDocente)).First();
+                    obj.NOMBRE = oDocente.NOMBRE;
+                    obj.APPATERNO = oDocente.APPATERNO;
+                    obj.APMATERNO = oDocente.APMATERNO;
+                    obj.DIRECCION = oDocente.DIRECCION;
+                    obj.TELEFONOCELULAR = oDocente.TELEFONOCELULAR;
+                    obj.TELEFONOFIJO = oDocente.TELEFONOFIJO;
+                    obj.EMAIL = oDocente.EMAIL;
+                    obj.IIDSEXO = oDocente.IIDSEXO;
+                    obj.FECHACONTRATO = oDocente.FECHACONTRATO;
+                    obj.IIDMODALIDADCONTRATO = oDocente.IIDMODALIDADCONTRATO;
+                    obj.BHABILITADO = oDocente.BHABILITADO;
+                    bd.SubmitChanges();
+                    nregistradosAfectados = 1;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                nregistradosAfectados = 0;
+            }
+
+            return nregistradosAfectados;
+        }
+
         public JsonResult ListarDocente()
         {
             PruebaDataContext bd = new PruebaDataContext();
@@ -102,7 +145,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
 
         }
-
+       
         public int Eliminar(int id)
         {
             PruebaDataContext bd = new PruebaDataContext();

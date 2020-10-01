@@ -131,43 +131,9 @@ function Eliminar(id) {
         });
     }
 }
-function abrirModal(id) {
-
-    var controlesObligatorios = document.getElementsByClassName("obligatorio");
-    var ncontroles = controlesObligatorios.length;
-
-    for (var i = 0; i < ncontroles; i++) {
-
-        controlesObligatorios[i].parentNode.classList.remove("error");
-
-
-    }
-    if (id == 0) {
-
-        BorrarDatos();
-
-    }
-    else {
-        $.get("Alumno/RecuperarInformacion/?id=" + id, function (data) {
-
-            document.getElementById("txtIdAlumno").value = data[0].IIDALUMNO;
-            document.getElementById("txtnombre").value = data[0].NOMBRE;
-            document.getElementById("txtapPaterno").value = data[0].APPATERNO;
-            document.getElementById("txtapMaterno").value = data[0].APMATERNO;
-            document.getElementById("cboSexoPopup").value = data[0].IIDSEXO;
-            document.getElementById("dtFechaNacimiento").value = data[0].FECHANAC;
-
-            document.getElementById("txtTelefonoPadre").value = data[0].TELEFONOPADRE;
-            document.getElementById("txtTelefonoMadre").value = data[0].TELEFONOMADRE;
-            document.getElementById("txtNumeroHermanos").value = data[0].NUMEROHERMANOS;
-        });
-        //alert("Se llamo desde el boton Editar")
-    }
 
 
     //alert(id);
-
-}
 function abrirModal(id) {
 
     var controlesObligatorios = document.getElementsByClassName("obligatorio");
@@ -260,58 +226,90 @@ function BorrarDatos() {
     for (var i = 0; i < ncontroles; i++) {
         controles[i].value = "";
     }
-//function crearListado(arrayColumnas, data) {
-//    var contenido = "";
-//    contenido += "<table id='tabla-Alumno'class='table'>"
-//    contenido += "<thead>"
+}
+    function Agregar() {
 
-//    contenido += "<tr>"
+        if (DatosObligatorios() == true) {
 
-//    for (var i = 0; i < arrayColumnas.length; i++) {
-//        contenido += "<td>"
-//        contenido += arrayColumnas[i];
-//    }
-
-//    contenido += "</tr>"
-
-//    contenido += "</thead>"
-//    var llaves = Object.keys(data[0]);
-//    contenido += "<tbody>"
-//    for (var i = 0; i < data.length; i++) {
-
-//        contenido += "<tr>"
-
-//        for (var j = 0; j < llaves.length; j++) {
-//            var valorLLaves = llaves[j];
-//            contenido += "<td>";
-//            contenido += data[i][valorLLaves];
-//            contenido += "</td>"
-//        }
+            var frm = new FormData();
+            var IdDocente = document.getElementById("txtIdDocente").value;
+            var nombre = document.getElementById("txtNombre").value;
+            var apPaterno = document.getElementById("txtApPaterno").value;
+            var apMaterno = document.getElementById("txtApMaterno").value;
 
 
-//        contenido += "</tr>"
+            var Direccion = document.getElementById("txtDireccion").value;
+            var telefonofijo = document.getElementById("txttelefonofijo").value;
+            var telefonocelular = document.getElementById("txttelefonocelular").value;
 
-//    }
+            var email = document.getElementById("txtemail").value;
+            var sexoPopup = document.getElementById("cbosexoPopup").value;
+            var FechaContrato = document.getElementById("dtFechaContrato").value;
+            var ModalidadContratoPopup = document.getElementById("cboModalidadContratoPopup").value;
+            var bhabilitado = 1;
 
-//    contenido += "</tbody>"
+            frm.append("IIDDOCENTE", IdDocente);
+            frm.append("NOMBRE", nombre);
+            frm.append("APPATERNO", apPaterno);
+            frm.append("APMATERNO", apMaterno);
+            frm.append("DIRECCION", Direccion);
+            frm.append("TELEFONOCELULAR", telefonocelular);
+            frm.append("TELEFONOFIJO", telefonofijo);
+            frm.append("EMAIL", email);
+            frm.append("IIDSEXO", sexoPopup);
+            frm.append("IIDMODALIDADCONTRATO", ModalidadContratoPopup)
+            frm.append("FECHACONTRATO", FechaContrato);
+            frm.append("FECHACONTRATO", FechaContrato);
+            frm.append("BHABILITADO", bhabilitado);
+            if (confirm("Desea guardar cambios?") == 1) {
 
-//    contenido += "</table>"
+                $.ajax({
+                    type: "POST",
+                    url: "Docente/GuardarDatos",
+                    data: frm,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        if (data == 0) {
+
+                            alert("Ocurrio un error");
+                        }
+                        else {
+
+                            alert("Se ejecuto exitosamente");
+                            listar();
+                            document.getElementById("btnCancelar").click();
+                        }
+
+                    }
 
 
-//    document.getElementById("tabla").innerHTML = contenido;
 
-//    $("#tabla-Alumno").DataTable(
+                })
 
-//        {
-
-//            searching: false
-
-//        }
-
-//    );
+            }
 
 
-//}
+        }
+
+
+        var btnFoto = document.getElementById("btnFoto");
+        btnFoto.onchange = function (e) {
+          var file =  document.getElementById("btnFoto").files[0];
+            var reader = new FileReader();
+            if (reader != null) {
+                reader.onloadend = function () {
+                    var img = document.getElementById("imgFoto");
+                    img.src = reader.result;
+                    alert(reader.result);
+                }
+
+            }
+
+            reader.readAsDataURL(file);
+        }
+
+
 function llenarCombo(data, control, primerElemento) {
 
     var contenido = "";

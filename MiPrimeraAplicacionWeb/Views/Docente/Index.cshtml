@@ -20,115 +20,122 @@
 
 
 
-    <div id="tabla">
+<div id="tabla">
 
 
-    </div>
-    <div id="myModal" class="modal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
-                </div>
-                <div class="modal-body">
-                    <table style="width:80%;margin:auto">
+</div>
+<div id="myModal" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <table style="width:80%;margin:auto">
 
-                        <tr>
+                    <tr>
 
-                            <td>Id Docente</td>
-                            <td><input class="borrar" type="text" id="txtIdDocente" readonly></td>
+                        <td>Id Docente</td>
+                        <td><input class="borrar" type="text" id="txtIdDocente" readonly></td>
 
-                        </tr>
+                    </tr>
 
-                        <tr>
+                    <tr>
 
-                            <td>Nombre</td>
-                            <td><input class="borrar obligatorio"  type="text" id="txtNombre"></td>
+                        <td>Nombre</td>
+                        <td><input class="borrar obligatorio" type="text" id="txtNombre"></td>
 
-                        </tr>
+                    </tr>
 
-                        <tr>
+                    <tr>
 
-                            <td>Apellido Paterno</td>
-                            <td><input class="borrar obligatorio"  type="text" id="txtApPaterno"></td>
+                        <td>Apellido Paterno</td>
+                        <td><input class="borrar obligatorio" type="text" id="txtApPaterno"></td>
 
-                        </tr>
-                        <tr>
+                    </tr>
+                    <tr>
 
-                            <td>Apellido Materno</td>
-                            <td><input class="borrar obligatorio"  type="text" id="txtApMaterno"></td>
+                        <td>Apellido Materno</td>
+                        <td><input class="borrar obligatorio" type="text" id="txtApMaterno"></td>
 
-                        </tr>
+                    </tr>
 
-                        <tr>
+                    <tr>
 
-                            <td>Direccion</td>
-                            <td><input class="borrar obligatorio" type="text" id="txtDireccion"></td>
+                        <td>Direccion</td>
+                        <td><input class="borrar obligatorio" type="text" id="txtDireccion"></td>
 
-                        </tr>
+                    </tr>
 
-                        <tr>
+                    <tr>
 
-                            <td>Telefono fijo</td>
-                            <td><input class="borrar obligatorio" type="number" id="txttelefonofijo"></td>
+                        <td>Telefono fijo</td>
+                        <td><input class="borrar obligatorio" type="number" id="txttelefonofijo"></td>
 
-                        </tr>
+                    </tr>
 
-                        <tr>
+                    <tr>
 
-                            <td>Telefono Celular</td>
-                            <td><input class="borrar obligatorio" type="number" id="txttelefonocelular"></td>
+                        <td>Telefono Celular</td>
+                        <td><input class="borrar obligatorio" type="number" id="txttelefonocelular"></td>
 
-                        </tr>
+                    </tr>
 
-                        <tr>
+                    <tr>
 
-                            <td>Email</td>
-                            <td><input class="borrar obligatorio" type="email" id="txtemail"></td>
+                        <td>Email</td>
+                        <td><input class="borrar obligatorio" type="email" id="txtemail"></td>
 
-                        </tr>
+                    </tr>
 
 
-                        <tr>
+                    <tr>
 
-                            <td>sexo</td>
-                            <td><select class="borrar obligatorio" id="cbosexoPopup"></select></td>
+                        <td>sexo</td>
+                        <td><select class="borrar obligatorio" id="cbosexoPopup"></select></td>
 
-                        </tr>
-                        <tr>
+                    </tr>
+                    <tr>
 
-                            <td>Fecha contrato</td>
-                            <td><input class="borrar obligatorio" type="text" id="dtFechaContrato" /></td>
+                        <td>Fecha contrato</td>
+                        <td><input class="borrar obligatorio" type="text" id="dtFechaContrato" /></td>
 
-                        </tr>
+                    </tr>
 
-                        <tr>
+                    <tr>
 
-                            <td>Ingrese Modalidad contrato</td>
-                            <td><select class="borrar obligatorio" id="cboModalidadContratoPopup"></select></td>
+                        <td>Ingrese Modalidad contrato</td>
+                        <td><select class="borrar obligatorio" id="cboModalidadContratoPopup"></select></td>
 
-                        </tr>
+                    </tr>
 
-                        <tr>
+                    <tr>
 
-                            <td>Ingrese foto</td>
-                            <td><img id="imgFoto" width="150" height="100" style="border:1px solid"/></td>
+                        <td>Ingrese foto</td>
+                        <td><img id="imgFoto" width="150" height="100" style="border:1px solid" /></td>
 
-                        </tr>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="file" value="..." id="btnFoto"> </td>
+                    </tr>
 
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button onclick="Agregar()" id="btnAceptar" type="button" class="btn btn-success">Aceptar</button>
-                    <button id="btnCancelar" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                </div>
+                </table>
+            </div>
+            <div class="modal-footer">
+                @* <button onclick="Agregar()" id="btnAceptar" type="button" class="btn btn-success">Aceptar</button>*@
+                <button onclick="Agregar()" type="button" class="btn btn-success">Aceptar</button>
+                <button id="btnCancelar" type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
-            </div>
-            <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-            <script src="~/Scripts/jquery-ui.min.js"></script>
-            <script src="~/Scripts/Docente.js"></script>
-            <script src="~/Scripts/datatables.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="~/Scripts/jquery-ui.min.js"></script>
+<script src="~/Scripts/Docente.js"></script>
+<script src="~/Scripts/datatables.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
