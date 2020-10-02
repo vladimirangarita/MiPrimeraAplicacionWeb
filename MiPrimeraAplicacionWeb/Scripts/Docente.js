@@ -167,6 +167,8 @@ function abrirModal(id) {
             document.getElementById("dtFechaContrato").value = data[0].FECHACONTRAC;
             document.getElementById("cboModalidadContratoPopup").value = data[0].IIDMODALIDADCONTRATO;
 
+            document.getElementById("imgFoto").src ="data:image/png;base64,"+data[0].FOTOMOSTRAR;
+   
         });
         //alert("Se llamo desde el boton Editar")
     }
@@ -246,6 +248,7 @@ function BorrarDatos() {
             var sexoPopup = document.getElementById("cbosexoPopup").value;
             var FechaContrato = document.getElementById("dtFechaContrato").value;
             var ModalidadContratoPopup = document.getElementById("cboModalidadContratoPopup").value;
+            var imgFoto = document.getElementById("imgFoto").src.replace("data:image/png;base64,","");
             var bhabilitado = 1;
 
             frm.append("IIDDOCENTE", IdDocente);
@@ -259,8 +262,10 @@ function BorrarDatos() {
             frm.append("IIDSEXO", sexoPopup);
             frm.append("IIDMODALIDADCONTRATO", ModalidadContratoPopup)
             frm.append("FECHACONTRATO", FechaContrato);
-            frm.append("FECHACONTRATO", FechaContrato);
+            frm.append("CADENAFOTO", imgFoto);
             frm.append("BHABILITADO", bhabilitado);
+
+
             if (confirm("Desea guardar cambios?") == 1) {
 
                 $.ajax({
@@ -301,7 +306,7 @@ function BorrarDatos() {
                 reader.onloadend = function () {
                     var img = document.getElementById("imgFoto");
                     img.src = reader.result;
-                    alert(reader.result);
+                    alert(reader.result.replace("data:image/png;base64,",""));
                 }
 
             }

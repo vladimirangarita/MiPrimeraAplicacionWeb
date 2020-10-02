@@ -30,8 +30,8 @@ namespace MiPrimeraAplicacionWeb.Controllers
                        p.EMAIL,
                        p.IIDSEXO,
                        FECHACONTRAC = ((DateTime)p.FECHACONTRATO).ToShortDateString(),
-                p.IIDMODALIDADCONTRATO,
-                p.FOTO
+                       p.IIDMODALIDADCONTRATO,
+                       FOTOMOSTRAR= Convert.ToBase64String(p.FOTO.ToArray())
                 }
 
 
@@ -41,7 +41,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
-        public int GuardarDatos(Docente oDocente)
+        public int GuardarDatos(Docente oDocente, string cadenaFoto)
         {
             PruebaDataContext bd = new PruebaDataContext();
             int nregistradosAfectados = 0;
@@ -51,6 +51,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
                 if (idDocente.Equals(0))
                 {
+                    oDocente.FOTO = Convert.FromBase64String(cadenaFoto);
                     bd.Docente.InsertOnSubmit(oDocente);
                     bd.SubmitChanges();
                     nregistradosAfectados = 1;
@@ -68,6 +69,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                     obj.FECHACONTRATO = oDocente.FECHACONTRATO;
                     obj.IIDMODALIDADCONTRATO = oDocente.IIDMODALIDADCONTRATO;
                     obj.BHABILITADO = oDocente.BHABILITADO;
+                    obj.FOTO = Convert.FromBase64String(cadenaFoto);
                     bd.SubmitChanges();
                     nregistradosAfectados = 1;
                 }
