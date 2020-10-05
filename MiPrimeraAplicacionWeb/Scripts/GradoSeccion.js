@@ -8,6 +8,14 @@ function listar() {
 
         crearListado(["Id Grado Seccion", "Nombre Grado", "Nombre Seccion"], data);
     })
+
+    $.get("GradoSeccion/ListarSeccion", function (data) {
+        llenarCombo(data, document.getElementById("cboSeccion"),true);
+    })
+
+    $.get("GradoSeccion/ListarGrado", function (data) {
+        llenarCombo(data, document.getElementById("cboGrado"), true);
+    })
 }
 
 
@@ -69,7 +77,36 @@ function crearListado(arrayColumnas, data) {
 
 
 }
+function abrirModal(id) {
 
+    var controlesObligatorios = document.getElementsByClassName("obligatorio");
+    var ncontroles = controlesObligatorios.length;
+
+    for (var i = 0; i < ncontroles; i++) {
+
+        controlesObligatorios[i].parentNode.classList.remove("error");
+
+
+    }
+    if (id == 0) {
+
+        BorrarDatos();
+
+    }
+    else {
+        $.get("GradoSeccion/RecuperarInformacion/?id=" + id, function (data) {
+
+            document.getElementById("txtIdGradoSeccion").value = data[0].IID;
+            document.getElementById("cboGrado").value = data[0].IIDGRADO;
+            document.getElementById("cboSeccion").value = data[0].IIDSECCION;
+        });
+        //alert("Se llamo desde el boton Editar")
+    }
+
+
+    //alert(id);
+
+}
 function llenarCombo(data, control, primerElemento) {
 
     var contenido = "";

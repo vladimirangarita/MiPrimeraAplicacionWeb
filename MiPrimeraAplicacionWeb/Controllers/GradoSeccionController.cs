@@ -38,8 +38,18 @@ namespace MiPrimeraAplicacionWeb.Controllers
         {
             PruebaDataContext bd = new PruebaDataContext();
 
-            GradoSeccion consulta = bd.GradoSeccion.Where(p => p.IID.Equals(id)).First();
+            var consulta = bd.GradoSeccion.Where(p => p.IID.Equals(id)).
+            Select(
+                p => new
+                {
+                    p.IID,
+                    p.IIDGRADO,
+                    p.IIDSECCION                 
+                
+                }
 
+
+                );
             return Json(consulta,JsonRequestBehavior.AllowGet);
         }
 
@@ -50,7 +60,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 Select(
                 p => new
                 {
-                    p.IIDSECCION,
+                  IDD =  p.IIDSECCION,
                     p.NOMBRE
                 }
 
@@ -65,7 +75,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 Select(
                 p => new
                 {
-                    p.IIDGRADO,
+                  IID =  p.IIDGRADO,
                     p.NOMBRE
                 }
 
