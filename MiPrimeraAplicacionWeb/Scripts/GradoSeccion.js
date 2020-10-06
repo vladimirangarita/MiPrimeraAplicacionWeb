@@ -2,22 +2,93 @@
 listar();
 function listar() {
 
-    $.get("GradoSeccion/ListarGradoSeccion", function (data)
-        
-    {
+    $.get("GradoSeccion/ListarGradoSeccion", function (data) {
 
         crearListado(["Id Grado Seccion", "Nombre Grado", "Nombre Seccion"], data);
     })
 
     $.get("GradoSeccion/ListarSeccion", function (data) {
-        llenarCombo(data, document.getElementById("cboSeccion"),true);
+        llenarCombo(data, document.getElementById("cboSeccion"), true);
     })
 
     $.get("GradoSeccion/ListarGrado", function (data) {
         llenarCombo(data, document.getElementById("cboGrado"), true);
     })
+  
+
+} 
+
+function DatosObligatorios() {
+
+    var exito = true;
+    var controlesObligatorios = document.getElementsByClassName("obligatorio");
+    var ncontroles = controlesObligatorios.length;
+    for (var i = 0; i < ncontroles; i++) {
+        if (controlesObligatorios[i].value == "") {
+
+            exito = false;
+            controlesObligatorios[i].parentNode.classList.add("error");
+
+        }
+        else {
+            controlesObligatorios[i].parentNode.classList.remove("error");
+        }
+    }
+    return exito;
 }
 
+function BorrarDatos() {
+
+    var controles = document.getElementsByClassName("borrar");
+    //console.log(controles);
+    var ncontroles = controles.length;
+    for (var i = 0; i < ncontroles; i++) {
+        controles[i].value = "";
+    }
+}
+
+function Agregar() {
+
+    if (DatosObligatorios() == true) {
+
+        var frm = new FormData();
+        var id = document.getElementById("txtIdGradoSeccion").value;
+        var grado = document.getElementById("cboGrado").value;
+        var seccion = document.getElementById("cboSeccion").value;
+        alert(seccion);
+        frm.append("IID", id);
+        frm.append("IIDGRADO", grado);
+        frm.append("IIDSECCION", seccion);
+        frm.append("BHABILITADO", 1);
+
+
+        if (confirm("¿Desea realmente guardar?") == 1) {
+
+            $.ajax({
+                type: "POST",
+                url: "GradoSeccion/GuardarDatos",
+                data: frm,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data != 0) {
+                        listar();
+                        alert("Se ejecuto correctamente");
+                        document.getElementById("btnCancelar").click();
+                    } else {
+                        alert("Ocurrio un error;");
+                    }
+                }
+
+            });
+
+        }
+    } else {
+
+
+    };
+
+}
 
 function crearListado(arrayColumnas, data) {
     var contenido = "";
@@ -98,9 +169,11 @@ function abrirModal(id) {
 
             document.getElementById("txtIdGradoSeccion").value = data[0].IID;
             document.getElementById("cboGrado").value = data[0].IIDGRADO;
+            alert("IDGRADO " + data[0].IIDGRADO)
             document.getElementById("cboSeccion").value = data[0].IIDSECCION;
+            alert("IIDSECCION " + data[0].IIDSECCION)
         });
-        //alert("Se llamo desde el boton Editar")
+        alert("Se llamo desde el boton Editar")
     }
 
 

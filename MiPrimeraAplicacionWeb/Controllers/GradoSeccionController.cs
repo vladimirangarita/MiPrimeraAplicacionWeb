@@ -33,7 +33,36 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
         }
 
+        public int GuardarDatos(GradoSeccion oGradoSeccion)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
 
+            int nregistradosAfectados = 0;
+            try
+            {
+                int id = oGradoSeccion.IID;
+                if (id==0)
+                {
+                    bd.GradoSeccion.InsertOnSubmit(oGradoSeccion);
+                    bd.SubmitChanges();
+                    nregistradosAfectados = 1;
+
+                }else
+                {
+                 GradoSeccion obj =   bd.GradoSeccion.Where(p => p.IID.Equals(id)).First();
+                    obj.IIDGRADO = oGradoSeccion.IIDGRADO;
+                    obj.IIDSECCION = oGradoSeccion.IIDSECCION;
+                    bd.SubmitChanges();
+                    nregistradosAfectados = 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                nregistradosAfectados = 0;
+
+            }
+            return nregistradosAfectados;
+        }
         public JsonResult RecuperarInformacion(int id)
         {
             PruebaDataContext bd = new PruebaDataContext();
@@ -44,15 +73,26 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 {
                     p.IID,
                     p.IIDGRADO,
-                    p.IIDSECCION                 
-                
+                    p.IIDSECCION
                 }
 
 
                 );
             return Json(consulta,JsonRequestBehavior.AllowGet);
         }
+        public JsonResult ListarGrado()
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+            var lista = bd.Grado.Where(p => p.BHABILITADO.Equals(1)).
+                Select(
+                p => new
+                {
+                    IID = p.IIDGRADO,
+                    p.NOMBRE
+                });
 
+            return Json(lista, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult ListarSeccion()
         {
             PruebaDataContext bd = new PruebaDataContext();
@@ -62,27 +102,11 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 {
                   IDD =  p.IIDSECCION,
                     p.NOMBRE
-                }
-
-                );
+                });
 
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult ListarGrado()
-        {
-            PruebaDataContext bd = new PruebaDataContext();
-            var lista = bd.Grado.Where(p => p.BHABILITADO.Equals(1)).
-                Select(
-                p => new
-                {
-                  IID =  p.IIDGRADO,
-                    p.NOMBRE
-                }
-
-                );
-
-            return Json(lista, JsonRequestBehavior.AllowGet);
-        }
+       
 
     }
 }
