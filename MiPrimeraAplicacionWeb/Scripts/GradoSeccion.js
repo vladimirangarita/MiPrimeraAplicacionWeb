@@ -165,6 +165,7 @@ function abrirModal(id) {
 
     }
     else {
+        alert("Se llamo desde el boton Editar")
         $.get("GradoSeccion/RecuperarInformacion/?id=" + id, function (data) {
 
             document.getElementById("txtIdGradoSeccion").value = data[0].IID;
@@ -173,7 +174,7 @@ function abrirModal(id) {
             document.getElementById("cboSeccion").value = data[0].IIDSECCION;
             alert("IIDSECCION " + data[0].IIDSECCION)
         });
-        alert("Se llamo desde el boton Editar")
+        //alert("Se llamo desde el boton Editar")
     }
 
 
