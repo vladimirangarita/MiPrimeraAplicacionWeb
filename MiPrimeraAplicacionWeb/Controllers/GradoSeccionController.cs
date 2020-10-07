@@ -90,17 +90,13 @@ namespace MiPrimeraAplicacionWeb.Controllers
         {
             PruebaDataContext bd = new PruebaDataContext();
 
-            var consulta = bd.GradoSeccion.Where(p => p.IID.Equals(id)).
-            Select(
+            var consulta = bd.GradoSeccion.Where(p => p.IID.Equals(id)).Select(
                 p => new
                 {
                     p.IID,
                     p.IIDGRADO,
-                    p.IIDSECCION
-                }
-
-
-                );
+                    p.IIDSECCION,
+                });
             return Json(consulta,JsonRequestBehavior.AllowGet);
         }
         public JsonResult ListarGrado()
