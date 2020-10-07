@@ -22,6 +22,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                          on gradosec.IIDSECCION equals sec.IIDSECCION
                          join grad in bd.Grado
                          on gradosec.IIDGRADO equals grad.IIDGRADO
+                         where gradosec.BHABILITADO.Equals(1)
                          select new
                          {
                              gradosec.IID,
@@ -31,6 +32,28 @@ namespace MiPrimeraAplicacionWeb.Controllers
                          }).ToList();
             return Json(lista, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public int Eliminar (int id)
+        {
+            int nregistrosAfectados = 0;
+            PruebaDataContext bd = new PruebaDataContext();
+            try
+            {
+
+               
+            GradoSeccion obj = bd.GradoSeccion.Where(p => p.IID.Equals(id)).First();
+            obj.BHABILITADO = 0;
+            bd.SubmitChanges();
+                nregistrosAfectados = 1;
+            }
+            catch (Exception)
+            {
+                nregistrosAfectados = 0;
+                //throw;
+            }
+
+            return nregistrosAfectados;
         }
 
         public int GuardarDatos(GradoSeccion oGradoSeccion)

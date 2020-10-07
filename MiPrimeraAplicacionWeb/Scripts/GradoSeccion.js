@@ -148,6 +148,25 @@ function crearListado(arrayColumnas, data) {
 
 
 }
+
+function Eliminar(id) {
+    if (confirm("Desea eliminar") == 1) {
+        //Get se usa cuando la entrada en poca y la
+        //Salida es mucha
+        $.get("GradoSeccion/Eliminar/?id=" + id, function (data) {
+            //El data es la respuesta  que vota el controlador
+
+            if (data == 0) {
+                alert("Ocurrio un error");
+            } else {
+                alert("Se elimino");
+                listar();
+            }
+
+        });
+    }
+}
+
 function abrirModal(id) {
 
     var controlesObligatorios = document.getElementsByClassName("obligatorio");
