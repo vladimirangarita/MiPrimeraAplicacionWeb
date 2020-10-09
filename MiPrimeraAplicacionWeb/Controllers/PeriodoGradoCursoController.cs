@@ -25,6 +25,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         on pgc.IIDGRADO equals grand.IIDGRADO
                         join cur in bd.Curso
                         on pgc.IIDCURSO equals cur.IIDCURSO
+                        where pgc.BHABILITADO.Equals(1)
                         select new
                         {
                             pgc.IID,
@@ -60,7 +61,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
             var lista = bd.Periodo.Where(p => p.BHABILITADO.Equals(1)).
                 Select(p => new
                 {
-                    p.IIDPERIODO,
+                   IID = p.IIDPERIODO,
                     p.NOMBRE
 
                 });
@@ -74,7 +75,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
             var lista = bd.Grado.Where(p => p.BHABILITADO.Equals(1)).
                 Select(p => new
                 {
-                    p.IIDGRADO,
+                    IID = p.IIDGRADO,
                     p.NOMBRE
 
                 });
@@ -89,12 +90,71 @@ namespace MiPrimeraAplicacionWeb.Controllers
             var lista = bd.Curso.Where(p => p.BHABILITADO.Equals(1)).
                 Select(p => new
                 {
-                    p.IIDCURSO,
+                    IID = p.IIDCURSO,
                     p.NOMBRE
 
                 });
             return Json(lista, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public int Eliminar(int id)
+        {
+
+            PruebaDataContext bd = new PruebaDataContext();
+
+            int nregistrosAfectados = 0;
+
+            try
+            {
+                PeriodoGradoCurso obj = bd.PeriodoGradoCurso.Where(p => p.IID.Equals(id)).First();
+                obj.BHABILITADO = 0;
+                bd.SubmitChanges();
+                nregistrosAfectados = 1;
+            }
+            catch (Exception ex)
+            {
+
+                
+            }
+
+            return nregistrosAfectados;
+        }
+
+        public int GuardarDatos(PeriodoGradoCurso oPeriodoGradoCurso)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+
+            int nregistrosAfectados = 0;
+            try
+            {
+                int id = oPeriodoGradoCurso.IID;
+                if (oPeriodoGradoCurso.IID.Equals(0))
+                {
+                    bd.PeriodoGradoCurso.InsertOnSubmit(oPeriodoGradoCurso);
+                    bd.SubmitChanges();
+                    nregistrosAfectados = 1;
+
+
+                }else
+                {
+                PeriodoGradoCurso obj =    bd.PeriodoGradoCurso.Where(p => p.IID.Equals(id)).First();
+                    obj.IIDCURSO = oPeriodoGradoCurso.IIDCURSO;
+                    obj.IIDGRADO = oPeriodoGradoCurso.IIDGRADO;
+                    obj.IIDPERIODO = oPeriodoGradoCurso.IIDPERIODO;
+                    bd.SubmitChanges();
+                    nregistrosAfectados = 1;
+                }
+
+               
+            }
+            catch (Exception)
+            {
+
+                nregistrosAfectados = 0;
+            }
+
+            return nregistrosAfectados;
         }
 
 
