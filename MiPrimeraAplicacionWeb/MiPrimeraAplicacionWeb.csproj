@@ -141,6 +141,7 @@
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\Docente.js" />
     <Content Include="Scripts\GradoSeccion.js" />
+    <Content Include="Scripts\GradoSeccionAula.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\Periodo.js" />
@@ -155,6 +156,7 @@
     <Compile Include="Controllers\AlumnoController.cs" />
     <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\DocenteController.cs" />
+    <Compile Include="Controllers\GradoSeccionAulaController.cs" />
     <Compile Include="Controllers\GradoSeccionController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\PeriodoGradoCursoController.cs" />
@@ -186,6 +188,7 @@
     <Content Include="Views\Seccion\Index.cshtml" />
     <Content Include="Views\GradoSeccion\Index.cshtml" />
     <Content Include="Views\PeriodoGradoCurso\Index.cshtml" />
+    <Content Include="Views\GradoSeccionAula\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

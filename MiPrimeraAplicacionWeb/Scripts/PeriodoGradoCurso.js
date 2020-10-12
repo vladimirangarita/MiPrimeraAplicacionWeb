@@ -50,7 +50,7 @@ function abrirModal(id) {
 
     }
     else {
-        alert("Se llamo desde el boton Editar")
+        //alert("Se llamo desde el boton Editar")
         $.get("PeriodoGradoCurso/RecuperarInformacion/?id=" + id, function (data) {
 
             document.getElementById("txtId").value = data[0].IID;
@@ -76,7 +76,7 @@ function Agregar() {
         var periodo = document.getElementById("cboPeriodo").value;
         var grado = document.getElementById("cboGrado").value;
         var curso = document.getElementById("cboCurso").value;
-        alert(periodo);
+        //alert(periodo);
         frm.append("IID", id);
         frm.append("IIDPERIODO", periodo);
         frm.append("IIDGRADO", grado);
