@@ -30,6 +30,26 @@ namespace MiPrimeraAplicacionWeb.Controllers
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult RecuperarInformacion(int id)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+
+            var lista = bd.GradoSeccionAula.Where(p => p.IID.Equals(id)).
+                Select(p => new
+                {
+                    p.IID,
+                    p.IIDPERIODO,
+                    p.IIDGRADOSECCION,
+                    p.IIDCURSO,
+                    p.IIDDOCENTE
+             
+                });
+
+            return Json(lista, JsonRequestBehavior.AllowGet);
+
+        }
+
+
         public JsonResult ListarGradoSeccion()
         {
             PruebaDataContext bd = new PruebaDataContext();
@@ -53,25 +73,32 @@ namespace MiPrimeraAplicacionWeb.Controllers
             PruebaDataContext bd = new PruebaDataContext();
 
             var lista = from gsa in bd.GradoSeccionAula
-                        join gradoSeccion in bd.GradoSeccion
-                        on gsa.IIDGRADOSECCION equals gradoSeccion.IID
                         join periodo in bd.Periodo
                         on gsa.IIDPERIODO equals periodo.IIDPERIODO
-                       join aula in bd.Aula
-                       on gsa.IIDAULA equals aula.IIDAULA
-                       join docente in bd.Docente
-                       on gsa.IIDDOCENTE equals docente.IIDDOCENTE
-                       join curso in bd.Curso
-                       on gsa.IIDCURSO equals curso.IIDCURSO
-                      
+                        join gradoSeccion in bd.GradoSeccion
+                        on gsa.IIDGRADOSECCION equals gradoSeccion.IID
+                        join docente in bd.Docente
+                        on gsa.IIDDOCENTE equals docente.IIDDOCENTE
+                        join aula in bd.Aula
+                        on gsa.IIDAULA equals aula.IIDAULA
+                        join curso in bd.Curso
+                        on gsa.IIDCURSO equals curso.IIDCURSO
+
+                        join grado in bd.Grado
+                        on gradoSeccion.IIDGRADO equals grado.IIDGRADO
+                        //join seccion in bd.Seccion
+                        //on gradoSeccion.IIDSECCION equals seccion.IIDSECCION
                         select new
                         {
                             gsa.IID,
-                            NOMBREPERIODO = periodo.NOMBRE, 
-                            NOMBREGRADOSECCION = gradoSeccion.IIDGRADO + " - " + gradoSeccion.IIDSECCION,
-                            NOMBREAULA=aula.NOMBRE,
-                            NOMBREDOCENTE=docente.NOMBRE,
-                            NOMBRECURSO=curso.NOMBRE
+                            NOMBREPERIODO = periodo.NOMBRE,
+                            NOMBREGRADO = grado.NOMBRE,
+                            NOMBRECURSO = curso.NOMBRE,
+                            NOMBREDOCENTE = docente.NOMBRE
+                           
+                            //NOMBREAULA =aula.NOMBRE
+                           
+                           
                         };
             return Json(lista, JsonRequestBehavior.AllowGet);
         }

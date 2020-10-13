@@ -12,13 +12,13 @@ function Listar() {
         crearListado(["Id", "Periodo", "Grado", "Curso"], data);
 
     })
-    $.get("PeriodoGradoCurso/ListarPeriodo", function (data) {
+    $.get("PeriodoGradoCurso/ListarPeriodos", function (data) {
         llenarCombo(data, document.getElementById("cboPeriodo"), true);
     });
-    $.get("PeriodoGradoCurso/ListarGrado", function (data) {
+    $.get("PeriodoGradoCurso/ListarGrados", function (data) {
         llenarCombo(data, document.getElementById("cboGrado"), true);
     });
-    $.get("PeriodoGradoCurso/ListarCurso", function (data) {
+    $.get("PeriodoGradoCurso/ListarCursos", function (data) {
         llenarCombo(data, document.getElementById("cboCurso"), true);
     });
 }

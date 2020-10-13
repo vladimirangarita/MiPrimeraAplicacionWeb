@@ -189,9 +189,9 @@ function abrirModal(id) {
 
             document.getElementById("txtIdGradoSeccion").value = data[0].IID;
             document.getElementById("cboGrado").value = data[0].IIDGRADO;
-            alert("IDGRADO " + data[0].IIDGRADO)
+            //alert("IDGRADO " + data[0].IIDGRADO)
             document.getElementById("cboSeccion").value = data[0].IIDSECCION;
-            alert("IIDSECCION " + data[0].IIDSECCION)
+            //alert("IIDSECCION " + data[0].IIDSECCION)
         });
         //alert("Se llamo desde el boton Editar")
     }

@@ -37,7 +37,7 @@ function Listar() {
     alert("Se llamo Listar");
     $.get("GradoSeccionAula/Listar", function (data) {
 
-        crearListado(["Id", "Periodo", "GradoSeccion", "Aula", "Docente", "Curso"], data);
+        crearListado(["Id", "Periodo", "Grado", "Curso", "Docente"], data);
     })
     $.get("GradoSeccionAula/ListarPeriodos", function (data) {
 
@@ -77,7 +77,30 @@ function DatosObligatorios() {
     return exito;
 }
 
+function llenarCombo(data, control, primerElemento) {
 
+    var contenido = "";
+    if (primerElemento == true) {
+
+        contenido += "<option value=''>--Seleccione--</option>"
+
+    }
+    for (var i = 0; i < data.length; i++) {
+
+
+        contenido += "<option value='" + data[i].IID + "'>";
+
+
+        contenido += data[i].NOMBRE;
+
+        contenido += "</option>";
+
+
+    }
+
+
+    control.innerHTML = contenido;
+}
 function BorrarDatos() {
 
     var controles = document.getElementsByClassName("borrar");
@@ -88,7 +111,40 @@ function BorrarDatos() {
     }
 }
 
+function abrirModal(id) {
+    alert("Se llamo desde el boton Editar")
+    var controlesObligatorios = document.getElementsByClassName("obligatorio");
+    var ncontroles = controlesObligatorios.length;
 
+    for (var i = 0; i < ncontroles; i++) {
+
+        controlesObligatorios[i].parentNode.classList.remove("error");
+
+
+    }
+    if (id == 0) {
+
+        BorrarDatos();
+
+    }
+    else {
+        alert("Se llamo desde el boton Editar gradoseccionaula");
+        $.get("GradoSeccionAula/RecuperarInformacion/?id=" + id, function (data) {
+
+            document.getElementById("txtId").value = data[0].IID;
+            document.getElementById("cboPeriodo").value = data[0].IIDPERIODO;
+            document.getElementById("cboGradoSeccion").value = data[0].IIDGRADOSECCION;
+            document.getElementById("cboCurso").value = data[0].IIDCURSO;
+            document.getElementById("cboDocente").value = data[0].IIDDOCENTE;
+            //alert("IIDSECCION " + data[0].IIDSECCION)
+        });
+        //alert("Se llamo desde el boton Editar")
+    }
+
+
+    //alert(id);
+
+}
 function crearListado(arrayColumnas, data) {
     var contenido = "";
     contenido += "<table id='tablas'class='table'>"
