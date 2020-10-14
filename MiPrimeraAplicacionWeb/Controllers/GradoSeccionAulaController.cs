@@ -79,8 +79,8 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         on gsa.IIDGRADOSECCION equals gradoSeccion.IID
                         join docente in bd.Docente
                         on gsa.IIDDOCENTE equals docente.IIDDOCENTE
-                        join aula in bd.Aula
-                        on gsa.IIDAULA equals aula.IIDAULA
+                        //join aula in bd.Aula
+                        //on gsa.IIDAULA equals aula.IIDAULA
                         join curso in bd.Curso
                         on gsa.IIDCURSO equals curso.IIDCURSO
 
@@ -90,7 +90,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         //on gradoSeccion.IIDSECCION equals seccion.IIDSECCION
                         select new
                         {
-                            gsa.IID,
+                            ID = gsa.IID,
                             NOMBREPERIODO = periodo.NOMBRE,
                             NOMBREGRADO = grado.NOMBRE,
                             NOMBRECURSO = curso.NOMBRE,

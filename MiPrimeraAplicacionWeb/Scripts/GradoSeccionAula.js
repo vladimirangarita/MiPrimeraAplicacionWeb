@@ -45,15 +45,15 @@ function Listar() {
            llenarCombo(data, document.getElementById("cboPeriodo"), true);
 
     })
-    $.get("GradoSeccion/ListarGradoSeccion", function (data) {
+    $.get("GradoSeccionAula/ListarGradoSeccion", function (data) {
         llenarCombo(data, document.getElementById("cboGradoSeccion"), true);
     })
 
-    $.get("GradoSeccion/ListarAulas", function (data) {
+    $.get("GradoSeccionAula/ListarAulas", function (data) {
         llenarCombo(data, document.getElementById("cboAula"), true);
     })
 
-    $.get("GradoSeccion/ListarDocentes", function (data) {
+    $.get("GradoSeccionAula/ListarDocentes", function (data) {
         llenarCombo(data, document.getElementById("cboDocente"), true);
     })
 } 
@@ -112,7 +112,7 @@ function BorrarDatos() {
 }
 
 function abrirModal(id) {
-    alert("Se llamo desde el boton Editar")
+    alert("Se llamo desde el boton Agregar")
     var controlesObligatorios = document.getElementsByClassName("obligatorio");
     var ncontroles = controlesObligatorios.length;
 
