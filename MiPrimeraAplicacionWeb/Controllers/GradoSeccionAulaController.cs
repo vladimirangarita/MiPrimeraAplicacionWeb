@@ -62,7 +62,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         select new
                         {
                             gs.IID,
-                            NOMBREPERIODO = grado.NOMBRE + " - " + seccion.NOMBRE
+                            NOMBRE = grado.NOMBRE + " - " + seccion.NOMBRE
                         };
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
@@ -79,15 +79,11 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         on gsa.IIDGRADOSECCION equals gradoSeccion.IID
                         join docente in bd.Docente
                         on gsa.IIDDOCENTE equals docente.IIDDOCENTE
-                        //join aula in bd.Aula
-                        //on gsa.IIDAULA equals aula.IIDAULA
                         join curso in bd.Curso
                         on gsa.IIDCURSO equals curso.IIDCURSO
-
                         join grado in bd.Grado
                         on gradoSeccion.IIDGRADO equals grado.IIDGRADO
-                        //join seccion in bd.Seccion
-                        //on gradoSeccion.IIDSECCION equals seccion.IIDSECCION
+                
                         select new
                         {
                             ID = gsa.IID,
@@ -153,7 +149,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         select new
                         {
                           IID =  pgc.IIDCURSO,
-                            curso.NOMBRE
+                                 curso.NOMBRE
 
                         };
 

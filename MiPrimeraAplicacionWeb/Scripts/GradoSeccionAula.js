@@ -3,14 +3,14 @@
 
 Listar();
 
-var perido = document.getElementById("cboPeriodo");
+var periodo = document.getElementById("cboPeriodo");
 var gradoseccion = document.getElementById("cboGradoSeccion");
 
-perido.onchange = function () {
+periodo.onchange = function () {
+    //alert("Le di a Periodo");
+    if (perido.value!="" && gradoseccion.value!="") {
 
-    if (perido.value !="" && gradoseccion.value !="") {
-
-        $.get("GradoSeccionAula/ListarCursos/?IIDPERIODO=" + perido.value + "&IIDGRADOSECCION" + gradoseccion.value, function (data) {
+           $.get("GradoSeccionAula/ListarCursos/?IIDPERIODO=" + periodo.value + "&IIDGRADOSECCION=" + gradoseccion.value, function (data) {
             
             llenarCombo(data, document.getElementById("cboCurso"), true);
 
@@ -21,9 +21,10 @@ perido.onchange = function () {
 }
 
 gradoseccion.onchange = function () {
-
-    if (perido.value != "" && gradoseccion.value != "") {
-        $.get("GradoSeccionAula/ListarCursos/?IIDPERIODO=" + perido.value + "&IIDGRADOSECCION" + gradoseccion.value, function (data) {
+    //alert("Le di a gradoseccion");
+    if (periodo.value!="" && gradoseccion.value!="") {
+        //alert("No estan vacios peiodo y grado seccion, Valores periodo: " + periodo.value);
+        $.get("GradoSeccionAula/ListarCursos/?IIDPERIODO=" + periodo.value + "&IIDGRADOSECCION=" + gradoseccion.value, function (data) {
 
             llenarCombo(data, document.getElementById("cboCurso"), true);
 
@@ -34,7 +35,6 @@ gradoseccion.onchange = function () {
 }
 
 function Listar() {
-    alert("Se llamo Listar");
     $.get("GradoSeccionAula/Listar", function (data) {
 
         crearListado(["Id", "Periodo", "Grado", "Curso", "Docente"], data);
@@ -112,7 +112,7 @@ function BorrarDatos() {
 }
 
 function abrirModal(id) {
-    alert("Se llamo desde el boton Agregar")
+    //alert("Se llamo desde el boton Agregar")
     var controlesObligatorios = document.getElementsByClassName("obligatorio");
     var ncontroles = controlesObligatorios.length;
 
@@ -128,7 +128,7 @@ function abrirModal(id) {
 
     }
     else {
-        alert("Se llamo desde el boton Editar gradoseccionaula");
+        //alert("Se llamo desde el boton Editar gradoseccionaula");
         $.get("GradoSeccionAula/RecuperarInformacion/?id=" + id, function (data) {
 
             document.getElementById("txtId").value = data[0].IID;
