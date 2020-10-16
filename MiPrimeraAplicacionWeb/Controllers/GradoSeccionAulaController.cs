@@ -41,6 +41,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                     p.IIDPERIODO,
                     p.IIDGRADOSECCION,
                     p.IIDCURSO,
+                    p.IIDAULA,
                     p.IIDDOCENTE
              
                 });
@@ -49,6 +50,63 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
         }
 
+        public int GuardarDatos(GradoSeccionAula oGradoSeccionAula)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+            int nregistrosAfectados = 0;
+            try
+            {
+                int iidgradoseccionaula = oGradoSeccionAula.IID;
+                if (oGradoSeccionAula.IID.Equals(0))
+                {
+                    bd.GradoSeccionAula.InsertOnSubmit(oGradoSeccionAula);
+                    bd.SubmitChanges();
+                    nregistrosAfectados = 1;
+                }else
+                {
+                GradoSeccionAula obj =    bd.GradoSeccionAula.Where(p =>p.IID.Equals(iidgradoseccionaula)).First();
+                    obj.IIDAULA = oGradoSeccionAula.IIDAULA;
+                    obj.IIDCURSO = oGradoSeccionAula.IIDCURSO;
+                    obj.IIDDOCENTE = oGradoSeccionAula.IIDDOCENTE;
+                    obj.IIDGRADOSECCION = oGradoSeccionAula.IIDGRADOSECCION;
+                    obj.IIDPERIODO = oGradoSeccionAula.IIDPERIODO;
+                    bd.SubmitChanges();
+                    nregistrosAfectados = 1;
+
+                }
+
+                
+
+            }
+            catch (Exception ex)
+            {
+                nregistrosAfectados = 0;
+
+
+            }
+            return nregistrosAfectados;
+
+        }
+
+        public int Eliminar(int id)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+
+            int nregistrosAfectados = 0;
+            try
+            {
+                GradoSeccionAula obj = bd.GradoSeccionAula.Where(p => p.IID.Equals(id)).First();
+                obj.BHABILITADO = 0;
+                bd.SubmitChanges();
+                nregistrosAfectados = 1;
+            }
+            catch (Exception)
+            {
+
+                nregistrosAfectados = 0;
+            }
+            return nregistrosAfectados;
+        }
 
         public JsonResult ListarGradoSeccion()
         {
@@ -83,7 +141,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         on gsa.IIDCURSO equals curso.IIDCURSO
                         join grado in bd.Grado
                         on gradoSeccion.IIDGRADO equals grado.IIDGRADO
-                
+                        where gsa.BHABILITADO.Equals(1)
                         select new
                         {
                             ID = gsa.IID,

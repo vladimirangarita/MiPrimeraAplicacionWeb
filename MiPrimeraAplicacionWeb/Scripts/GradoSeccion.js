@@ -55,7 +55,7 @@ function Agregar() {
         var id = document.getElementById("txtIdGradoSeccion").value;
         var grado = document.getElementById("cboGrado").value;
         var seccion = document.getElementById("cboSeccion").value;
-        alert(seccion);
+        /*a*/lert(seccion);
         frm.append("IID", id);
         frm.append("IIDGRADO", grado);
         frm.append("IIDSECCION", seccion);

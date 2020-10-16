@@ -111,6 +111,73 @@ function BorrarDatos() {
     }
 }
 
+function Agregar() {
+
+    if (DatosObligatorios() == true) {
+
+        var frm = new FormData();
+        var id = document.getElementById("txtId").value;
+        var periodo = document.getElementById("cboPeriodo").value;
+        var gradoSeccion = document.getElementById("cboGradoSeccion").value;
+        var curso = document.getElementById("cboCurso").value;
+        var docente = document.getElementById("cboDocente").value;
+        var aula = document.getElementById("cboAula").value;
+
+        //alert(seccion);
+
+
+        frm.append("IID", id);
+        frm.append("IIDPERIODO", periodo);
+        frm.append("IIDGRADOSECCION", gradoSeccion);
+        frm.append("IIDAULA", aula);
+        frm.append("IIDDOCENTE", docente);
+        frm.append("IIDCURSO", curso);
+
+        if (confirm("¿Desea realmente guardar?") == 1) {
+
+            $.ajax({
+                type: "POST",
+                url: "GradoSeccionAula/GuardarDatos",
+                data: frm,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data != 0) {
+                        Listar();
+                        alert("Se ejecuto correctamente");
+                        document.getElementById("btnCancelar").click();
+                    } else {
+                        alert("Ocurrio un error;");
+                    }
+                }
+
+            });
+
+        }
+    } else {
+
+
+    };
+
+}
+
+function Eliminar(id) {
+    if (confirm("Desea eliminar") == 1) {
+        //Get se usa cuando la entrada en poca y la
+        //Salida es mucha
+        $.get("GradoSeccionAula/Eliminar/?id=" + id, function (data) {
+            //El data es la respuesta  que vota el controlador
+
+            if (data == 0) {
+                alert("Ocurrio un error");
+            } else {
+                alert("Se elimino");
+                Listar();
+            }
+
+        });
+    }
+}
 function abrirModal(id) {
     //alert("Se llamo desde el boton Agregar")
     var controlesObligatorios = document.getElementsByClassName("obligatorio");
@@ -134,8 +201,16 @@ function abrirModal(id) {
             document.getElementById("txtId").value = data[0].IID;
             document.getElementById("cboPeriodo").value = data[0].IIDPERIODO;
             document.getElementById("cboGradoSeccion").value = data[0].IIDGRADOSECCION;
+
+            $.get("GradoSeccionAula/ListarCursos/?IIDPERIODO=" + periodo.value + "&IIDGRADOSECCION=" + gradoseccion.value, function (rpta) {
+
+                llenarCombo(rpta, document.getElementById("cboCurso"), true);
+                document.getElementById("cboCurso").value = data[0].IIDCURSO;;
+            })
+
             document.getElementById("cboCurso").value = data[0].IIDCURSO;
             document.getElementById("cboDocente").value = data[0].IIDDOCENTE;
+            document.getElementById("cboAula").value = data[0].IIDAULA;
             //alert("IIDSECCION " + data[0].IIDSECCION)
         });
         //alert("Se llamo desde el boton Editar")
