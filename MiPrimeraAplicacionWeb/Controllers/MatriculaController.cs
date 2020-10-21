@@ -66,7 +66,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
         public int GuardarDatos(Matricula oMatricula, int IIDGRADOSECCION)
         {
-
+            int nregistrosAfectados = 0;
          PruebaDataContext bd = new PruebaDataContext();
             int iidmatricula = oMatricula.IIDMATRICULA;
          GradoSeccion oGradoSeccion =   bd.GradoSeccion.Where(p => p.IID.Equals(IIDGRADOSECCION)).First();
@@ -84,7 +84,30 @@ namespace MiPrimeraAplicacionWeb.Controllers
                     if(oMatricula.IIDMATRICULA.Equals(iidmatricula))
                     {
                         bd.Matricula.InsertOnSubmit(oMatricula);
+
+
                         bd.SubmitChanges();
+
+                        int idMatriculaGenerada = oMatricula.IIDMATRICULA;
+
+                      var lista =  bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(oMatricula.IIDPERIODO)
+                        && p.IIDGRADO.Equals(iidgrado)).Select(p => p.IIDCURSO);
+
+                        foreach (var item in lista)
+                        {
+                            DetalleMatricula dm = new  DetalleMatricula();
+                            dm.IIDMATRICULA = idMatriculaGenerada;
+                            dm.IIDCURSO = (int)item;
+                            dm.NOTA1 = 0;
+                            dm.NOTA2 = 0;
+                            dm.NOTA3 = 0;
+                            dm.NOTA4 = 0;
+                            dm.PROMEDIO = 0;
+                            bd.DetalleMatricula.InsertOnSubmit(dm);
+                        }
+                        bd.SubmitChanges();
+                        transaccion.Complete();
+                        nregistrosAfectados = 1;
 
                     }
 
@@ -95,10 +118,10 @@ namespace MiPrimeraAplicacionWeb.Controllers
             catch (Exception ex)
             {
 
-               
+                nregistrosAfectados = 0;
             }
 
-
+            return nregistrosAfectados;
         }
 
 
