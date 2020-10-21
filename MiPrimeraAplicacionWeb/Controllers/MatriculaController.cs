@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Transactions;
 namespace MiPrimeraAplicacionWeb.Controllers
 {
     public class MatriculaController : Controller
@@ -64,7 +64,42 @@ namespace MiPrimeraAplicacionWeb.Controllers
         }
 
 
+        public int GuardarDatos(Matricula oMatricula, int IIDGRADOSECCION)
+        {
 
+         PruebaDataContext bd = new PruebaDataContext();
+            int iidmatricula = oMatricula.IIDMATRICULA;
+         GradoSeccion oGradoSeccion =   bd.GradoSeccion.Where(p => p.IID.Equals(IIDGRADOSECCION)).First();
+            int iidgrado = (int)oGradoSeccion.IIDGRADO;
+            int iidseccion = (int)oGradoSeccion.IIDSECCION;
+
+            oMatricula.IIDGRADO = iidgrado;
+            oMatricula.IIDSECCION = iidseccion;
+
+            try
+            {
+
+                using (var transaccion= new TransactionScope())
+                {
+                    if(oMatricula.IIDMATRICULA.Equals(iidmatricula))
+                    {
+                        bd.Matricula.InsertOnSubmit(oMatricula);
+                        bd.SubmitChanges();
+
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+               
+            }
+
+
+        }
 
 
     }

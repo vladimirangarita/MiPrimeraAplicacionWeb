@@ -20,6 +20,77 @@ function Listar() {
         })
 
 } 
+function Agregar() {
+
+    if (DatosObligatorios() == true) {
+
+        var frm = new FormData();
+        var id = document.getElementById("txtId").value;
+        var periodo = document.getElementById("cboPeriodo").value;
+        var gradoseccion = document.getElementById("cboGradoSeccion").value;
+        var alumno = document.getElementById("cboAlumno").value;
+        /*a*/lert(seccion);
+        frm.append("IIDMATRICULA", id);
+        frm.append("IIDPERIODO", periodo);
+        frm.append("IIDGRADOSECCION", gradoseccion);
+        frm.append("IIDALUMNO", alumno);
+        frm.append("BHABILITADO", 1);
+
+
+        if (confirm("¿Desea realmente guardar?") == 1) {
+
+            $.ajax({
+                type: "POST",
+                url: "Matricula/GuardarDatos",
+                data: frm,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data != 0) {
+                        listar();
+                        alert("Se ejecuto correctamente");
+                        document.getElementById("btnCancelar").click();
+                    } else {
+                        alert("Ocurrio un error;");
+                    }
+                }
+
+            });
+
+        }
+    } else {
+
+
+    };
+
+}
+function DatosObligatorios() {
+
+    var exito = true;
+    var controlesObligatorios = document.getElementsByClassName("obligatorio");
+    var ncontroles = controlesObligatorios.length;
+    for (var i = 0; i < ncontroles; i++) {
+        if (controlesObligatorios[i].value == "") {
+
+            exito = false;
+            controlesObligatorios[i].parentNode.classList.add("error");
+
+        }
+        else {
+            controlesObligatorios[i].parentNode.classList.remove("error");
+        }
+    }
+    return exito;
+}
+function BorrarDatos() {
+
+    var controles = document.getElementsByClassName("borrar");
+    //console.log(controles);
+    var ncontroles = controles.length;
+    for (var i = 0; i < ncontroles; i++) {
+        controles[i].value = "";
+    }
+}
 
 function llenarCombo(data, control, primerElemento) {
 
