@@ -14,7 +14,29 @@ namespace MiPrimeraAplicacionWeb.Controllers
             return View();
         }
 
+        public JsonResult Listar()
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+            var lista = from matricula in bd.Matricula
+                        join periodo in bd.Periodo
+                        on matricula.IIDPERIODO equals periodo.IIDPERIODO
+                        join grado in bd.Grado
+                        on matricula.IIDGRADO equals grado.IIDGRADO
+                        join seccion in bd.Seccion
+                        on matricula.IIDSECCION equals seccion.IIDSECCION
+                        join alumno in bd.Alumno
+                        on matricula.IIDALUMNO equals alumno.IIDALUMNO
+                        select new
+                        {
+                          IID =  matricula.IIDMATRICULA,
+                          NOMBREPERIODO =  periodo.NOMBRE,
+                          NOMBREGRADO =  grado.NOMBRE,
+                          NOMBRESECCION = seccion.NOMBRE,
+                          NOMBREALUMNO =  alumno.NOMBRE +" "+ alumno.APPATERNO
+                        };
 
+            return Json(lista, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult ListarGradoSeccion()
         {
@@ -75,7 +97,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
             oMatricula.IIDGRADO = iidgrado;
             oMatricula.IIDSECCION = iidseccion;
-
+            oMatricula.FECHA = DateTime.Now;
             try
             {
 
@@ -91,7 +113,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         int idMatriculaGenerada = oMatricula.IIDMATRICULA;
 
                       var lista =  bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(oMatricula.IIDPERIODO)
-                        && p.IIDGRADO.Equals(iidgrado)).Select(p => p.IIDCURSO);
+                        && p.IIDGRADO.Equals(iidgrado) && p.BHABILITADO.Equals(1)).Select(p => p.IIDCURSO);
 
                         foreach (var item in lista)
                         {
@@ -103,6 +125,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                             dm.NOTA3 = 0;
                             dm.NOTA4 = 0;
                             dm.PROMEDIO = 0;
+                            dm.bhabilitado=1;
                             bd.DetalleMatricula.InsertOnSubmit(dm);
                         }
                         bd.SubmitChanges();

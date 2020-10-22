@@ -4,6 +4,14 @@ Listar();
 
 function Listar() {
 
+
+    $.get("Matricula/Listar", function (data) {
+
+        crearListado(["Id","Periodo","Grado","Seccion","Alumno"],data)
+
+    });
+
+
     $.get("Matricula/ListarPeriodos", function (data) {
         llenarCombo(data, document.getElementById("cboPeriodo"), true);
 
@@ -23,13 +31,13 @@ function Listar() {
 function Agregar() {
 
     if (DatosObligatorios() == true) {
-
+        //alert("");
         var frm = new FormData();
         var id = document.getElementById("txtId").value;
         var periodo = document.getElementById("cboPeriodo").value;
         var gradoseccion = document.getElementById("cboGradoSeccion").value;
         var alumno = document.getElementById("cboAlumno").value;
-        /*a*/lert(seccion);
+      
         frm.append("IIDMATRICULA", id);
         frm.append("IIDPERIODO", periodo);
         frm.append("IIDGRADOSECCION", gradoseccion);
@@ -47,7 +55,7 @@ function Agregar() {
                 processData: false,
                 success: function (data) {
                     if (data != 0) {
-                        listar();
+                        Listar();
                         alert("Se ejecuto correctamente");
                         document.getElementById("btnCancelar").click();
                     } else {
