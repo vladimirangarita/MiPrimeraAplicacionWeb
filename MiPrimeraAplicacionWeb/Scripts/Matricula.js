@@ -157,6 +157,30 @@ function llenarCombo(data, control, primerElemento) {
     control.innerHTML = contenido;
 }
 
+function Eliminar(idMatricula) {
+
+    if (confirm("Desea eliminar?")) {
+
+    $.get("Matricula/Eliminar/?idMatricula" + idMatricula, function (data) {
+
+
+        if (data = 1) {
+
+            alert("Se Elimino"):
+            Listar();
+        } else {
+
+            alert("Ocurrio Error");
+        }
+
+    })
+    } 
+
+
+
+
+
+}
 
 function crearListado(arrayColumnas, data) {
     var contenido = "";

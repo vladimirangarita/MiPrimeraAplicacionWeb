@@ -26,6 +26,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         on matricula.IIDSECCION equals seccion.IIDSECCION
                         join alumno in bd.Alumno
                         on matricula.IIDALUMNO equals alumno.IIDALUMNO
+                        where matricula.BHABILITADO==1
                         select new
                         {
                           IID =  matricula.IIDMATRICULA,
@@ -36,6 +37,38 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         };
 
             return Json(lista, JsonRequestBehavior.AllowGet);
+        }
+
+        public int Eliminar(int idMatricula)
+        {
+            int rpta = 0;
+            PruebaDataContext bd = new PruebaDataContext();
+            try
+            {
+                using (var transaccion = new TransactionScope())
+                {
+                    Matricula oMatricula = bd.Matricula.Where(p => p.IIDMATRICULA == idMatricula).First();
+                    oMatricula.BHABILITADO = 0;
+                    var ListaDetalleMatricula = bd.DetalleMatricula.Where(p => p.IIDMATRICULA == idMatricula);
+
+                    foreach (DetalleMatricula oDetalleMatricula in ListaDetalleMatricula)
+                    {
+                        oDetalleMatricula.bhabilitado = 0;
+                    }
+
+                    bd.SubmitChanges();
+                    transaccion.Complete();
+                    rpta = 1;
+
+                } 
+            }
+            catch (Exception ex)
+            {
+
+                rpta = 0;
+            }
+
+            return rpta;
         }
 
         public JsonResult ListarGradoSeccion()
