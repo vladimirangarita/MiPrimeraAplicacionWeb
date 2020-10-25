@@ -180,6 +180,53 @@ namespace MiPrimeraAplicacionWeb.Controllers
             return nregistrosAfectados;
         }
 
+        public  JsonResult Cursos(int idmatricula)
+        {
+            using (var bd=new PruebaDataContext())
+            {
+                var listaCurso = (from detalle in bd.DetalleMatricula
+                                  join curso in bd.Curso
+                                  on detalle.IIDCURSO equals curso.IIDCURSO
+                                  where detalle.IIDMATRICULA==idmatricula
+                                  select new
+                                  {
+                                      detalle.IIDMATRICULA,
+                                      curso.IIDCURSO,
+                                      curso.NOMBRE,
+                                      detalle.bhabilitado
+
+                                  }).ToList();
+                return Json(listaCurso, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
+
+
+
+        public JsonResult ObtenerMatricula(int idmatricula)
+        {
+           
+            using (PruebaDataContext bd = new PruebaDataContext())
+            {
+                var oMatricula = bd.Matricula.Where(p => p.IIDMATRICULA == idmatricula).
+                    Select(p => new
+                    {
+
+                        IIDMATRICULA = (int) p.IIDMATRICULA,
+                        IIDPERIODO = (int) p.IIDPERIODO,
+                        IIDSECCION = (int) p.IIDSECCION,
+                        IIDALUMNO = (int) p.IIDALUMNO
+                    }).First();
+
+                return Json(oMatricula, JsonRequestBehavior.AllowGet);
+            }
+
+            
+
+        }
+
+
 
     }
 }

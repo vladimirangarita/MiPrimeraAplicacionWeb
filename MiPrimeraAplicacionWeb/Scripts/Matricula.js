@@ -99,39 +99,79 @@ function BorrarDatos() {
         controles[i].value = "";
     }
 }
-function abrirModal(id) {
-
-    var controlesObligatorios = document.getElementsByClassName("obligatorio");
-    var ncontroles = controlesObligatorios.length;
-
-    for (var i = 0; i < ncontroles; i++) {
-
-        controlesObligatorios[i].parentNode.classList.remove("error");
 
 
-    }
-    if (id == 0) {
+function abrirModal(idMatricula) {
 
-        BorrarDatos();
+    document.getElementById("tablaCurso").innerHTML = "";
+    $.get("Matricula/ObtenerMatricula/?idmatricula=" + idMatricula, function (data) {
 
-    }
-    else {
-        //alert("Se llamo desde el boton Editar")
-        $.get("GradoSeccion/RecuperarInformacion/?id=" + id, function (data) {
+        document.getElementById("txtId").value = data.IIDMATRICULA;
+        document.getElementById("cboPeriodo").value = data.IIDPERIODO;
+        document.getElementById("cboGradoSeccion").value = data.IIDSECCION;
+        document.getElementById("cboAlumno").value = data.IIDALUMNO;
+    })
 
-            document.getElementById("txtIdGradoSeccion").value = data[0].IID;
-            document.getElementById("cboGrado").value = data[0].IIDGRADO;
-            //alert("IDGRADO " + data[0].IIDGRADO)
-            document.getElementById("cboSeccion").value = data[0].IIDSECCION;
-            //alert("IIDSECCION " + data[0].IIDSECCION)
-        });
-        //alert("Se llamo desde el boton Editar")
-    }
+    $.get("Matricula/Cursos/?idmatricula=" + idMatricula, function (data) {
+
+        var contenido = "<tbody>";
+        for (var i = 0; i < data.length; i++) {
+            contenido += "<tr>";
+
+            contenido += "<td>";
+            if (data[i].bhabilitado==1)
+                contenido += "<input type='checkbox' checked='true'>";
+            else
+                contenido += "<input type='checkbox'>";
+            contenido += "</td>";
+
+            contenido += "<td>";
+            contenido += data[i].NOMBRE;
+            contenido += "</td>";
 
 
-    //alert(id);
 
+            contenido += "</tr>";
+        }
+        contenido += "</tbody>";
+        document.getElementById("tablaCurso").innerHTML = contenido;
+
+    })
 }
+
+//function abrirModal(id) {
+
+//    var controlesObligatorios = document.getElementsByClassName("obligatorio");
+//    var ncontroles = controlesObligatorios.length;
+
+//    for (var i = 0; i < ncontroles; i++) {
+
+//        controlesObligatorios[i].parentNode.classList.remove("error");
+
+
+//    }
+//    if (id == 0) {
+
+//        BorrarDatos();
+
+//    }
+//    else {
+//        //alert("Se llamo desde el boton Editar")
+//        $.get("GradoSeccion/RecuperarInformacion/?id=" + id, function (data) {
+
+//            document.getElementById("txtIdGradoSeccion").value = data[0].IID;
+//            document.getElementById("cboGrado").value = data[0].IIDGRADO;
+//            //alert("IDGRADO " + data[0].IIDGRADO)
+//            document.getElementById("cboSeccion").value = data[0].IIDSECCION;
+//            //alert("IIDSECCION " + data[0].IIDSECCION)
+//        });
+//        //alert("Se llamo desde el boton Editar")
+//    }
+
+
+//    //alert(id);
+
+//}
 function llenarCombo(data, control, primerElemento) {
 
     var contenido = "";
@@ -161,25 +201,20 @@ function Eliminar(idMatricula) {
 
     if (confirm("Desea eliminar?")) {
 
-    $.get("Matricula/Eliminar/?idMatricula" + idMatricula, function (data) {
+        $.get("Matricula/Eliminar/?idMatricula=" + idMatricula, function (data) {
 
 
-        if (data = 1) {
+            if (data = 1) {
 
-            alert("Se Elimino"):
-            Listar();
-        } else {
+                alert("Se Elimino");
+                Listar();
+            } else {
 
-            alert("Ocurrio Error");
-        }
+                alert("Ocurrio Error");
+            }
 
-    })
+        })
     } 
-
-
-
-
-
 }
 
 function crearListado(arrayColumnas, data) {
