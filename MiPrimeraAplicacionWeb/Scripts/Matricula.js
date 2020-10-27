@@ -44,6 +44,21 @@ function Agregar() {
         frm.append("IIDALUMNO", alumno);
         frm.append("BHABILITADO", 1);
 
+        //Los campos habilitados
+        var valorEnviar;
+        var checkbox = document.getElementsByClassName("checkbox");
+        var ncheckbox = checkbox.length;
+        for (var i = 0; i < ncheckbox; i++) {
+
+            if (checkbox[i].checkbox == true)
+            {
+                valorEnviar += checkbox[i].id;
+                valorEnviar += "$";
+            }
+
+        }
+        valorEnviar = valorEnviar.substring(0, valorEnviar.length - 1);
+        alert(valorEnviar)
 
         if (confirm("¿Desea realmente guardar?") == 1) {
 
@@ -120,7 +135,7 @@ function abrirModal(idMatricula) {
 
             contenido += "<td>";
             if (data[i].bhabilitado==1)
-                contenido += "<input type='checkbox' checked='true'>";
+                contenido += "<input class='checkbox' id="+ data[i].IIDCURSO +" type='checkbox' checked='true'>";
             else
                 contenido += "<input type='checkbox'>";
             contenido += "</td>";

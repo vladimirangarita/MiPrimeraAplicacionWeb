@@ -206,6 +206,10 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
         public JsonResult ObtenerMatricula(int idmatricula)
         {
+
+            try
+            {
+
            
             using (PruebaDataContext bd = new PruebaDataContext())
             {
@@ -222,7 +226,13 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 return Json(oMatricula, JsonRequestBehavior.AllowGet);
             }
 
-            
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
 
         }
 
