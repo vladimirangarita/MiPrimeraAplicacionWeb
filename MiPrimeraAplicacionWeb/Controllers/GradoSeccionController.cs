@@ -119,7 +119,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 Select(
                 p => new
                 {
-                  IDD =  p.IIDSECCION,
+                  IID =  p.IIDSECCION,
                     p.NOMBRE
                 });
 
