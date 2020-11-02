@@ -31,7 +31,7 @@ function Listar() {
 function Agregar() {
 
     if (DatosObligatorios() == true) {
-        //alert("");
+       
         var frm = new FormData();
         var id = document.getElementById("txtId").value;
         var periodo = document.getElementById("cboPeriodo").value;
@@ -42,24 +42,32 @@ function Agregar() {
         frm.append("IIDPERIODO", periodo);
         frm.append("IIDGRADOSECCION", gradoseccion);
         frm.append("IIDALUMNO", alumno);
-        frm.append("BHABILITADO", 1);
-
+       
+  
         //Los campos habilitados
-        var valorEnviar;
+        var valorAEnviar="";
         var checkbox = document.getElementsByClassName("checkbox");
         var ncheckbox = checkbox.length;
+       
         for (var i = 0; i < ncheckbox; i++) {
-
-            if (checkbox[i].checkbox == true)
+           
+            if (checkbox[i].checked == true)
             {
-                valorEnviar += checkbox[i].id;
-                valorEnviar += "$";
+                //alert(checkbox[i].id)
+                valorAEnviar = valorAEnviar + checkbox[i].id;
+                //alert(valorAEnviar)
+                valorAEnviar += "$";
+                //alert(valorAEnviar)
             }
 
         }
-        valorEnviar = valorEnviar.substring(0, valorEnviar.length - 1);
-        alert(valorEnviar)
-
+       
+        valorAEnviar = valorAEnviar.substring(0, valorAEnviar.length - 1);
+        //alert(valorAEnviar)
+        frm.append("valorAEnviar", valorAEnviar);
+    
+         //son los Id de los check seleccionados 5$2$6
+        frm.append("BHABILITADO", 1);
         if (confirm("¿Desea realmente guardar?") == 1) {
 
             $.ajax({
@@ -135,9 +143,9 @@ function abrirModal(idMatricula) {
 
             contenido += "<td>";
             if (data[i].bhabilitado==1)
-                contenido += "<input class='checkbox' id="+ data[i].IIDCURSO +" type='checkbox' checked='true'>";
+                contenido += "<input class='checkbox' id=" + data[i].IIDCURSO + " type='checkbox' checked='true' />";
             else
-                contenido += "<input type='checkbox'>";
+                contenido += "<input class='checkbox'  id=" + data[i].IIDCURSO + " type='checkbox'  />";
             contenido += "</td>";
 
             contenido += "<td>";
@@ -154,39 +162,6 @@ function abrirModal(idMatricula) {
     })
 }
 
-//function abrirModal(id) {
-
-//    var controlesObligatorios = document.getElementsByClassName("obligatorio");
-//    var ncontroles = controlesObligatorios.length;
-
-//    for (var i = 0; i < ncontroles; i++) {
-
-//        controlesObligatorios[i].parentNode.classList.remove("error");
-
-
-//    }
-//    if (id == 0) {
-
-//        BorrarDatos();
-
-//    }
-//    else {
-//        //alert("Se llamo desde el boton Editar")
-//        $.get("GradoSeccion/RecuperarInformacion/?id=" + id, function (data) {
-
-//            document.getElementById("txtIdGradoSeccion").value = data[0].IID;
-//            document.getElementById("cboGrado").value = data[0].IIDGRADO;
-//            //alert("IDGRADO " + data[0].IIDGRADO)
-//            document.getElementById("cboSeccion").value = data[0].IIDSECCION;
-//            //alert("IIDSECCION " + data[0].IIDSECCION)
-//        });
-//        //alert("Se llamo desde el boton Editar")
-//    }
-
-
-//    //alert(id);
-
-//}
 function llenarCombo(data, control, primerElemento) {
 
     var contenido = "";

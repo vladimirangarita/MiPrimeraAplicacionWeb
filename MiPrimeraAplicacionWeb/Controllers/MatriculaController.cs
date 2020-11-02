@@ -119,7 +119,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
         }
 
 
-        public int GuardarDatos(Matricula oMatricula, int IIDGRADOSECCION)
+        public int GuardarDatos(Matricula oMatricula, int IIDGRADOSECCION,string valorAEnviar)
         {
             int nregistrosAfectados = 0;
          PruebaDataContext bd = new PruebaDataContext();
@@ -136,7 +136,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
                 using (var transaccion= new TransactionScope())
                 {
-                    if(oMatricula.IIDMATRICULA.Equals(iidmatricula))
+                    if(oMatricula.IIDMATRICULA.Equals(0))
                     {
                         bd.Matricula.InsertOnSubmit(oMatricula);
 
@@ -160,6 +160,33 @@ namespace MiPrimeraAplicacionWeb.Controllers
                             dm.PROMEDIO = 0;
                             dm.bhabilitado=1;
                             bd.DetalleMatricula.InsertOnSubmit(dm);
+                        }
+                        bd.SubmitChanges();
+                        transaccion.Complete();
+                        nregistrosAfectados = 1;
+
+                    }else
+                    {
+                        //editar
+                        Matricula oMatriculaObjeto = bd.Matricula.Where(p => p.IIDMATRICULA == oMatricula.IIDMATRICULA).First();
+                        oMatriculaObjeto.IIDPERIODO = oMatricula.IIDPERIODO;
+                        oMatriculaObjeto.IIDGRADO = iidgrado;
+                        oMatriculaObjeto.IIDSECCION = iidseccion;
+                        oMatriculaObjeto.IIDALUMNO = oMatricula.IIDALUMNO;
+                        //detalle
+                        var lista=bd.DetalleMatricula.Where(p =>p.IIDMATRICULA==oMatricula.IIDMATRICULA);
+
+                        foreach (DetalleMatricula odetalle in lista)
+                        {
+                            odetalle.bhabilitado = 0;
+                        }
+                        string[] valores = valorAEnviar.Split('$');
+
+                        for (int i = 0; i < valores.Length; i++)
+                        {
+                        DetalleMatricula odet =    bd.DetalleMatricula.Where(p => p.IIDMATRICULA == oMatricula.IIDMATRICULA
+                            && p.IIDCURSO==int.Parse(valores[i])).First();
+                            odet.bhabilitado = 1;
                         }
                         bd.SubmitChanges();
                         transaccion.Complete();
@@ -207,8 +234,8 @@ namespace MiPrimeraAplicacionWeb.Controllers
         public JsonResult ObtenerMatricula(int idmatricula)
         {
 
-            try
-            {
+            //try
+            //{
 
            
             using (PruebaDataContext bd = new PruebaDataContext())
@@ -216,27 +243,27 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 var oMatricula = bd.Matricula.Where(p => p.IIDMATRICULA == idmatricula).
                     Select(p => new
                     {
-
-                        IIDMATRICULA = (int) p.IIDMATRICULA,
+                        IIDMATRICULA = (int)p.IIDMATRICULA,
                         IIDPERIODO = (int) p.IIDPERIODO,
                         IIDSECCION = (int) p.IIDSECCION,
                         IIDALUMNO = (int) p.IIDALUMNO
                     }).First();
 
                 return Json(oMatricula, JsonRequestBehavior.AllowGet);
-            }
+            //}
 
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            //}
+            //catch (Exception)
+            //{
+            //    return Json("", JsonRequestBehavior.AllowGet);
+            //    //throw;
+            //}
 
 
         }
 
 
 
+    }
     }
 }
