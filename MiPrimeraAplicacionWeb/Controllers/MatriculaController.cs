@@ -234,11 +234,11 @@ namespace MiPrimeraAplicacionWeb.Controllers
         public JsonResult ObtenerMatricula(int idmatricula)
         {
 
-            //try
-            //{
+            try
+            {
 
-           
-            using (PruebaDataContext bd = new PruebaDataContext())
+
+                using (PruebaDataContext bd = new PruebaDataContext())
             {
                 var oMatricula = bd.Matricula.Where(p => p.IIDMATRICULA == idmatricula).
                     Select(p => new
@@ -250,14 +250,14 @@ namespace MiPrimeraAplicacionWeb.Controllers
                     }).First();
 
                 return Json(oMatricula, JsonRequestBehavior.AllowGet);
-            //}
+                }
 
-            //}
-            //catch (Exception)
-            //{
-            //    return Json("", JsonRequestBehavior.AllowGet);
-            //    //throw;
-            //}
+            }
+            catch (Exception)
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+                //throw;
+            }
 
 
         }
@@ -266,4 +266,3 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
     }
     }
-}
