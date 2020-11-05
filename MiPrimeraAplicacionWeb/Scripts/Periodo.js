@@ -241,12 +241,17 @@ function Agregar() {
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    if (data != 0) {
+                    if (data == 1) {
                         Listar();
                         alert("Se ejecuto correctamente");
                         document.getElementById("btnCancelar").click();
                     } else {
-                        alert("Ocurrio un error;");
+                        if (data == -1) {
+                            alert("Ya existe el periodo;")
+                        } else {
+                            alert("Ocurrio un error;");
+                        }
+                       
                     }
                 }
 

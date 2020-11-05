@@ -87,19 +87,36 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 if(idPerido >= 1)
                 {
                     //Editar
+                    int nveces = bd.Periodo.Where(p => p.NOMBRE.Equals(oPerido.NOMBRE) && !p.IIDPERIODO.Equals(idPerido)).Count();
+                    if (nveces==0)
+                    {
+
+                   
                     Periodo obj = bd.Periodo.Where(p => p.IIDPERIODO.Equals(idPerido)).First();
                     obj.NOMBRE = oPerido.NOMBRE;
                     obj.FECHAINICIO = oPerido.FECHAINICIO;
                     obj.FECHAFIN = oPerido.FECHAFIN;
                     bd.SubmitChanges();
                     nregistrosAfectados = 1;
-
+                    }else
+                    {
+                        nregistrosAfectados = -1;
+                    }
                 }
                 else
                 {
-                    bd.Periodo.InsertOnSubmit(oPerido);
-                    bd.SubmitChanges();
-                    nregistrosAfectados = 1;
+                 int nveces =   bd.Periodo.Where(p => p.NOMBRE.Equals(oPerido.NOMBRE)).Count();
+                    if (nveces == 0){
+                        bd.Periodo.InsertOnSubmit(oPerido);
+                        bd.SubmitChanges();
+                        nregistrosAfectados = 1;
+                    }
+                    else
+                    {
+                        //ya existe
+                        nregistrosAfectados = -1;
+                    }
+                  
                     //Nuevo
                 }
             }
