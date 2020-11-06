@@ -196,10 +196,17 @@ function Agregar() {
             contentType: false,
             processData: false,
             success: function (data) {
-                if (data != 0) {
+
+                if (data==1) {
                     listar();
                     alert("Se ejecuto correctamente");
                     document.getElementById("btnCancelar").click();
+                }else
+
+                if (data == -1) {
+                    //listar();
+                    alert("Ya existe el curso");
+                    //document.getElementById("btnCancelar").click();
                 } else {
                     alert("Ocurrio un error;");
                 }

@@ -51,7 +51,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                    
                 }else
                 {
-                    int nveces = bd.Curso.Where(p => p.NOMBRE.Equals(ocurso.NOMBRE) && p.IIDCURSO.Equals(ocurso)).Count();
+                    int nveces = bd.Curso.Where(p => p.NOMBRE.Equals(ocurso.NOMBRE) && !p.IIDCURSO.Equals(ocurso)).Count();
                     if (nveces==0)
                     {
                         Curso cursoSel = bd.Curso.Where(p => p.IIDCURSO.Equals(ocurso.IIDCURSO)).First();

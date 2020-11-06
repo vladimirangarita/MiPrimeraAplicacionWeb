@@ -120,7 +120,9 @@ function Eliminar(id) {
         //Salida es mucha
         $.get("Docente/Eliminar/?id=" + id, function (data) {
             //El data es la respuesta  que vota el controlador
-
+            if (data==-1) {
+                alert("Ya existe el Docente")
+            }else
             if (data == 0) {
                 alert("Ocurrio un error");
             } else {

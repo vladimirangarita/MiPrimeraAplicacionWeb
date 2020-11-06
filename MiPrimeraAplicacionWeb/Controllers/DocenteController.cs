@@ -51,13 +51,28 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
                 if (idDocente.Equals(0))
                 {
-                    oDocente.FOTO = Convert.FromBase64String(cadenaFoto);
-                    bd.Docente.InsertOnSubmit(oDocente);
-                    bd.SubmitChanges();
-                    nregistradosAfectados = 1;
+                    int nveces = bd.Docente.Where(p => p.NOMBRE.Equals(oDocente.NOMBRE)
+                      && p.APPATERNO.Equals(oDocente.APPATERNO) && p.APMATERNO.Equals(oDocente.APMATERNO)).Count();
+                    if (nveces==0)
+                    {
+                        oDocente.FOTO = Convert.FromBase64String(cadenaFoto);
+                        bd.Docente.InsertOnSubmit(oDocente);
+                        bd.SubmitChanges();
+                        nregistradosAfectados = 1;
+                    }else
+                    {
+                        nregistradosAfectados = -1;
+                    }
+                    
                 }else
                 {
-                 Docente obj =   bd.Docente.Where(p => p.IIDDOCENTE.Equals(idDocente)).First();
+                    int nveces = bd.Docente.Where(p => p.NOMBRE.Equals(oDocente.NOMBRE)
+                         && p.APPATERNO.Equals(oDocente.APPATERNO) && p.APMATERNO.Equals(oDocente.APMATERNO) && !p.IIDDOCENTE.Equals(oDocente.IIDDOCENTE)).Count();
+                    if (nveces == 0)
+                    {
+
+                   
+                    Docente obj =   bd.Docente.Where(p => p.IIDDOCENTE.Equals(idDocente)).First();
                     obj.NOMBRE = oDocente.NOMBRE;
                     obj.APPATERNO = oDocente.APPATERNO;
                     obj.APMATERNO = oDocente.APMATERNO;
@@ -72,6 +87,11 @@ namespace MiPrimeraAplicacionWeb.Controllers
                     obj.FOTO = Convert.FromBase64String(cadenaFoto);
                     bd.SubmitChanges();
                     nregistradosAfectados = 1;
+                    }
+                    else
+                    {
+                        nregistradosAfectados = -1;
+                    }
                 }
 
 

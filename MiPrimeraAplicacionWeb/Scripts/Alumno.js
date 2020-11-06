@@ -268,10 +268,13 @@ function Agregar() {
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    if (data == 0) {
+                    if (data == -1) {
 
+                        alert("Ya existe el alumno");
+                    } else if (data ==0) {
                         alert("Ocurrio un error");
                     }
+
                     else {
 
                         alert("Se ejecuto exitosamente");

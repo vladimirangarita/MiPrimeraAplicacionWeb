@@ -110,13 +110,28 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 PruebaDataContext bd = new PruebaDataContext();
                 if (idAlumno == 0)
                 {
-                    bd.Alumno.InsertOnSubmit(oAlumno);
-                    bd.SubmitChanges();
-                    nregistrosAfectados = 1;
+                    int nveces = bd.Alumno.Where(p => p.NOMBRE.Equals(oAlumno.NOMBRE)
+                      && p.APPATERNO.Equals(oAlumno.APPATERNO) && p.APMATERNO.Equals(oAlumno.APMATERNO)).Count();
+                    if (nveces==0)
+                    {
+                        bd.Alumno.InsertOnSubmit(oAlumno);
+                        bd.SubmitChanges();
+                        nregistrosAfectados = 1;
+                    }else
+                    {
+                        nregistrosAfectados = -1;
+                    }
+                   
 
                 }
                 else
                 {
+                    int nveces = bd.Alumno.Where(p => p.NOMBRE.Equals(oAlumno.NOMBRE)
+                     && p.APPATERNO.Equals(oAlumno.APPATERNO) && p.APMATERNO.Equals(oAlumno.APMATERNO)
+                     && !p.IIDALUMNO.Equals(oAlumno.IIDALUMNO)).Count();
+                    if (nveces==0)
+                    {
+
                     Alumno obj = bd.Alumno.Where(p => p.IIDALUMNO.Equals(idAlumno)).First();
                     obj.NOMBRE = oAlumno.NOMBRE;
                     obj.APPATERNO = oAlumno.APPATERNO;
@@ -129,6 +144,11 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
                     bd.SubmitChanges();
                     nregistrosAfectados = 1;
+                    }
+                        else
+                    {
+                        nregistrosAfectados = -1;
+                    }
                 }
 
             }
