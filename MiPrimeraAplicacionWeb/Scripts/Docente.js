@@ -280,6 +280,8 @@ function BorrarDatos() {
                         if (data == 0) {
 
                             alert("Ocurrio un error");
+                        } else if (data == -1) {
+                            alert("Ya existe el docente");
                         }
                         else {
 
