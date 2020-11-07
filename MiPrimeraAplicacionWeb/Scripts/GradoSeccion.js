@@ -55,7 +55,7 @@ function Agregar() {
         var id = document.getElementById("txtIdGradoSeccion").value;
         var grado = document.getElementById("cboGrado").value;
         var seccion = document.getElementById("cboSeccion").value;
-        /*a*/lert(seccion);
+        ///*a*/lert(seccion);
         frm.append("IID", id);
         frm.append("IIDGRADO", grado);
         frm.append("IIDSECCION", seccion);
@@ -71,6 +71,9 @@ function Agregar() {
                 contentType: false,
                 processData: false,
                 success: function (data) {
+                    if (data==-1) {
+                        alert("Ya existe el registro");
+                    }else
                     if (data != 0) {
                         listar();
                         alert("Se ejecuto correctamente");

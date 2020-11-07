@@ -66,17 +66,37 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 int id = oGradoSeccion.IID;
                 if (id==0)
                 {
-                    bd.GradoSeccion.InsertOnSubmit(oGradoSeccion);
-                    bd.SubmitChanges();
-                    nregistradosAfectados = 1;
+                    int nveces = bd.GradoSeccion.Where(p => p.IIDGRADO.Equals(oGradoSeccion.IIDGRADO)
+                      && p.IIDSECCION.Equals(oGradoSeccion.IIDSECCION)).Count();
+                    if (nveces==0)
+                    {
+                        bd.GradoSeccion.InsertOnSubmit(oGradoSeccion);
+                        bd.SubmitChanges();
+                        nregistradosAfectados = 1;
+                    }
+                    else
+                    {
+                        nregistradosAfectados = -1;
+                    }
+                   
 
                 }else
                 {
-                 GradoSeccion obj =   bd.GradoSeccion.Where(p => p.IID.Equals(id)).First();
-                    obj.IIDGRADO = oGradoSeccion.IIDGRADO;
-                    obj.IIDSECCION = oGradoSeccion.IIDSECCION;
-                    bd.SubmitChanges();
-                    nregistradosAfectados = 1;
+                    int nveces = bd.GradoSeccion.Where(p => p.IIDGRADO.Equals(oGradoSeccion.IIDGRADO)
+                      && p.IIDSECCION.Equals(oGradoSeccion.IIDSECCION) && !p.IID.Equals(oGradoSeccion.IID)).Count();
+                    if (nveces==0)
+                    {
+                        GradoSeccion obj = bd.GradoSeccion.Where(p => p.IID.Equals(id)).First();
+                        obj.IIDGRADO = oGradoSeccion.IIDGRADO;
+                        obj.IIDSECCION = oGradoSeccion.IIDSECCION;
+                        bd.SubmitChanges();
+                        nregistradosAfectados = 1;
+                    }
+                    else
+                    {
+                        nregistradosAfectados = -1;
+                    }
+                  
                 }
             }
             catch (Exception ex)
