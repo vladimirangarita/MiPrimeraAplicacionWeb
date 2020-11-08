@@ -132,7 +132,7 @@ function Agregar() {
         frm.append("IIDAULA", aula);
         frm.append("IIDDOCENTE", docente);
         frm.append("IIDCURSO", curso);
-
+        frm.append("BHABILITADO", 1);
         if (confirm("¿Desea realmente guardar?") == 1) {
 
             $.ajax({
@@ -142,7 +142,10 @@ function Agregar() {
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    if (data != 0) {
+                    if (data==-1) {
+                        alert("Ya existe");
+                    }else 
+                    if (data == 1) {
                         Listar();
                         alert("Se ejecuto correctamente");
                         document.getElementById("btnCancelar").click();
@@ -182,7 +185,7 @@ function abrirModal(id) {
     //alert("Se llamo desde el boton Agregar")
     var controlesObligatorios = document.getElementsByClassName("obligatorio");
     var ncontroles = controlesObligatorios.length;
-
+    //alert("Se llamo desde el boton Agregar")
     for (var i = 0; i < ncontroles; i++) {
 
         controlesObligatorios[i].parentNode.classList.remove("error");

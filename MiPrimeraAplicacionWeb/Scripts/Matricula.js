@@ -77,7 +77,10 @@ function Agregar() {
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    if (data != 0) {
+                    if (data ==-1 ) {
+                        alert("Existe el registro");
+                    }else
+                    if (data == 1) {
                         Listar();
                         alert("Se ejecuto correctamente");
                         document.getElementById("btnCancelar").click();

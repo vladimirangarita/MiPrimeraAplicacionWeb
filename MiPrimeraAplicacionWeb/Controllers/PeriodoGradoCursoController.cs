@@ -131,19 +131,47 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 int id = oPeriodoGradoCurso.IID;
                 if (oPeriodoGradoCurso.IID.Equals(0))
                 {
-                    bd.PeriodoGradoCurso.InsertOnSubmit(oPeriodoGradoCurso);
-                    bd.SubmitChanges();
-                    nregistrosAfectados = 1;
+                    int nvaces = bd.PeriodoGradoCurso.Where(p =>
+                      p.IIDPERIODO.Equals(oPeriodoGradoCurso.IIDPERIODO)
+                      && p.IIDGRADO.Equals(oPeriodoGradoCurso.IIDGRADO)
+                      && p.IIDCURSO.Equals(oPeriodoGradoCurso.IIDCURSO)
+                    ).Count();
+                    if (nvaces==0)
+                    {
+                        bd.PeriodoGradoCurso.InsertOnSubmit(oPeriodoGradoCurso);
+                        bd.SubmitChanges();
+                        nregistrosAfectados = 1;
+                    }
+                    else
+                    {
+                        nregistrosAfectados = -1;
+                    }
+                   
 
 
                 }else
                 {
-                PeriodoGradoCurso obj =    bd.PeriodoGradoCurso.Where(p => p.IID.Equals(id)).First();
-                    obj.IIDCURSO = oPeriodoGradoCurso.IIDCURSO;
-                    obj.IIDGRADO = oPeriodoGradoCurso.IIDGRADO;
-                    obj.IIDPERIODO = oPeriodoGradoCurso.IIDPERIODO;
-                    bd.SubmitChanges();
-                    nregistrosAfectados = 1;
+                    int nvaces = bd.PeriodoGradoCurso.Where(p =>
+                     p.IIDPERIODO.Equals(oPeriodoGradoCurso.IIDPERIODO)
+                     && p.IIDGRADO.Equals(oPeriodoGradoCurso.IIDGRADO)
+                     && p.IIDCURSO.Equals(oPeriodoGradoCurso.IIDCURSO)
+                     && !p.IID.Equals(oPeriodoGradoCurso.IID)).Count();
+
+                    if (nvaces==0)
+                    {
+                        PeriodoGradoCurso obj = bd.PeriodoGradoCurso.Where(p => p.IID.Equals(id)).First();
+                        obj.IIDCURSO = oPeriodoGradoCurso.IIDCURSO;
+                        obj.IIDGRADO = oPeriodoGradoCurso.IIDGRADO;
+                        obj.IIDPERIODO = oPeriodoGradoCurso.IIDPERIODO;
+                        bd.SubmitChanges();
+                        nregistrosAfectados = 1;
+                    }
+                    else
+                    {
+                        nregistrosAfectados = -1;
+                    }
+
+                   
                 }
 
                

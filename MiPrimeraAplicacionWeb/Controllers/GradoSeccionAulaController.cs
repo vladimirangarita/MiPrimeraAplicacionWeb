@@ -59,19 +59,46 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 int iidgradoseccionaula = oGradoSeccionAula.IID;
                 if (oGradoSeccionAula.IID.Equals(0))
                 {
-                    bd.GradoSeccionAula.InsertOnSubmit(oGradoSeccionAula);
-                    bd.SubmitChanges();
-                    nregistrosAfectados = 1;
+                    int nvaces = bd.GradoSeccionAula.Where(p =>
+                      p.IIDPERIODO.Equals(oGradoSeccionAula.IIDPERIODO)
+                      && p.IIDGRADOSECCION.Equals(oGradoSeccionAula.IIDGRADOSECCION)
+                      && p.IIDCURSO.Equals(oGradoSeccionAula.IIDCURSO)).Count();
+
+                    if (nvaces==0)
+                    {
+                        bd.GradoSeccionAula.InsertOnSubmit(oGradoSeccionAula);
+                        bd.SubmitChanges();
+                        nregistrosAfectados = 1;
+                    }else
+                    {
+                        nregistrosAfectados = -1;
+                    }
+                   
                 }else
                 {
-                GradoSeccionAula obj =    bd.GradoSeccionAula.Where(p =>p.IID.Equals(iidgradoseccionaula)).First();
-                    obj.IIDAULA = oGradoSeccionAula.IIDAULA;
-                    obj.IIDCURSO = oGradoSeccionAula.IIDCURSO;
-                    obj.IIDDOCENTE = oGradoSeccionAula.IIDDOCENTE;
-                    obj.IIDGRADOSECCION = oGradoSeccionAula.IIDGRADOSECCION;
-                    obj.IIDPERIODO = oGradoSeccionAula.IIDPERIODO;
-                    bd.SubmitChanges();
-                    nregistrosAfectados = 1;
+                    int nvaces = bd.GradoSeccionAula.Where(p =>
+                      p.IIDPERIODO.Equals(oGradoSeccionAula.IIDPERIODO)
+                      && p.IIDGRADOSECCION.Equals(oGradoSeccionAula.IIDGRADOSECCION)
+                      && p.IIDCURSO.Equals(oGradoSeccionAula.IIDCURSO)
+                      //&& p.IIDDOCENTE.Equals(oGradoSeccionAula.IIDDOCENTE)
+                      && !p.IID.Equals(oGradoSeccionAula.IID)).Count();
+                    if (nvaces==0)
+                    {
+                        GradoSeccionAula obj = bd.GradoSeccionAula.Where(p => p.IID.Equals(iidgradoseccionaula)).First();
+                        obj.IIDAULA = oGradoSeccionAula.IIDAULA;
+                        obj.IIDCURSO = oGradoSeccionAula.IIDCURSO;
+                        obj.IIDDOCENTE = oGradoSeccionAula.IIDDOCENTE;
+                        obj.IIDGRADOSECCION = oGradoSeccionAula.IIDGRADOSECCION;
+                        obj.IIDPERIODO = oGradoSeccionAula.IIDPERIODO;
+                        obj.BHABILITADO = oGradoSeccionAula.IIDPERIODO;
+                        bd.SubmitChanges();
+                        nregistrosAfectados = 1;
+                    }
+                    else
+                    {
+                        nregistrosAfectados = -1;
+                    }
+                    
 
                 }
 

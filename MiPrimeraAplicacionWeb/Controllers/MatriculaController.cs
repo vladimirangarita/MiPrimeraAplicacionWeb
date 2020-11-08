@@ -138,6 +138,14 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 {
                     if(oMatricula.IIDMATRICULA.Equals(0))
                     {
+                        int nveces = bd.Matricula.Where(
+                            p => p.IIDALUMNO.Equals(oMatricula.IIDALUMNO)
+                            && p.IIDPERIODO.Equals(oMatricula.IIDPERIODO)
+                            && p.IIDGRADO.Equals(oMatricula.IIDGRADO)
+                            && p.IIDSECCION.Equals(oMatricula.IIDSECCION)).Count();
+                        if (nveces==0)
+                        {
+
                         bd.Matricula.InsertOnSubmit(oMatricula);
 
 
@@ -164,8 +172,13 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         bd.SubmitChanges();
                         transaccion.Complete();
                         nregistrosAfectados = 1;
-
-                    }else
+                        }
+                        else
+                        {
+                            nregistrosAfectados = -1;
+                        }
+                    }
+                    else
                     {
                         //editar
                         Matricula oMatriculaObjeto = bd.Matricula.Where(p => p.IIDMATRICULA == oMatricula.IIDMATRICULA).First();

@@ -12,15 +12,17 @@ function Listar() {
         crearListado(["Id", "Periodo", "Grado", "Curso"], data);
 
     })
-    $.get("PeriodoGradoCurso/ListarPeriodos", function (data) {
+  
+    $.get("PeriodoGradoCurso/ListarPeriodo", function (data) {
         llenarCombo(data, document.getElementById("cboPeriodo"), true);
-    });
-    $.get("PeriodoGradoCurso/ListarGrados", function (data) {
+        //alert("Llenar combo");
+    })
+    $.get("PeriodoGradoCurso/ListarGrado", function (data) {
         llenarCombo(data, document.getElementById("cboGrado"), true);
-    });
-    $.get("PeriodoGradoCurso/ListarCursos", function (data) {
+    })
+    $.get("PeriodoGradoCurso/ListarCurso", function (data) {
         llenarCombo(data, document.getElementById("cboCurso"), true);
-    });
+    })
 }
 
 function BorrarDatos() {
@@ -37,27 +39,29 @@ function abrirModal(id) {
 
     var controlesObligatorios = document.getElementsByClassName("obligatorio");
     var ncontroles = controlesObligatorios.length;
-
+   
     for (var i = 0; i < ncontroles; i++) {
 
         controlesObligatorios[i].parentNode.classList.remove("error");
 
 
     }
+    //alert("Se llamo desde el boton Agregar")
     if (id == 0) {
 
         BorrarDatos();
 
     }
+   
     else {
-        //alert("Se llamo desde el boton Editar")
+       
         $.get("PeriodoGradoCurso/RecuperarInformacion/?id=" + id, function (data) {
-
+         
             document.getElementById("txtId").value = data[0].IID;
             document.getElementById("cboPeriodo").value = data[0].IIDPERIODO;
             document.getElementById("cboGrado").value = data[0].IIDGRADO;
             document.getElementById("cboCurso").value = data[0].IIDCURSO;
-            //alert("IIDSECCION " + data[0].IIDSECCION)
+            //alert("IIDSECCION " + data[0].IIDPERIODO)
         });
         //alert("Se llamo desde el boton Editar")
     }
@@ -93,6 +97,9 @@ function Agregar() {
                 contentType: false,
                 processData: false,
                 success: function (data) {
+                    if (data==-1) {
+                        alert("Ya existe el registro");
+                    }else
                     if (data != 0) {
                         Listar();
                         alert("Se ejecuto correctamente");
