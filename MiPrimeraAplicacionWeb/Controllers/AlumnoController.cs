@@ -114,6 +114,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                       && p.APPATERNO.Equals(oAlumno.APPATERNO) && p.APMATERNO.Equals(oAlumno.APMATERNO)).Count();
                     if (nveces==0)
                     {
+                        oAlumno.IIDTIPOUSUARIO = 'A';
                         bd.Alumno.InsertOnSubmit(oAlumno);
                         bd.SubmitChanges();
                         nregistrosAfectados = 1;

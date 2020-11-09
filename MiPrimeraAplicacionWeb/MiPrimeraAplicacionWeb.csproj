@@ -163,6 +163,7 @@
     <Compile Include="Controllers\MatriculaController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\PeriodoGradoCursoController.cs" />
+    <Compile Include="Controllers\RolPaginaController.cs" />
     <Compile Include="Controllers\SeccionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -202,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\RolPagina\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

@@ -55,6 +55,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                       && p.APPATERNO.Equals(oDocente.APPATERNO) && p.APMATERNO.Equals(oDocente.APMATERNO)).Count();
                     if (nveces==0)
                     {
+                        oDocente.IIDTIPOUSUARIO = 'D';
                         oDocente.FOTO = Convert.FromBase64String(cadenaFoto);
                         bd.Docente.InsertOnSubmit(oDocente);
                         bd.SubmitChanges();
