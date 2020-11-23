@@ -15,8 +15,9 @@ function BorrarDatos() {
         controles[i].value = "";
     }
 }
+var idRol;
 function abrirModal(id) {
-
+    idRol = id;
     var controlesObligatorios = document.getElementsByClassName("obligatorio");
     var ncontroles = controlesObligatorios.length;
 
@@ -44,6 +45,10 @@ function abrirModal(id) {
         contenido += "</tbody>";
         document.getElementById("tblPagina").innerHTML=contenido;
 
+        if (id > 0) {
+
+            ObtenerPaginasRol();
+        }
 
     })
 
@@ -52,17 +57,32 @@ function abrirModal(id) {
         BorrarDatos();
 
     }
-    else {
-        $.get("RolPagina/ObtenerRol/?idRol=" + id, function (data) {
+  
+
+    function ObtenerPaginasRol() {
+
+
+        $.get("RolPagina/ListarRolPagina/?idRol=" + idRol, function myfunction(data) {
+            var nregistros = data.length;
+            for (var i = 0; i < nregistros; i++) {
+                if (data[i].BHABILITADO==1) {
+                    document.getElementById(data[i].IIDPAGINA).checked = true;
+
+                }
+
+
+            }
+
+        })
+
+
+        $.get("RolPagina/ObtenerRol/?idRol=" + idRol, function (data) {
 
             document.getElementById("txtIdRol").value = data.IIDROL;
             document.getElementById("txtNombreRol").value = data.NOMBRE;
             document.getElementById("txtDescripcion").value = data.DESCRIPCION;
         })
-       
-   }
-
-    //alert(id);
+    }
 
 }
 function DatosObligatorios() {

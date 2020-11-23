@@ -71,6 +71,24 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
         }
 
+        public JsonResult ListarRolPagina(int idRol)
+        {
+            using (PruebaDataContext bd = new PruebaDataContext())
+            {
+                var lista = bd.RolPagina.Where(p => p.IIDROL == idRol && p.BHABILITADO == 1)
+                    .Select(x => new
+
+                    {
+                        x.IIDROL,
+                        x.IIDPAGINA,
+                        x.BHABILITADO
+                    }).ToList();
+
+                return Json(lista, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
 
         public int GuardarDatos(Rol oRolCLS, string dataEnviar)
         {
@@ -131,6 +149,8 @@ namespace MiPrimeraAplicacionWeb.Controllers
                                     oRolPagina.IIDROL = oRol.IIDROL;
                                     oRolPagina.IIDPAGINA = int.Parse(codigos[i]);
                                     oRolPagina.BHABILITADO = 1;
+                                    bd.RolPagina.InsertOnSubmit(oRolPagina);
+
                                 }
                                 else
                                 {
@@ -138,10 +158,11 @@ namespace MiPrimeraAplicacionWeb.Controllers
                                     oRolPagina.BHABILITADO = 1;
 
                                 }
-                                rpta = 1;
-                                bd.SubmitChanges();
-                                transaccion.Complete();
+                                
                             }
+                            rpta = 1;
+                            bd.SubmitChanges();
+                            transaccion.Complete();
                         }
 
 
@@ -156,7 +177,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                //throw;
             }
             return rpta;
         }
