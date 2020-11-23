@@ -26,7 +26,26 @@ function abrirModal(id) {
 
 
     }
+    
+    $.get("RolPagina/ListarPaginas", function (data) {
+     
+        var contenido = "<tbody>";
+        for (var i = 0; i < data.length; i++) {
+            contenido += "<tr>";
+            contenido += "<td>";
+            contenido += "<input class='checkbox' type='checkbox' id='" + data[i].IIDPAGINA +"'/>";
+            contenido += "</td>";
+            contenido += "<td>";
+            contenido += data[i].MENSAJE;
+            contenido += "</td>";
+            contenido += "</tr>";
+        }
+    
+        contenido += "</tbody>";
+        document.getElementById("tblPagina").innerHTML=contenido;
 
+
+    })
 
     if (id == 0) {
 
@@ -34,14 +53,36 @@ function abrirModal(id) {
 
     }
     else {
-       
-    }
+        $.get("RolPagina/ObtenerRol/?idRol=" + id, function (data) {
 
+            document.getElementById("txtIdRol").value = data.IIDROL;
+            document.getElementById("txtNombreRol").value = data.NOMBRE;
+            document.getElementById("txtDescripcion").value = data.DESCRIPCION;
+        })
+       
+   }
 
     //alert(id);
 
 }
+function DatosObligatorios() {
 
+    var exito = true;
+    var controlesObligatorios = document.getElementsByClassName("obligatorio");
+    var ncontroles = controlesObligatorios.length;
+    for (var i = 0; i < ncontroles; i++) {
+        if (controlesObligatorios[i].value == "") {
+
+            exito = false;
+            controlesObligatorios[i].parentNode.classList.add("error");
+
+        }
+        else {
+            controlesObligatorios[i].parentNode.classList.remove("error");
+        }
+    }
+    return exito;
+}
 function crearListado(arrayColumnas, data) {
     var contenido = "";
     contenido += "<table id='tablas'class='table'>"
@@ -99,4 +140,56 @@ function crearListado(arrayColumnas, data) {
     );
 
 
+}
+
+function Agregar() {
+    if (DatosObligatorios() == true) {
+
+       
+        var frm = new FormData();
+
+
+       
+
+        var idrol = document.getElementById("txtIdRol").value;
+        var nombre = document.getElementById("txtNombreRol").value;
+        var descripcion = document.getElementById("txtDescripcion").value;
+        frm.append("IIDROL", idrol);
+        frm.append("NOMBRE", nombre);
+        frm.append("DESCRIPCION", descripcion);
+        frm.append("BHABILITADO", 1);
+       
+        var checkbox = document.getElementsByClassName("checkbox");
+        var ncheckbox = checkbox.length;
+        var dataEnviar = "";
+        for (var i = 0; i < ncheckbox; i++) {
+
+            if (checkbox[i].checked==true) {
+                dataEnviar += checkbox[i].id;
+                dataEnviar += "$";
+            }
+
+        }
+        dataEnviar = dataEnviar.substring(0, dataEnviar.length - 1);
+        frm.append("dataEnviar", dataEnviar);
+
+        $.ajax({
+            type: "POST",
+            url: "RolPagina/GuardarDatos",
+            data: frm,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+
+                if (data == 0) {
+                    alert("Ocurrio un error");
+                } else {
+                    alert("Se guardo correctamente");
+                    document.getElementById("btnCancelar").click();
+                    Listar();
+                }
+            }
+
+        });
+    }
 }
