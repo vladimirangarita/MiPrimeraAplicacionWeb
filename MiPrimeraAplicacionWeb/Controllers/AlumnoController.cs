@@ -115,6 +115,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                     if (nveces==0)
                     {
                         oAlumno.IIDTIPOUSUARIO = 'A';
+                        oAlumno.bTieneUsuario = 0;
                         bd.Alumno.InsertOnSubmit(oAlumno);
                         bd.SubmitChanges();
                         nregistrosAfectados = 1;

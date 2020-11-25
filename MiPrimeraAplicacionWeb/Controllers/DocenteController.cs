@@ -56,6 +56,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                     if (nveces==0)
                     {
                         oDocente.IIDTIPOUSUARIO = 'D';
+                        oDocente.bTieneUsuario = 0;
                         oDocente.FOTO = Convert.FromBase64String(cadenaFoto);
                         bd.Docente.InsertOnSubmit(oDocente);
                         bd.SubmitChanges();
