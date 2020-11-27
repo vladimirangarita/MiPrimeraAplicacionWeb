@@ -4,7 +4,14 @@ listar();
 function listar() {
     $.get("Usuario/ListarRol", function (data) {
 
-        llenarCombo(data, document.getElementById("cboRol"), "--Seleccione--");
+        llenarCombo(data, document.getElementById("cboRol"),true);
+
+
+    })
+
+    $.get("Usuario/ListarPersonas", function (data) {
+
+        llenarCombo(data, document.getElementById("cboPersona"),true);
 
 
     })
