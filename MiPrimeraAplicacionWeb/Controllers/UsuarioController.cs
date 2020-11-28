@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using MiPrimeraAplicacionWeb.Models;
@@ -41,6 +42,27 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 return Json(ListaPersona,JsonRequestBehavior.AllowGet);
 
             }
+        }
+
+        public int GuardarDatos(Usuario oUsuario, string nombreCompleto)
+        {
+            int rpta = 0;
+            int idUsuario = oUsuario.IIDUSUARIO;
+            using (PruebaDataContext bd=new PruebaDataContext())
+            {
+                using (var transaccion= new TransactionScope())
+                {
+                    if (idUsuario == 0)
+                    {
+                        if (idUsuario==0)
+                        {
+
+                        }
+                    }
+                }
+            }
+
+            return rpta;
         }
 
         public JsonResult ListarRol()
