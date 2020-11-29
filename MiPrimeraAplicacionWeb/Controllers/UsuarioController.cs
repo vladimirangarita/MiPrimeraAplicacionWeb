@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
@@ -47,6 +49,11 @@ namespace MiPrimeraAplicacionWeb.Controllers
         public int GuardarDatos(Usuario oUsuario, string nombreCompleto)
         {
             int rpta = 0;
+            try
+            {
+
+           
+       
             int idUsuario = oUsuario.IIDUSUARIO;
             using (PruebaDataContext bd=new PruebaDataContext())
             {
@@ -56,12 +63,39 @@ namespace MiPrimeraAplicacionWeb.Controllers
                     {
                         if (idUsuario==0)
                         {
+                            string clave = oUsuario.CONTRA;
+                            SHA256Managed sha = new SHA256Managed();
+                            byte[] dataNoCifrada = Encoding.Default.GetBytes(clave);
+                            byte[] dataCifrada= sha.ComputeHash(dataNoCifrada);
+                            oUsuario.CONTRA =  BitConverter.ToString(dataCifrada).Replace("-", "");
+                           char tipo = char.Parse(nombreCompleto.Substring(nombreCompleto.Length - 2,1));
+                            oUsuario.TIPOUSUARIO = tipo;
+                            bd.Usuario.InsertOnSubmit(oUsuario);
 
+                            if (tipo.Equals("A")) 
+                            {
+                                Alumno oAlumno = bd.Alumno.Where(p => p.IIDALUMNO == oUsuario.IID).First();
+                                oAlumno.bTieneUsuario = 1;
+
+                            }
+                            else
+                            {
+                                Docente oDocente = bd.Docente.Where(p => p.IIDDOCENTE == oUsuario.IID).First();
+                                oDocente.bTieneUsuario = 1;
+                            }
+                            bd.SubmitChanges();
+                            transaccion.Complete();
+                            rpta = 1;
                         }
                     }
                 }
             }
+            }
+            catch (Exception ex)
+            {
 
+                rpta = 0;
+            }
             return rpta;
         }
 

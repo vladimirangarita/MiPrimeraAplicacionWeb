@@ -59,6 +59,7 @@ function Agregar() {
         frm.append("IID", persona);
         frm.append("IIDROL", rol);
         frm.append("nombreCompleto", nombrePersona);
+        frm.append("BHABILITADO", 1);
         alert(nombrePersona);
 
 
@@ -66,12 +67,18 @@ function Agregar() {
 
             $.ajax({
                 type: "POST",
-                url: "Curso/GuardarDatos",
+                url: "Usuario/GuardarDatos",
                 data: frm,
                 contentType: false,
                 processData: false,
                 success: function (data) {
-
+                    if (data==1) {
+                        alert("Se guardo");
+                        document.getElementById("btnCancelar").click();
+                        listar();
+                    } else {
+                        alert("error");
+                    }
 
 
 
