@@ -2,6 +2,14 @@
 listar();
 
 function listar() {
+
+    $.get("Usuario/ListarUsuarios", function (data) {
+
+        crearListado(["Id Usuario","Nombre Usuario","Nombre completo persona","Rol","Tipo"],data);
+
+
+    })
+
     $.get("Usuario/ListarRol", function (data) {
 
         llenarCombo(data, document.getElementById("cboRol"),true);
@@ -16,7 +24,64 @@ function listar() {
 
     })
 }
+function crearListado(arrayColumnas, data) {
+    var contenido = "";
+    contenido += "<table id='tablas'class='table'>"
+    contenido += "<thead>"
 
+    contenido += "<tr>"
+
+    for (var i = 0; i < arrayColumnas.length; i++) {
+        contenido += "<td>"
+        contenido += arrayColumnas[i];
+    }
+
+    contenido += "<td>Operaciones</td>"
+    contenido += "</tr>";
+
+    contenido += "</thead>"
+    var llaves = Object.keys(data[0]);
+    //alert(llaves);
+    contenido += "<tbody>"
+    for (var i = 0; i < data.length; i++) {
+
+        contenido += "<tr>"
+
+        for (var j = 0; j < llaves.length; j++) {
+            var valorLLaves = llaves[j];
+            contenido += "<td>";
+            contenido += data[i][valorLLaves];
+            contenido += "</td>";
+        }
+        var llaveId = llaves[0];
+        contenido += "<td>";
+        contenido += "<button class='btn btn-primary' onclick='abrirModal(" + data[i][llaveId] + ")' data-toggle='modal' data-target='#myModal'><i class='glyphicon glyphicon-edit'></i></button> "
+        contenido += "<button class='btn btn-danger' onclick='Eliminar(" + data[i][llaveId] + ")'><i class='glyphicon glyphicon-trash'></i></button>"
+        contenido += "</td>";
+
+        contenido += "</tr>";
+
+    }
+
+    contenido += "</tbody>"
+
+    contenido += "</table>"
+
+
+    document.getElementById("tabla").innerHTML = contenido;
+
+    $("#tablas").DataTable(
+
+        {
+
+            searching: false
+
+        }
+
+    );
+
+
+}
 function DatosObligatorios() {
 
     var exito = true;
@@ -105,18 +170,18 @@ function abrirModal(id) {
 
     if (id == 0) {
 
+        document.getElementById("lblContra").style.display = "block";
+        //document.getElementById("txtContra").style.display = "txtContra";
         BorrarDatos();
 
     }
     else {
-        $.get("Curso/RecuperarDatos/?id=" + id, function (data) {
+        document.getElementById("txtContra").value = "1";
+        document.getElementById("lblContra").style.display = "none";
+        document.getElementById("txtContra").style.display = "none";
 
-            document.getElementById("txtIdCurso").value = data[0].IIDCURSO;
-            document.getElementById("txtNombre").value = data[0].NOMBRE;
-            document.getElementById("txtDescripcion").value = data[0].DESCRIPCION;
-
-        });
-        //alert("Se llamo desde el boton Editar")
+       
+       
     }
 
 

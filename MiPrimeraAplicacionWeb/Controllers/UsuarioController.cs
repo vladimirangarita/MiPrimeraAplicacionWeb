@@ -99,6 +99,50 @@ namespace MiPrimeraAplicacionWeb.Controllers
             return rpta;
         }
 
+        public JsonResult ListarUsuarios()
+        {
+            List<UsuarioCLS> ListarUsuario = new List<UsuarioCLS>();
+            using (PruebaDataContext bd=new PruebaDataContext())
+            {
+                List<UsuarioCLS> ListaAlumno = (from usuario in bd.Usuario
+                                                join alumno in bd.Alumno
+                                                on usuario.IID equals alumno.IIDALUMNO
+                                                join rol in bd.Rol
+                                                on usuario.IIDROL equals rol.IIDROL
+                                                where usuario.BHABILITADO == 1 && usuario.TIPOUSUARIO == 'A'
+                                                select new UsuarioCLS
+                                                {
+                                                    idUsuario = usuario.IIDUSUARIO,
+                                                    NombrePersona = alumno.NOMBRE + " " + alumno.APPATERNO + " " + alumno.APMATERNO,
+                                                    NombreUsuario = usuario.NOMBREUSUARIO,
+                                                    NombreRol = rol.NOMBRE,
+                                                    NombreTipoEmpleado = "ALUMNO"
+
+                                                }).ToList();
+                                          ListarUsuario.AddRange(ListaAlumno);
+                List<UsuarioCLS> ListaDocente = (from usuario in bd.Usuario
+                                                join docente in bd.Docente
+                                                on usuario.IID equals docente.IIDDOCENTE
+                                                join rol in bd.Rol
+                                                on usuario.IIDROL equals rol.IIDROL
+                                                where usuario.BHABILITADO == 1 && usuario.TIPOUSUARIO == 'D'
+                                                select new UsuarioCLS
+                                                {
+                                                    idUsuario = usuario.IIDUSUARIO,
+                                                    NombrePersona = docente.NOMBRE + " " + docente.APPATERNO + " " + docente.APMATERNO,
+                                                    NombreUsuario = usuario.NOMBREUSUARIO,
+                                                    NombreRol = rol.NOMBRE,
+                                                    NombreTipoEmpleado = "DOCENTE"
+
+                                                }).ToList();
+                ListarUsuario.AddRange(ListaDocente);
+
+                ListarUsuario = ListarUsuario.OrderBy(p =>p.idUsuario).ToList();
+
+                return Json(ListarUsuario, JsonRequestBehavior.AllowGet);
+        }
+
+     }
         public JsonResult ListarRol()
         {
             using (PruebaDataContext bd=new PruebaDataContext())
