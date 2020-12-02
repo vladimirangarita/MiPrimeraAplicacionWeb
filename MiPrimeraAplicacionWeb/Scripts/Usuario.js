@@ -171,16 +171,28 @@ function abrirModal(id) {
     if (id == 0) {
 
         document.getElementById("lblContra").style.display = "block";
-        //document.getElementById("txtContra").style.display = "txtContra";
+        document.getElementById("txtContra").style.display = "block";
+
+        document.getElementById("lblPersona").style.display = "block";
+        document.getElementById("cboPersona").style.display = "block";
         BorrarDatos();
 
     }
     else {
         document.getElementById("txtContra").value = "1";
+        document.getElementById("cboPersona").value = "2";
         document.getElementById("lblContra").style.display = "none";
         document.getElementById("txtContra").style.display = "none";
+        document.getElementById("lblPersona").style.display = "none";
+        document.getElementById("cboPersona").style.display = "none";
 
-       
+
+        $.get("Usuario/RecuperarInformacion/?idUsuario="+id, function (data) {
+
+            document.getElementById("txtIdUsuario").value = data.IIDUSUARIO;
+            document.getElementById("txtNombreUsuario").value = data.NOMBREUSUARIO;
+            document.getElementById("cboRol").value = data.IIDROL;
+        })
        
     }
 

@@ -59,8 +59,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
             {
                 using (var transaccion= new TransactionScope())
                 {
-                    if (idUsuario == 0)
-                    {
+                   
                         if (idUsuario==0)
                         {
                             string clave = oUsuario.CONTRA;
@@ -86,8 +85,16 @@ namespace MiPrimeraAplicacionWeb.Controllers
                             bd.SubmitChanges();
                             transaccion.Complete();
                             rpta = 1;
-                        }
-                    }
+                        }else
+                            {
+                                Usuario ousuarioCLS = bd.Usuario.Where(p => p.IIDUSUARIO == idUsuario).First();
+                                ousuarioCLS.IIDROL = oUsuario.IIDROL;
+                                ousuarioCLS.NOMBREUSUARIO = oUsuario.NOMBREUSUARIO;
+                                bd.SubmitChanges();
+                                transaccion.Complete();
+                                rpta = 1;
+                            }
+
                 }
             }
             }
@@ -97,6 +104,27 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 rpta = 0;
             }
             return rpta;
+        }
+
+        public JsonResult RecuperarInformacion(int idUsuario)
+        {
+            using (PruebaDataContext bd=new PruebaDataContext())
+            {
+                var ousuario = bd.Usuario.Where(p => p.IIDUSUARIO == idUsuario).
+                    Select(
+                    p => new
+                    {
+                        p.IIDUSUARIO,
+                        p.NOMBREUSUARIO,
+                        p.IIDROL
+
+                    }
+
+
+
+                    ).First();
+                return Json(ousuario,JsonRequestBehavior.AllowGet);
+            }
         }
 
         public JsonResult ListarUsuarios()
