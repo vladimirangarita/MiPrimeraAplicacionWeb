@@ -30,6 +30,14 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
                     rpta = bd.Usuario.Where(p => p.NOMBREUSUARIO == usuario && p.CONTRA == contraCifrada).Count();
 
+                    if (rpta==1)
+                    {
+                        Session["idusuario"] = bd.Usuario.Where(p => p.NOMBREUSUARIO == usuario && p.CONTRA == contraCifrada).First().IIDUSUARIO;
+
+
+
+                    }
+
                 }
             }
             catch (Exception ex)
