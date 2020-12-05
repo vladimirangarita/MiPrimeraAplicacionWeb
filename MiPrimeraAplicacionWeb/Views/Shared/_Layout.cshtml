@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using MiPrimeraAplicacionWeb.Models;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -15,23 +16,33 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Curso", "Index", "Curso", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Periodo", "Index", "Periodo", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Seccion", "Index", "Seccion", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Alumno", "Index", "Alumno", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Docente", "Index", "Docente", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Grado seccion", "Index", "GradoSeccion", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Curso Grados", "Index", "PeriodoGradoCurso", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Curso Docentes", "Index", "GradoSeccionAula", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Matricular", "Index", "Matricula", new { area = "" }, new { @class = "navbar-brand" })
 
-                @Html.ActionLink("Rol", "Index", "RolPagina", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Usuario", "Index", "Usuario", new { area = "" }, new { @class = "navbar-brand" })
+                @{
+                    int nelementos = Variable.Acciones.Count();
+                    for (int i = 0; i < nelementos; i++)
+                    {
+                        @Html.ActionLink(Variable.Mensaje[i], Variable.Acciones[i], Variable.Controladores[i], new { area = "" }, new { @class = "navbar-brand" })
+                    }
+
+                }
+
+
+                @*@Html.ActionLink("Curso", "Index", "Curso", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Periodo", "Index", "Periodo", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Seccion", "Index", "Seccion", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Alumno", "Index", "Alumno", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Docente", "Index", "Docente", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Grado seccion", "Index", "GradoSeccion", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Curso Grados", "Index", "PeriodoGradoCurso", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Curso Docentes", "Index", "GradoSeccionAula", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Matricular", "Index", "Matricula", new { area = "" }, new { @class = "navbar-brand" })
+
+        @Html.ActionLink("Rol", "Index", "RolPagina", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Usuario", "Index", "Usuario", new { area = "" }, new { @class = "navbar-brand" })*@
                 @Html.ActionLink("Cerrar", "Cerrar", "Login", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
+                <ul class="nav navbar-nav"></ul>
             </div>
         </div>
     </div>
@@ -40,10 +51,10 @@
         @RenderBody()
         <hr />
         @*<footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>*@
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>*@
     </div>
 
-   
+
 </body>
 </html>

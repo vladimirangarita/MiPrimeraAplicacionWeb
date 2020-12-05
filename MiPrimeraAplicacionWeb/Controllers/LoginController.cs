@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiPrimeraAplicacionWeb.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -32,9 +33,36 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
                     if (rpta==1)
                     {
-                        Session["idusuario"] = bd.Usuario.Where(p => p.NOMBREUSUARIO == usuario && p.CONTRA == contraCifrada).First().IIDUSUARIO;
+                        int idUsuario = bd.Usuario.Where(p => p.NOMBREUSUARIO == usuario && p.CONTRA == contraCifrada).First().IIDUSUARIO;
+                        Session["idusuario"] = idUsuario;
 
+                        var roles = from usu in bd.Usuario
+                                    join rol in bd.Rol
+                                    on usu.IIDROL equals rol.IIDROL
+                                    join rolpagina in bd.RolPagina
+                                    on rol.IIDROL equals rolpagina.IIDROL
+                                    join pagina in bd.Pagina
+                                    on rolpagina.IIDPAGINA equals pagina.IIDPAGINA
+                                    where usu.BHABILITADO == 1 && rolpagina.BHABILITADO == 1
+                                    && usu.IIDUSUARIO == idUsuario
+                                    select new
+                                    {
+                                        acction = pagina.ACCION,
+                                        controlador = pagina.CONTROLADOR,
+                                        mensaje = pagina.MENSAJE
 
+                                    };
+                        Variable.Acciones = new List<string>();
+                        Variable.Controladores = new List<string>();
+                        Variable.Mensaje = new List<string>();
+
+                        foreach (var item in roles)
+                        {
+                            Variable.Acciones.Add(item.acction);
+                            Variable.Controladores.Add(item.controlador);
+                            Variable.Mensaje.Add(item.mensaje);
+
+                        }
 
                     }
 

@@ -71,7 +71,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                             oUsuario.TIPOUSUARIO = tipo;
                             bd.Usuario.InsertOnSubmit(oUsuario);
 
-                            if (tipo.Equals("A")) 
+                            if (tipo.Equals('A')) 
                             {
                                 Alumno oAlumno = bd.Alumno.Where(p => p.IIDALUMNO == oUsuario.IID).First();
                                 oAlumno.bTieneUsuario = 1;
