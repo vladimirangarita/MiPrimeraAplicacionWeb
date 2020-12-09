@@ -1,4 +1,5 @@
-﻿using MiPrimeraAplicacionWeb.Models;
+﻿using MiPrimeraAplicacionWeb.Filters;
+using MiPrimeraAplicacionWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace MiPrimeraAplicacionWeb.Controllers
 {
     public class LoginController : Controller
     {
+        //[Seguridad]
+
         // GET: Login
         public ActionResult Index()
         {

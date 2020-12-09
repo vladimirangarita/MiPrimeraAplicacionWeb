@@ -18,11 +18,20 @@
                 </button>
 
                 @{
-                    int nelementos = Variable.Acciones.Count();
-                    for (int i = 0; i < nelementos; i++)
+                    try
                     {
-                        @Html.ActionLink(Variable.Mensaje[i], Variable.Acciones[i], Variable.Controladores[i], new { area = "" }, new { @class = "navbar-brand" })
+                        int nelementos = Variable.Acciones.Count();
+                        for (int i = 0; i < nelementos; i++)
+                        {
+                            @Html.ActionLink(Variable.Mensaje[i], Variable.Acciones[i], Variable.Controladores[i], new { area = "" }, new { @class = "navbar-brand" })
+                        }
                     }
+                    catch (Exception ex)
+                    {
+
+                      
+                    }
+
 
                 }
 

@@ -4,10 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Transactions;
+using MiPrimeraAplicacionWeb.Filters;
+
 namespace MiPrimeraAplicacionWeb.Controllers
 {
     public class MatriculaController : Controller
     {
+        [Seguridad]
         // GET: Matricula
         public ActionResult Index()
         {

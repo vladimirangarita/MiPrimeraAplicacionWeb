@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiPrimeraAplicacionWeb.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
     public class DocenteController : Controller
     {
         // GET: Docente
+        [Seguridad]
         public ActionResult Index()
         {
             return View();

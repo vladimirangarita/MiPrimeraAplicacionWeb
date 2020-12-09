@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiPrimeraAplicacionWeb.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
 {
     public class GradoSeccionAulaController : Controller
     {
+        [Seguridad]
         // GET: GradoSeccionAula
         public ActionResult Index()
         {

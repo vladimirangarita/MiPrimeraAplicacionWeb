@@ -6,9 +6,11 @@ using System.Text;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
+using MiPrimeraAplicacionWeb.Filters;
 using MiPrimeraAplicacionWeb.Models;
 namespace MiPrimeraAplicacionWeb.Controllers
 {
+    [Seguridad]
     public class UsuarioController : Controller
     {
         // GET: Usuario
