@@ -261,12 +261,17 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 using (PruebaDataContext bd = new PruebaDataContext())
             {
                     Matricula matricula = bd.Matricula.Where(p => p.IIDMATRICULA == idmatricula).First();
-                var oMatricula = bd.Matricula.Where(p => p.IIDMATRICULA == idmatricula).
+
+                    int idgrado = (int)matricula.IIDGRADO;
+                    int idseccion = (int)matricula.IIDSECCION;
+                    int iid =   bd.GradoSeccion.Where(p => p.IIDGRADO == idgrado && p.IIDSECCION == idseccion).First().IID;
+
+                    var oMatricula = bd.Matricula.Where(p => p.IIDMATRICULA == idmatricula).
                     Select(p => new
                     {
                         IIDMATRICULA = (int)p.IIDMATRICULA,
                         IIDPERIODO = (int) p.IIDPERIODO,
-                        IIDSECCION = (int) p.IIDSECCION,
+                        IIDSECCION = iid,
                         IIDALUMNO = (int) p.IIDALUMNO
                     }).First();
 
