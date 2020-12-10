@@ -53,16 +53,18 @@ function Agregar() {
            
             if (checkbox[i].checked == true)
             {
-                //alert(checkbox[i].id)
+           
                 valorAEnviar = valorAEnviar + checkbox[i].id;
-                //alert(valorAEnviar)
+     
                 valorAEnviar += "$";
-                //alert(valorAEnviar)
+        
             }
 
         }
-       
-        valorAEnviar = valorAEnviar.substring(0, valorAEnviar.length - 1);
+        if (valorAEnviar!="") {
+            valorAEnviar = valorAEnviar.substring(0, valorAEnviar.length - 1);
+        }
+
         //alert(valorAEnviar)
         frm.append("valorAEnviar", valorAEnviar);
     
@@ -130,13 +132,17 @@ function BorrarDatos() {
 function abrirModal(idMatricula) {
 
     document.getElementById("tablaCurso").innerHTML = "";
-    $.get("Matricula/ObtenerMatricula/?idmatricula=" + idMatricula, function (data) {
 
-        document.getElementById("txtId").value = data.IIDMATRICULA;
-        document.getElementById("cboPeriodo").value = data.IIDPERIODO;
-        document.getElementById("cboGradoSeccion").value = data.IIDSECCION;
-        document.getElementById("cboAlumno").value = data.IIDALUMNO;
-    })
+    if (idMatricula!=0) {
+        $.get("Matricula/ObtenerMatricula/?idmatricula=" + idMatricula, function (data) {
+
+            document.getElementById("txtId").value = data.IIDMATRICULA;
+            document.getElementById("cboPeriodo").value = data.IIDPERIODO;
+            document.getElementById("cboGradoSeccion").value = data.IIDSECCION;
+            document.getElementById("cboAlumno").value = data.IIDALUMNO;
+        })
+    }
+   
 
     $.get("Matricula/Cursos/?idmatricula=" + idMatricula, function (data) {
 

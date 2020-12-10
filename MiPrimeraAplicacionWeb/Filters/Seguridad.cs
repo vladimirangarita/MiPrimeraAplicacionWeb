@@ -17,7 +17,7 @@ namespace MiPrimeraAplicacionWeb.Filters
             List<string> controladores = Variable.Controladores.Select(p => p.ToUpper()).ToList();
             string nombreControlador = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
 
-            if (usuario==null || !controladores.Contains(nombreControlador.ToUpper()))
+            if (usuario==null /*|| !controladores.Contains(nombreControlador.ToUpper())*/)
             {
                 filterContext.Result = new RedirectResult("~/Login/Index");
             }

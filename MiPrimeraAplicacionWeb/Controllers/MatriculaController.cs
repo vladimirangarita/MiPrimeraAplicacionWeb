@@ -197,12 +197,16 @@ namespace MiPrimeraAplicacionWeb.Controllers
                             odetalle.bhabilitado = 0;
                         }
                         string[] valores = valorAEnviar.Split('$');
+                        if (valorAEnviar!="")
+                        {
 
+                       
                         for (int i = 0; i < valores.Length; i++)
                         {
                         DetalleMatricula odet =    bd.DetalleMatricula.Where(p => p.IIDMATRICULA == oMatricula.IIDMATRICULA
                             && p.IIDCURSO==int.Parse(valores[i])).First();
                             odet.bhabilitado = 1;
+                        }
                         }
                         bd.SubmitChanges();
                         transaccion.Complete();
@@ -256,6 +260,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
                 using (PruebaDataContext bd = new PruebaDataContext())
             {
+                    Matricula matricula = bd.Matricula.Where(p => p.IIDMATRICULA == idmatricula).First();
                 var oMatricula = bd.Matricula.Where(p => p.IIDMATRICULA == idmatricula).
                     Select(p => new
                     {
