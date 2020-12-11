@@ -5,7 +5,7 @@ using System.Web;
 
 namespace MiPrimeraAplicacionWeb.Models
 {
-    public class Curso
+    public class CursoCLS
     {
 
         public int IDCURSO { get; set; }

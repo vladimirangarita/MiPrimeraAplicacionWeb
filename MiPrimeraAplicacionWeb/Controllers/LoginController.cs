@@ -79,6 +79,9 @@ namespace MiPrimeraAplicacionWeb.Controllers
             return rpta;
         }
 
+       
+
+
         public ActionResult Cerrar()
         {
             return RedirectToAction("Index");

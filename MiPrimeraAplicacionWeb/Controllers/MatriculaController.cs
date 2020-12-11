@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Transactions;
 using MiPrimeraAplicacionWeb.Filters;
+using MiPrimeraAplicacionWeb.Models;
 
 namespace MiPrimeraAplicacionWeb.Controllers
 {
@@ -249,6 +250,25 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
         }
 
+        public JsonResult ListarCursosPorPeriodoYGrado(int iidPerido, int iidGrado)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+
+            var lista = (from periodoGradoCurso in bd.PeriodoGradoCurso
+                         join curso in bd.Curso
+                         on periodoGradoCurso.IIDCURSO equals curso.IIDCURSO
+                         where periodoGradoCurso.BHABILITADO == 1
+                         && periodoGradoCurso.IIDPERIODO == iidGrado
+                         && periodoGradoCurso.IIDGRADO == iidGrado
+                         select new CursoCLS
+                         {
+                             IDCURSO = curso.IIDCURSO,
+                             NOMBRE = curso.NOMBRE
+
+                         }).ToList();
+
+            return Json(lista, JsonRequestBehavior.AllowGet);
+        }
 
 
         public JsonResult ObtenerMatricula(int idmatricula)

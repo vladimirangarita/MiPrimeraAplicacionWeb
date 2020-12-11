@@ -28,6 +28,45 @@ function Listar() {
         })
 
 } 
+
+function Recuperar() {
+    $.get("Matricula/Cursos/?idmatricula=" + idMatricula, function (data) {
+
+        var contenido = "<tbody>";
+        for (var i = 0; i < data.length; i++) {
+            contenido += "<tr>";
+
+            contenido += "<td>";
+            if (data[i].bhabilitado == 1)
+                contenido += "<input class='checkbox' id=" + data[i].IIDCURSO + " type='checkbox' checked='true' />";
+            else
+                contenido += "<input class='checkbox'  id=" + data[i].IIDCURSO + " type='checkbox'  />";
+            contenido += "</td>";
+
+            contenido += "<td>";
+            contenido += data[i].NOMBRE;
+            contenido += "</td>";
+
+
+
+            contenido += "</tr>";
+        }
+        contenido += "</tbody>";
+        document.getElementById("tablaCurso").innerHTML = contenido;
+
+    })
+}
+
+
+var cboPeriodo = document.getElementById("cboPeriodo");
+var cboGradoSeccion = document.getElementById("cboGradoSeccion");
+
+cboPeriodo.onchange = function () {
+
+}
+cboGradoSeccion.onchange = function () {
+
+}
 function Agregar() {
 
     if (DatosObligatorios() == true) {
