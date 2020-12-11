@@ -250,16 +250,16 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
         }
 
-        public JsonResult ListarCursosPorPeriodoYGrado(int iidPerido, int iidGrado)
+        public JsonResult ListarCursosPorPeriodoYGrado(int iidPeriodo, int iidGradoSeccion)
         {
             PruebaDataContext bd = new PruebaDataContext();
-
+            int iidGrado = (int) bd.GradoSeccion.Where(p => p.IID == iidGradoSeccion).First().IIDGRADO;
             var lista = (from periodoGradoCurso in bd.PeriodoGradoCurso
                          join curso in bd.Curso
                          on periodoGradoCurso.IIDCURSO equals curso.IIDCURSO
                          where periodoGradoCurso.BHABILITADO == 1
-                         && periodoGradoCurso.IIDPERIODO == iidGrado
-                         && periodoGradoCurso.IIDGRADO == iidGrado
+                         && periodoGradoCurso.IIDPERIODO == iidPeriodo
+                         && periodoGradoCurso.IIDGRADO == iidGradoSeccion
                          select new CursoCLS
                          {
                              IDCURSO = curso.IIDCURSO,

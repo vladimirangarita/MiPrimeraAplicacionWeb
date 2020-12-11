@@ -29,8 +29,8 @@ function Listar() {
 
 } 
 
-function Recuperar() {
-    $.get("Matricula/Cursos/?idmatricula=" + idMatricula, function (data) {
+function Recuperar(idPeriodo, idGradoSeccion) {
+    $.get("Matricula/ListarCursosPorPeriodoYGrado/?idPeriodo=" + idPeriodo + "&iidGradoSeccion=" + idGradoSeccion, function (data) {
 
         var contenido = "<tbody>";
         for (var i = 0; i < data.length; i++) {
@@ -63,9 +63,18 @@ var cboGradoSeccion = document.getElementById("cboGradoSeccion");
 
 cboPeriodo.onchange = function () {
 
+
+    if (cboGradoSeccion.value!="" && cboPeriodo.value!=!!) {
+
+        Recuperar(cboPeriodo.value,cboPeriodo.value);
+    }
+
+
 }
 cboGradoSeccion.onchange = function () {
-
+    if (cboGradoSeccion.value != "" && cboPeriodo.value != !!) {
+        Recuperar(cboPeriodo.value, cboPeriodo.value);
+    }
 }
 function Agregar() {
 
