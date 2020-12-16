@@ -157,14 +157,14 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
                         int idMatriculaGenerada = oMatricula.IIDMATRICULA;
 
-                      var lista =  bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(oMatricula.IIDPERIODO)
-                        && p.IIDGRADO.Equals(iidgrado) && p.BHABILITADO.Equals(1)).Select(p => p.IIDCURSO);
-
-                        foreach (var item in lista)
+                            //var lista =  bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(oMatricula.IIDPERIODO)
+                            //  && p.IIDGRADO.Equals(iidgrado) && p.BHABILITADO.Equals(1)).Select(p => p.IIDCURSO);
+                            string[] cursos = valorAEnviar.Split('$');
+                        foreach (string curso in cursos)
                         {
                             DetalleMatricula dm = new  DetalleMatricula();
                             dm.IIDMATRICULA = idMatriculaGenerada;
-                            dm.IIDCURSO = (int)item;
+                            dm.IIDCURSO = int.Parse(curso);
                             dm.NOTA1 = 0;
                             dm.NOTA2 = 0;
                             dm.NOTA3 = 0;

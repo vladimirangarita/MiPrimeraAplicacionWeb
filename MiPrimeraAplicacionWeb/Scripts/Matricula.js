@@ -4,6 +4,7 @@ Listar();
 
 function Listar() {
 
+    //alert("listar");
 
     $.get("Matricula/Listar", function (data) {
 
@@ -30,17 +31,19 @@ function Listar() {
 } 
 
 function Recuperar(idPeriodo, idGradoSeccion) {
-    $.get("Matricula/ListarCursosPorPeriodoYGrado/?idPeriodo=" + idPeriodo + "&iidGradoSeccion=" + idGradoSeccion, function (data) {
-
+   
+ 
+    $.get("Matricula/ListarCursosPorPeriodoYGrado/?iidPeriodo=" + idPeriodo + "&iidGradoSeccion=" + idGradoSeccion, function (data) {
+        //alert("Recuperar" + " " + idPeriodo + " " + idGradoSeccion);
         var contenido = "<tbody>";
         for (var i = 0; i < data.length; i++) {
             contenido += "<tr>";
 
             contenido += "<td>";
-            if (data[i].bhabilitado == 1)
+            //if (data[i].bhabilitado == 1)
                 contenido += "<input class='checkbox' id=" + data[i].IIDCURSO + " type='checkbox' checked='true' />";
-            else
-                contenido += "<input class='checkbox'  id=" + data[i].IIDCURSO + " type='checkbox'  />";
+            //else
+            //    contenido += "<input class='checkbox'  id=" + data[i].IIDCURSO + " type='checkbox'  />";
             contenido += "</td>";
 
             contenido += "<td>";
@@ -64,22 +67,51 @@ var cboGradoSeccion = document.getElementById("cboGradoSeccion");
 cboPeriodo.onchange = function () {
 
 
-    if (cboGradoSeccion.value!="" && cboPeriodo.value!=!!) {
+    if (cboGradoSeccion.value!="" && cboPeriodo.value!="") {
 
-        Recuperar(cboPeriodo.value,cboPeriodo.value);
+        Recuperar(cboPeriodo.value, cboGradoSeccion.value);
     }
 
 
 }
 cboGradoSeccion.onchange = function () {
-    if (cboGradoSeccion.value != "" && cboPeriodo.value != !!) {
-        Recuperar(cboPeriodo.value, cboPeriodo.value);
+    if (cboGradoSeccion.value != "" && cboPeriodo.value != "") {
+        Recuperar(cboPeriodo.value, cboGradoSeccion.value);
     }
 }
 function Agregar() {
 
+   
+
     if (DatosObligatorios() == true) {
-       
+      
+        //Validaresmos si hay cursos o no
+        //Contar checkboxes
+
+        var checkBoxes = document.getElementsByClassName("checkbox");
+        
+        if (checkBoxes.length==0) {
+            alert("Noy hay cursos asignados a ese grado y periodo");
+            return;
+        }
+        //Vamos a ver cuantos estan seleccionados
+        var c = 0;
+        for (var i = 0; i < checkBoxes.length; i++) {
+
+            //alert("recorriendo");
+
+            if (checkBoxes[i].checked==true) {
+                c++;
+            }
+
+        }
+
+        if (c == 0) {
+
+            alert("No ha seleccionado ningun curso");
+            return;
+        }
+
         var frm = new FormData();
         var id = document.getElementById("txtId").value;
         var periodo = document.getElementById("cboPeriodo").value;
@@ -95,13 +127,18 @@ function Agregar() {
         //Los campos habilitados
         var valorAEnviar="";
         var checkbox = document.getElementsByClassName("checkbox");
+
+        alert(valorAEnviar);
+
         var ncheckbox = checkbox.length;
-       
+
+        
+
         for (var i = 0; i < ncheckbox; i++) {
            
             if (checkbox[i].checked == true)
             {
-           
+                alert(checkbox[i].id);
                 valorAEnviar = valorAEnviar + checkbox[i].id;
      
                 valorAEnviar += "$";
@@ -178,17 +215,21 @@ function BorrarDatos() {
 
 
 function abrirModal(idMatricula) {
-
+    BorrarDatos();
     document.getElementById("tablaCurso").innerHTML = "";
-
-    if (idMatricula!=0) {
+    document.getElementById("spnContenido").style.display = "none";
+    if (idMatricula != 0) {
         $.get("Matricula/ObtenerMatricula/?idmatricula=" + idMatricula, function (data) {
 
+            document.getElementById("cboAlumno").style.display = "none";
             document.getElementById("txtId").value = data.IIDMATRICULA;
             document.getElementById("cboPeriodo").value = data.IIDPERIODO;
             document.getElementById("cboGradoSeccion").value = data.IIDSECCION;
             document.getElementById("cboAlumno").value = data.IIDALUMNO;
         })
+    } else {
+        document.getElementById("cboAlumno").style.display = "block";
+        document.getElementById("spnContenido").style.display = "block";
     }
    
 
