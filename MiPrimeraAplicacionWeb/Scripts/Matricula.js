@@ -41,7 +41,8 @@ function Recuperar(idPeriodo, idGradoSeccion) {
 
             contenido += "<td>";
             //if (data[i].bhabilitado == 1)
-                contenido += "<input class='checkbox' id=" + data[i].IIDCURSO + " type='checkbox' checked='true' />";
+            //alert("curso" + data[i].IDCURSO);
+                contenido += "<input class='checkbox' id=" + data[i].IDCURSO + " type='checkbox' checked='true' />";
             //else
             //    contenido += "<input class='checkbox'  id=" + data[i].IIDCURSO + " type='checkbox'  />";
             contenido += "</td>";
@@ -88,7 +89,11 @@ function Agregar() {
         //Validaresmos si hay cursos o no
         //Contar checkboxes
 
-        var checkBoxes = document.getElementsByClassName("checkbox");
+
+
+
+
+        var checkBoxes = document.getElementsByClassName('checkbox');
         
         if (checkBoxes.length==0) {
             alert("Noy hay cursos asignados a ese grado y periodo");
@@ -122,13 +127,13 @@ function Agregar() {
         frm.append("IIDPERIODO", periodo);
         frm.append("IIDGRADOSECCION", gradoseccion);
         frm.append("IIDALUMNO", alumno);
-       
+
   
         //Los campos habilitados
         var valorAEnviar="";
         var checkbox = document.getElementsByClassName("checkbox");
 
-        alert(valorAEnviar);
+        //alert(valorAEnviar);
 
         var ncheckbox = checkbox.length;
 
@@ -138,7 +143,7 @@ function Agregar() {
            
             if (checkbox[i].checked == true)
             {
-                alert(checkbox[i].id);
+                //alert(checkbox[i].id);
                 valorAEnviar = valorAEnviar + checkbox[i].id;
      
                 valorAEnviar += "$";
@@ -234,16 +239,17 @@ function abrirModal(idMatricula) {
    
 
     $.get("Matricula/Cursos/?idmatricula=" + idMatricula, function (data) {
-
+        //alert("Matricula/Cursos/?idmatricula=" + idMatricula);
         var contenido = "<tbody>";
         for (var i = 0; i < data.length; i++) {
+            //alert(data[i].IDCURSO);
             contenido += "<tr>";
-
+       
             contenido += "<td>";
             if (data[i].bhabilitado==1)
                 contenido += "<input class='checkbox' id=" + data[i].IIDCURSO + " type='checkbox' checked='true' />";
             else
-                contenido += "<input class='checkbox'  id=" + data[i].IIDCURSO + " type='checkbox'  />";
+                contenido += "<input type='checkbox'  id=" + data[i].IIDCURSO + "  class='checkbox'   />";
             contenido += "</td>";
 
             contenido += "<td>";
