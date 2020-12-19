@@ -142,6 +142,14 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 {
                     if(oMatricula.IIDMATRICULA.Equals(0))
                     {
+                        int cantidad = bd.Matricula.Where(p => p.IIDALUMNO == oMatricula.IIDALUMNO
+                        && p.IIDPERIODO == oMatricula.IIDPERIODO).Count();
+
+                        if (cantidad >=1)
+                        {
+                            return -1;
+                        }
+
                         int nveces = bd.Matricula.Where(
                             p => p.IIDALUMNO.Equals(oMatricula.IIDALUMNO)
                             && p.IIDPERIODO.Equals(oMatricula.IIDPERIODO)
@@ -207,6 +215,13 @@ namespace MiPrimeraAplicacionWeb.Controllers
                     }
                     else
                     {
+                        int cantidad = bd.Matricula.Where(p => p.IIDALUMNO == oMatricula.IIDALUMNO
+                        && p.IIDPERIODO == oMatricula.IIDPERIODO && p.IIDMATRICULA!=oMatricula.IIDMATRICULA).Count();
+
+                        if (cantidad >= 1)
+                        {
+                            return -1;
+                        }
                         //editar
                         Matricula oMatriculaObjeto = bd.Matricula.Where(p => p.IIDMATRICULA == oMatricula.IIDMATRICULA).First();
                         oMatriculaObjeto.IIDPERIODO = oMatricula.IIDPERIODO;
@@ -275,10 +290,15 @@ namespace MiPrimeraAplicacionWeb.Controllers
         {
             using (var bd=new PruebaDataContext())
             {
+                int iidgrado = (int)bd.Matricula.Where(p => p.IIDMATRICULA == idmatricula).First().IIDGRADO;
+              List<int?>lista= bd.PeriodoGradoCurso.Where(p => p.IIDGRADO == iidgrado).Select(p =>p.IIDCURSO).ToList();
+
+
                 var listaCurso = (from detalle in bd.DetalleMatricula
                                   join curso in bd.Curso
                                   on detalle.IIDCURSO equals curso.IIDCURSO
                                   where detalle.IIDMATRICULA==idmatricula
+                                  && lista.Contains(detalle.IIDCURSO)
                                   select new
                                   {
                                       detalle.IIDMATRICULA,

@@ -178,7 +178,7 @@ function Agregar() {
                 processData: false,
                 success: function (data) {
                     if (data ==-1 ) {
-                        alert("Existe el registro");
+                        alert("Existe la Matricula");
                     }else
                     if (data == 1) {
                         Listar();
@@ -246,6 +246,9 @@ function abrirModal(idMatricula) {
     }
    
 
+    if (idMatricula!=0) {
+
+   
     $.get("Matricula/Cursos/?idmatricula=" + idMatricula, function (data) {
         //alert("Matricula/Cursos/?idmatricula=" + idMatricula);
         var contenido = "<tbody>";
@@ -271,7 +274,8 @@ function abrirModal(idMatricula) {
         contenido += "</tbody>";
         document.getElementById("tablaCurso").innerHTML = contenido;
 
-    })
+        })
+    }
 }
 
 function llenarCombo(data, control, primerElemento) {
