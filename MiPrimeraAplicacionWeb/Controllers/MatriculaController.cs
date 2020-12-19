@@ -123,7 +123,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
         }
 
 
-        public int GuardarDatos(Matricula oMatricula, int IIDGRADOSECCION,string valorAEnviar)
+        public int GuardarDatos(Matricula oMatricula, int IIDGRADOSECCION,string valorAEnviar,string valorADeshabilitar)
         {
             int nregistrosAfectados = 0;
          PruebaDataContext bd = new PruebaDataContext();
@@ -147,10 +147,10 @@ namespace MiPrimeraAplicacionWeb.Controllers
                             && p.IIDPERIODO.Equals(oMatricula.IIDPERIODO)
                             && p.IIDGRADO.Equals(oMatricula.IIDGRADO)
                             && p.IIDSECCION.Equals(oMatricula.IIDSECCION)).Count();
-                        if (nveces==0)
+                        if (nveces == 0)
                         {
 
-                        bd.Matricula.InsertOnSubmit(oMatricula);
+                            bd.Matricula.InsertOnSubmit(oMatricula);
 
 
                         bd.SubmitChanges();
@@ -159,6 +159,10 @@ namespace MiPrimeraAplicacionWeb.Controllers
 
                             //var lista =  bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(oMatricula.IIDPERIODO)
                             //  && p.IIDGRADO.Equals(iidgrado) && p.BHABILITADO.Equals(1)).Select(p => p.IIDCURSO);
+                            if (valorAEnviar!="" && valorAEnviar!=null)
+                            {
+
+                           
                             string[] cursos = valorAEnviar.Split('$');
                         foreach (string curso in cursos)
                         {
@@ -173,7 +177,26 @@ namespace MiPrimeraAplicacionWeb.Controllers
                             dm.bhabilitado=1;
                             bd.DetalleMatricula.InsertOnSubmit(dm);
                         }
-                        bd.SubmitChanges();
+                       }
+
+                            if (valorADeshabilitar!="" && valorADeshabilitar !=null)
+                            {
+                                string[] cursos = valorADeshabilitar.Split('$');
+                                foreach (string curso in cursos)
+                                {
+                                    DetalleMatricula dm = new DetalleMatricula();
+                                    dm.IIDMATRICULA = idMatriculaGenerada;
+                                    dm.IIDCURSO = int.Parse(curso);
+                                    dm.NOTA1 = 0;
+                                    dm.NOTA2 = 0;
+                                    dm.NOTA3 = 0;
+                                    dm.NOTA4 = 0;
+                                    dm.PROMEDIO = 0;
+                                    dm.bhabilitado = 0;
+                                    bd.DetalleMatricula.InsertOnSubmit(dm);
+                                }
+                            }
+                            bd.SubmitChanges();
                         transaccion.Complete();
                         nregistrosAfectados = 1;
                         }
@@ -201,13 +224,32 @@ namespace MiPrimeraAplicacionWeb.Controllers
                         if (valorAEnviar!="")
                         {
 
-                       
+                            int nVeces=0;
                         for (int i = 0; i < valores.Length; i++)
                         {
-                        DetalleMatricula odet =    bd.DetalleMatricula.Where(p => p.IIDMATRICULA == oMatricula.IIDMATRICULA
-                            && p.IIDCURSO==int.Parse(valores[i])).First();
-                            odet.bhabilitado = 1;
-                        }
+                        nVeces =    bd.DetalleMatricula.Where(p => p.IIDMATRICULA == oMatricula.IIDMATRICULA
+                         && p.IIDCURSO==int.Parse(valores[i])).Count();
+                                //Si es que existe
+                                if (nVeces==1)
+                                {
+                                    DetalleMatricula odet = bd.DetalleMatricula.Where(p => p.IIDMATRICULA == oMatricula.IIDMATRICULA
+                                     && p.IIDCURSO == int.Parse(valores[i])).First();
+                                    odet.bhabilitado = 1;
+                                }
+                                //Si es que NO existe
+                                else
+                                {
+                                    DetalleMatricula dm = new DetalleMatricula();
+                                    dm.IIDMATRICULA = oMatricula.IIDMATRICULA;
+                                    dm.IIDCURSO = int.Parse(valores[i]);
+                                    dm.NOTA1 = 0;
+                                    dm.NOTA2 = 0;
+                                    dm.NOTA3 = 0;
+                                    dm.NOTA4 = 0;
+                                    dm.PROMEDIO = 0;
+                                    dm.bhabilitado = 1;
+                                    bd.DetalleMatricula.InsertOnSubmit(dm);
+                                }
                         }
                         bd.SubmitChanges();
                         transaccion.Complete();
@@ -218,6 +260,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 }
 
 
+            }
             }
             catch (Exception ex)
             {

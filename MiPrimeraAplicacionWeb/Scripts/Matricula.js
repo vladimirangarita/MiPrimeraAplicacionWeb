@@ -130,7 +130,8 @@ function Agregar() {
 
   
         //Los campos habilitados
-        var valorAEnviar="";
+        var valorAEnviar = "";
+        var valorADeshabilitar = "";
         var checkbox = document.getElementsByClassName("checkbox");
 
         //alert(valorAEnviar);
@@ -141,22 +142,29 @@ function Agregar() {
 
         for (var i = 0; i < ncheckbox; i++) {
            
-            if (checkbox[i].checked == true)
-            {
+            if (checkbox[i].checked == true) {
                 //alert(checkbox[i].id);
                 valorAEnviar = valorAEnviar + checkbox[i].id;
-     
+
                 valorAEnviar += "$";
-        
+
+            } else {
+                valorADeshabilitar += checkbox[i].id;
+                valorADeshabilitar += "$";
             }
 
         }
         if (valorAEnviar!="") {
             valorAEnviar = valorAEnviar.substring(0, valorAEnviar.length - 1);
         }
+        if (valorADeshabilitar!="") {
+            valorADeshabilitar = valorADeshabilitar.substring(0, valorADeshabilitar.length - 1);
+        }
 
         //alert(valorAEnviar)
         frm.append("valorAEnviar", valorAEnviar);
+        frm.append("valorADeshabilitar",valorADeshabilitar);
+
     
          //son los Id de los check seleccionados 5$2$6
         frm.append("BHABILITADO", 1);
