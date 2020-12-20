@@ -31,7 +31,7 @@ $.get("Alumno/ListarSexo", function (data) {
 
     llenarCombo(data,document.getElementById("cboSexo"),true)
 
-    llenarCombo(data, document.getElementById("cboSexoPopup"), true)
+    //llenarCombo(data, document.getElementById("cboSexoPopup"), true)
     
 
 })
@@ -214,7 +214,14 @@ function abrirModal(id) {
             document.getElementById("txtnombre").value = data[0].NOMBRE;
             document.getElementById("txtapPaterno").value = data[0].APPATERNO;
             document.getElementById("txtapMaterno").value = data[0].APMATERNO;
-            document.getElementById("cboSexoPopup").value = data[0].IIDSEXO;
+            //document.getElementById("cboSexoPopup").value = data[0].IIDSEXO;
+
+            if (data[0].IIDSEXO==1) 
+                document.getElementById("rbMasculino").checked = true;
+                else
+                document.getElementById("rbFemenino").checked = true;
+            
+
             document.getElementById("dtFechaNacimiento").value = data[0].FECHANAC;
 
             document.getElementById("txtTelefonoPadre").value = data[0].TELEFONOPADRE;
@@ -241,7 +248,16 @@ function Agregar() {
 
 
         var FechaNac = document.getElementById("dtFechaNacimiento").value;
-        var IdSexo = document.getElementById("cboSexoPopup").value;
+        //var IdSexo = document.getElementById("cboSexoPopup").value;
+
+        var idSexo;
+        if (document.getElementById("rbMasculino").checked == true) {
+            idSexo = 1;
+        }
+        else {
+            idSexo = 2;
+        }
+
         var TelefonoPadre = document.getElementById("txtTelefonoPadre").value;
 
         var TelefonoMadre = document.getElementById("txtTelefonoMadre").value;
@@ -252,7 +268,7 @@ function Agregar() {
         frm.append("APPATERNO", apPaterno);
         frm.append("APMATERNO", apMaterno);
         frm.append("FECHANACIMIENTO", FechaNac);
-        frm.append("IIDSEXO", IdSexo);
+        frm.append("IIDSEXO", idSexo);
         frm.append("TELEFONOPADRE", TelefonoPadre);
         frm.append("TELEFONOMADRE", TelefonoMadre);
         frm.append("NUMEROHERMANOS", NumeroHermanos);
