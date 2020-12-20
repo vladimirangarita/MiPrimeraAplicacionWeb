@@ -16,13 +16,13 @@ $("#dtFechaNacimiento").datepicker(
 function Listar() {
 
 
-$.get("Alumno/ListarAlumnos", function (data) {
+    $.get("Alumno/ListarAlumnos", function (data) {
 
 
-    crearListado(["ID","Nombre","Apellido Paterno","Apellido Materno","Telefono padre"],data);
+        crearListado(["ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Telefono padre"], data);
 
 
-})
+    });
 }
 
 $.get("Alumno/ListarSexo", function (data) {
