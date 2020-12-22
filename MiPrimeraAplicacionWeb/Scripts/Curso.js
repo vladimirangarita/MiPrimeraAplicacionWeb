@@ -1,11 +1,14 @@
-﻿listar();
+﻿window.onload = function () {
+    voz("Bienvenido a la pagina curso");
+}
+listar();
 function listar() {
 
     $.get("Curso/listarCurso", function (data) {
 
 
         //alert(data);
-        crearListado(["Id Curso", "Nombre Curso"], data);
+        crearListado(["Id Curso", "Nombre Curso","Descripcion"], data);
 
     });
 
@@ -17,7 +20,8 @@ btnBuscar.onclick = function () {
     var nombre = document.getElementById("txtnombre").value;
 
     $.get("Curso/BuscarCursoPorNombre/?nombre=" + nombre, function (data) {
-        crearListado(data);
+        voz("Buscando en la base de datos a" + nombre);
+        crearListado(["Id Curso", "Nombre Curso","Descripcion"],data);
     });
    }
 
@@ -28,12 +32,20 @@ btnLimpiar.onclick = function () {
 
 
         //alert(data);
-        crearListado(data);
+        voz("Buscando en la base de datos a" + nombre);
+        crearListado(["Id Curso", "Nombre Curso", "Descripcion"],data);
 
     });
     document.getElementById("txtnombre").value = "";
+    voz("Borrando los filtros y listando todo");
 }
 
+function voz(mensaje) {
+
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
 
 function crearListado(arrayColumnas, data) {
     var contenido = "";
@@ -67,7 +79,7 @@ function crearListado(arrayColumnas, data) {
         var llaveId = llaves[0];
         contenido += "<td>";
         contenido += "<button class='btn btn-primary' onclick='abrirModal(" + data[i][llaveId]+")' data-toggle='modal' data-target='#myModal'><i class='glyphicon glyphicon-edit'></i></button> "
-        contenido += "<button class='btn btn-danger' onclick='eliminar(" + data[i][llaveId] +")'><i class='glyphicon glyphicon-trash'></i></button>"
+        contenido += "<button class='btn btn-danger' onclick='eliminar(" + data[i][llaveId] +",this)'><i class='glyphicon glyphicon-trash'></i></button>"
         contenido += "</td>";
 
         contenido += "</tr>";
@@ -94,8 +106,11 @@ function crearListado(arrayColumnas, data) {
     
 }
 
-function eliminar(id) {
+function eliminar(id, obj) {
+    //alert(obj.parentNode.parentNode.childNodes[1].innerHTML);
     // alert(id);
+    var NombreCurso = obj.parentNode.parentNode.childNodes[1].innerHTML;
+    voz("Desea eliminar realmente el curso " + NombreCurso);
     var frm = new FormData();
     frm.append("IIDCURSO", id);
     if (confirm("¿Desea realemente guardar?") == 1) {
@@ -110,6 +125,7 @@ function eliminar(id) {
                 if (data != 0) {
                     listar();
                     alert("Se ejecuto correctamente");
+                    voz("Se elimino el curso " + NombreCurso);
                     document.getElementById("btnCancelar").click();
                 } else {
                     alert("Ocurrio un error;");
@@ -140,15 +156,19 @@ function abrirModal(id) {
     if (id == 0) {
 
         BorrarDatos();
-     
+        document.getElementById("lblTitulo").innerHTML = "Agregar curso";
+        voz("Agregar Curso");
     }
     else
 
     {
+        document.getElementById("lblTitulo").innerHTML = "Editar curso";
+        voz("Editar Curso");
         $.get("Curso/RecuperarDatos/?id=" + id, function (data) {
 
             document.getElementById("txtIdCurso").value = data[0].IIDCURSO;
             document.getElementById("txtNombre").value = data[0].NOMBRE;
+            voz("Editar Curso" + data[0].NOMBRE);
             document.getElementById("txtDescripcion").value = data[0].DESCRIPCION;
 
         });
@@ -200,6 +220,13 @@ function Agregar() {
                 if (data==1) {
                     listar();
                     alert("Se ejecuto correctamente");
+
+                    if (id==0) {
+                        voz("Se registro correctamente el curso llamado:" + nombre);
+                    } else {
+                        voz("Se edito correctamente el curso llamado:" + nombre);
+                    }
+
                     document.getElementById("btnCancelar").click();
                 }else
 

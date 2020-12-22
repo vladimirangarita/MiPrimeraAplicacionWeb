@@ -205,9 +205,10 @@ function abrirModal(id) {
     if (id == 0) {
 
         BorrarDatos();
-
+        document.getElementById("lblTitulo").innerHTML = "Agregar alumno";
     }
     else {
+        document.getElementById("lblTitulo").innerHTML = "Editar alumno";
         $.get("Alumno/RecuperarInformacion/?id=" + id, function (data) {
 
             document.getElementById("txtIdAlumno").value = data[0].IIDALUMNO;
