@@ -1,4 +1,13 @@
 ﻿//alert("Ingresar");
+
+function voz(mensaje) {
+
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
+
+
 var btnIngresar = document.getElementById("btnIngresar");
 
 btnIngresar.onclick = function () {
@@ -17,7 +26,10 @@ btnIngresar.onclick = function () {
         }
         if (data == 1) {
             //document.location.href='@Url.Action("Index","PaginaPrincipal")';
-            document.location.href = "PaginaPrincipal/Index";
+            document.location.href = "PaginaPrincipal";
+            $.get("PaginaPrincipal/obtenerNombreCompleto", function myfunction() {
+                voz("Bienvenido" + data + "al curso de asp.net MVC");
+            })
         } else {
             //document.location.href = "PaginaPrincipal/Index";
             alert("Error");
