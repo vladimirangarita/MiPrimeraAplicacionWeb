@@ -1,4 +1,10 @@
-﻿listar();
+﻿
+window.onload = function () {
+    voz("Bienvenido a la pamtalla Seccion");
+}
+
+
+listar();
 
 function listar() {
 
@@ -10,7 +16,12 @@ function listar() {
 
 
 }
+function voz(mensaje) {
 
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
 
 var btnBuscar = document.getElementById("btnBuscar");
 
