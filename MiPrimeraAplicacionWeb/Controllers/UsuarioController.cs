@@ -63,7 +63,16 @@ namespace MiPrimeraAplicacionWeb.Controllers
                 {
                    
                         if (idUsuario==0)
-                        {
+                        { 
+                            //validar que no exista en la BD
+                            int nveces = bd.Usuario.Where(p => p.NOMBREUSUARIO.ToUpper() == oUsuario.NOMBREUSUARIO.ToUpper()).Count();
+
+                            if (nveces==1)
+                            {
+                                rpta = -1;
+                                return rpta;
+                            }
+
                             string clave = oUsuario.CONTRA;
                             SHA256Managed sha = new SHA256Managed();
                             byte[] dataNoCifrada = Encoding.Default.GetBytes(clave);
@@ -89,7 +98,17 @@ namespace MiPrimeraAplicacionWeb.Controllers
                             rpta = 1;
                         }else
                             {
-                                Usuario ousuarioCLS = bd.Usuario.Where(p => p.IIDUSUARIO == idUsuario).First();
+
+                            int nveces = bd.Usuario.Where(p => p.NOMBREUSUARIO.ToUpper() == oUsuario.NOMBREUSUARIO.ToUpper()
+                            && p.IIDUSUARIO!=oUsuario.IIDUSUARIO).Count();
+
+                            if (nveces == 1)
+                            {
+                                rpta = -1;
+                                return rpta;
+                            }
+
+                            Usuario ousuarioCLS = bd.Usuario.Where(p => p.IIDUSUARIO == idUsuario).First();
                                 ousuarioCLS.IIDROL = oUsuario.IIDROL;
                                 ousuarioCLS.NOMBREUSUARIO = oUsuario.NOMBREUSUARIO;
                                 bd.SubmitChanges();

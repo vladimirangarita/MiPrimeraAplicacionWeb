@@ -1,4 +1,8 @@
-﻿
+﻿window.onload = function () {
+    voz("Bienvenido a la pamtalla usuario");
+}
+
+
 listar();
 
 function listar() {
@@ -101,7 +105,12 @@ function DatosObligatorios() {
     return exito;
 }
 
+function voz(mensaje) {
 
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
 function Agregar() {
 
     if (DatosObligatorios() == true) {
@@ -140,9 +149,18 @@ function Agregar() {
                     if (data==1) {
                         alert("Se guardo");
                         document.getElementById("btnCancelar").click();
+                        voz("Se registro"+nombreUsuario);
                         listar();
                     } else {
                         alert("error");
+
+                        if (data == -1) {
+                            alert("Ya existe en la base de datos");
+                            voz("Ya existe usuario" + nombreUsuario);
+                        } else {
+                            alert("Ocurrio un error");
+                        }
+
                     }
 
 
@@ -169,7 +187,8 @@ function abrirModal(id) {
 
 
     if (id == 0) {
-
+        document.getElementById("lblTitulo").innerHTML = "Agregar Usuario";
+        voz("Agregando nuevo usuario");
         document.getElementById("lblContra").style.display = "block";
         document.getElementById("txtContra").style.display = "block";
 
@@ -179,6 +198,7 @@ function abrirModal(id) {
 
     }
     else {
+        document.getElementById("lblTitulo").innerHTML = "Modificar Usuario";
         document.getElementById("txtContra").value = "1";
         document.getElementById("cboPersona").value = "2";
         document.getElementById("lblContra").style.display = "none";
@@ -191,6 +211,7 @@ function abrirModal(id) {
 
             document.getElementById("txtIdUsuario").value = data.IIDUSUARIO;
             document.getElementById("txtNombreUsuario").value = data.NOMBREUSUARIO;
+            voz("Ediando el usuario nuevo usuario" + data.NOMBREUSUARIO);
             document.getElementById("cboRol").value = data.IIDROL;
         })
        
