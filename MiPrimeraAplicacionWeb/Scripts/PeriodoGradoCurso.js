@@ -1,4 +1,6 @@
-﻿
+﻿window.onload = function () {
+    voz("Bienvenido al formulario periodo, grado y curso");
+}
 
 Listar();
 
@@ -50,17 +52,19 @@ function abrirModal(id) {
     if (id == 0) {
 
         BorrarDatos();
-
+        document.getElementById("lblTitulo").innerHTML = "Agregando Periodo grado y curso";
+        voz("Agregando Periodo, grado y curso");
     }
    
     else {
-       
+        document.getElementById("lblTitulo").innerHTML = "Editando Periodo grado y curso";
         $.get("PeriodoGradoCurso/RecuperarInformacion/?id=" + id, function (data) {
          
             document.getElementById("txtId").value = data[0].IID;
             document.getElementById("cboPeriodo").value = data[0].IIDPERIODO;
             document.getElementById("cboGrado").value = data[0].IIDGRADO;
             document.getElementById("cboCurso").value = data[0].IIDCURSO;
+            voz("Editando Periodo, grado y curso");
             //alert("IIDSECCION " + data[0].IIDPERIODO)
         });
         //alert("Se llamo desde el boton Editar")
@@ -70,7 +74,12 @@ function abrirModal(id) {
     //alert(id);
 
 }
+function voz(mensaje) {
 
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
 function Agregar() {
 
     if (DatosObligatorios() == true) {
@@ -99,10 +108,12 @@ function Agregar() {
                 success: function (data) {
                     if (data==-1) {
                         alert("Ya existe el registro");
+                        voz("ya existe el registro")
                     }else
-                    if (data != 0) {
+                    if (data == 1) {
                         Listar();
                         alert("Se ejecuto correctamente");
+                        voz("Se ejecuto correctamente");
                         document.getElementById("btnCancelar").click();
                     } else {
                         alert("Ocurrio un error;");
@@ -239,4 +250,8 @@ function crearListado(arrayColumnas, data) {
     );
 
 
+}
+
+function Cerrar() {
+    voz("Cerrando periodo,grado y curso");
 }

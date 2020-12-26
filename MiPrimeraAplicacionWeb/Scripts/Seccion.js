@@ -44,6 +44,9 @@ btnLimpiar.onclick = function () {
     document.getElementById("txtnombre").value = "";
 }
 
+function Cerrar() {
+    voz("Cerrando popou");
+}
 
 function crearListado(arrayColumnas, data) {
     var contenido = "";

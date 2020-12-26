@@ -1,4 +1,9 @@
-﻿Listar();
+﻿window.onload = function () {
+    voz("Bienvenido a la pagina alumno");
+}
+
+
+Listar();
 $("#dtFechaNacimiento").datepicker(
 
     {
@@ -45,13 +50,13 @@ btnBuscar.onclick = function () {
     if (iidsexo == "") {
 
         Listar();
-
+        voz("Indicar un sexo para buscar");
     }
     else
 
 
     $.get("Alumno/FiltrarAlumnoPorSexo/?iidsexo=" + iidsexo, function (data) {
-
+        voz("Buscando todo los alumnos" + document.getElementById("cboSexo").options[document.getElementById("cboSexo").selectedIndex].text);
         crearListado(["ID", "Nombre", "Apellido Paterno", "Apellido Materno", "Telefono padre"], data);
 
     });
@@ -62,6 +67,7 @@ var btnLimpiar = document.getElementById("btnLimpiar");
 btnLimpiar.onclick = function () {
 
     Listar();
+    voz("Listando registros");
 }
 
 function llenarCombo(data, control,primerElemento) {
@@ -120,7 +126,7 @@ function crearListado(arrayColumnas, data) {
         var llaveId = llaves[0];
         contenido += "<td>";
         contenido += "<button class='btn btn-primary' onclick='abrirModal(" + data[i][llaveId] + ")' data-toggle='modal' data-target='#myModal'><i class='glyphicon glyphicon-edit'></i></button> "
-        contenido += "<button class='btn btn-danger' onclick='Eliminar(" + data[i][llaveId] + ")'><i class='glyphicon glyphicon-trash'></i></button>"
+        contenido += "<button class='btn btn-danger' onclick='Eliminar(" + data[i][llaveId] + ",this)'><i class='glyphicon glyphicon-trash'></i></button>"
         contenido += "</td>";
 
         contenido += "</tr>";
@@ -147,16 +153,20 @@ function crearListado(arrayColumnas, data) {
 
 }
 
-function Eliminar(id) {
-
+function Eliminar(id,obj) {
+    var NombreAlumno = obj.parentNode.parentNode.childNodes[1].innerHTML + ""
+        + obj.parentNode.parentNode.childNodes[2].innerHTML + "" + obj.parentNode.parentNode.childNodes[3].innerHTML ;
+    voz("Desea eliminar al alumno" + NombreAlumno);
     if (confirm("Desea eliminar") == 1) {
 
         $.get("Alumno/Eliminar/?id=" + id, function (data) {
 
             if (data == 0) {
                 alert("Ocurrio un error");
+                voz("Ocurrio un error");
             } else {
                 alert("Se elimino correctamente");
+                voz("Se elimino" + NombreAlumno);
                 Listar();
             }
 
@@ -206,6 +216,7 @@ function abrirModal(id) {
 
         BorrarDatos();
         document.getElementById("lblTitulo").innerHTML = "Agregar alumno";
+        voz("Agregar alumno");
     }
     else {
         document.getElementById("lblTitulo").innerHTML = "Editar alumno";
@@ -217,6 +228,8 @@ function abrirModal(id) {
             document.getElementById("txtapMaterno").value = data[0].APMATERNO;
             //document.getElementById("cboSexoPopup").value = data[0].IIDSEXO;
 
+            var nombreCompleto = data[0].NOMBRE + " " + data[0].APPATERNO + " " + data[0].APMATERNO;
+            voz("Editando ha " + nombreCompleto);
             if (data[0].IIDSEXO==1) 
                 document.getElementById("rbMasculino").checked = true;
                 else
@@ -236,6 +249,15 @@ function abrirModal(id) {
     //alert(id);
 
 }
+
+function voz(mensaje) {
+
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
+
+
 BorrarDatos();
 function Agregar() {
 
@@ -247,7 +269,7 @@ function Agregar() {
         var apPaterno = document.getElementById("txtapPaterno").value;
         var apMaterno = document.getElementById("txtapMaterno").value;
 
-
+        var nombreCompleto = nombre + " " + apPaterno + " " + apMaterno;
         var FechaNac = document.getElementById("dtFechaNacimiento").value;
         //var IdSexo = document.getElementById("cboSexoPopup").value;
 
@@ -275,7 +297,7 @@ function Agregar() {
         frm.append("NUMEROHERMANOS", NumeroHermanos);
 
         frm.append("BHABILITADO", 1);
-
+        voz("Desea guardar?");
         if (confirm("Desea guardar cambios?") == 1) {
 
             $.ajax({
@@ -288,14 +310,17 @@ function Agregar() {
                     if (data == -1) {
 
                         alert("Ya existe el alumno");
+                        voz("Ya existe el alumno " + nombreCompleto );
                     } else if (data ==0) {
                         alert("Ocurrio un error");
+                        voz("Error");
                     }
 
                     else {
 
                         alert("Se ejecuto exitosamente");
                         Listar();
+                        voz("se guardo alumno " + nombreCompleto);
                         document.getElementById("btnCancelar").click();
                     }
 
@@ -312,104 +337,3 @@ function Agregar() {
 
 }
 
-//function crearListado(data) {
-//    var contenido = "";
-//    contenido += "<table id='tabla-Alumno'class='table'>"
-//    contenido += "<thead>"
-
-//    contenido += "<tr>"
-//    contenido += "<td>Id Alumno</td>"
-//    contenido += "<td>Nombre</td>"
-//    contenido += "<td>Apellido Paterno</td>"
-//    contenido += "<td>Apellido Materno</td>"
-//    contenido += "<td>Tlefono Padre</td>"
-//    contenido += "</tr>"
-
-//    contenido += "</thead>"
-
-//    contenido += "<tbody>"
-//    for (var i = 0; i < data.length; i++) {
-
-//        contenido += "<tr>"
-//        contenido += "<td>" + data[i].IIDALUMNO + "</td>"
-//        contenido += "<td>" + data[i].NOMBRE + "</td>"
-//        contenido += "<td>" + data[i].APPATERNO + "</td>"
-//        contenido += "<td>" + data[i].APMATERNO + "</td>"
-//        contenido += "<td>" + data[i].TELEFONOPADRE + "</td>"
-//        contenido += "</tr>"
-
-//    }
-
-//    contenido += "</tbody>"
-
-//    contenido += "</table>"
-
-
-//    document.getElementById("tabla").innerHTML = contenido;
-
-//    $("#tabla-Alumno").DataTable(
-
-//        {
-
-//            searching: false
-
-//        }
-
-//    );
-
-
-//}
-
-
-//function crearListado(arrayColumnas, data) {
-//    var contenido = "";
-//    contenido += "<table id='tabla-Alumno'class='table'>"
-//    contenido += "<thead>"
-
-//    contenido += "<tr>"
-
-//    for (var i = 0; i < arrayColumnas.length; i++) {
-//        contenido += "<td>"
-//        contenido += arrayColumnas[i];
-//    }
-
-//    contenido += "</tr>"
-
-//    contenido += "</thead>"
-//    var llaves = Object.keys(data[0]);
-//    contenido += "<tbody>"
-//    for (var i = 0; i < data.length; i++) {
-
-//        contenido += "<tr>"
-
-//        for (var j = 0; j < llaves.length; j++) {
-//            var valorLLaves = llaves[j];
-//            contenido += "<td>";
-//            contenido += data[i][valorLLaves];
-//            contenido += "</td>"
-//        }
-
-
-//        contenido += "</tr>"
-
-//    }
-
-//    contenido += "</tbody>"
-
-//    contenido += "</table>"
-
-
-//    document.getElementById("tabla").innerHTML = contenido;
-
-//    $("#tabla-Alumno").DataTable(
-
-//        {
-
-//            searching: false
-
-//        }
-
-//    );
-
-
-//}
