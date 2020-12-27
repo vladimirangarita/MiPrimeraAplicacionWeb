@@ -149,6 +149,7 @@
     <Content Include="Scripts\Matricula.js" />
     <Content Include="Scripts\Pagina.js" />
     <Content Include="Scripts\PerfilAlumno.js" />
+    <Content Include="Scripts\PerfilDocente.js" />
     <Content Include="Scripts\Periodo.js" />
     <Content Include="Scripts\PeriodoGradoCurso.js" />
     <Content Include="Scripts\RolPagina.js" />
@@ -215,6 +216,7 @@
     <Content Include="Views\PaginaPrincipal\Index.cshtml" />
     <Content Include="Views\Pagina\Index.cshtml" />
     <Content Include="Views\PerfilAlumno\Index.cshtml" />
+    <Content Include="Views\ProfesorNotas\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -224,7 +226,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ProfesorNotas\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/datatables.css" rel="stylesheet" />
+<link href="~/Content/cssPropio.css" rel="stylesheet" />
+<h2>Index</h2>
+
+<div class="form-group">
+    <label> Seleccione Periodo </label>
+    <select id="cboPeriodo" class="form-control" onchange="BuscarGrado()"></select>
+</div>
+
+<div lass="form-group">
+    <label> Seleccione Grado </label>
+    <select id="cboGrado" class="form-control" onchange="BuscarCurso()"></select>
+</div>
+
+<div lass="form-group">
+    <label> Seleccione Curso </label>
+    <select id="cboCurso" class="form-control" ></select>
+</div>
+
+<div lass="form-group">
+   <input type="button" value="Buscar" class="form-control" onclick="BuscarAlumnos()"  id="btnBuscar"/>
+</div>
+
+<div id="tabla">
+    
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="~/Scripts/datatables.min.js"></script>
+<script src="~/Scripts/PerfilDocente.js"></script>

@@ -1,5 +1,22 @@
 ﻿
+window.onload = function () {
+
+    voz("Bienvenido al formulario pagina");
+}
+
 listar();
+
+function BorrarDatos() {
+
+    var controles = document.getElementsByClassName("borrar");
+    //console.log(controles);
+    var ncontroles = controles.length;
+    for (var i = 0; i < ncontroles; i++) {
+        controles[i].value = "";
+    }
+}
+
+
 function listar() {
 
     $.get("Pagina/ListarPaginas", function (data) {
@@ -11,7 +28,12 @@ function listar() {
     });
 
 }
+function voz(mensaje) {
 
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
 function Agregar() {
 
     if (DatosObligatorios() == true) {
@@ -43,15 +65,23 @@ function Agregar() {
                     if (data == 1) {
                         listar();
                         alert("Se ejecuto correctamente");
+                        if (id==0) {
+                            voz("Se agrego la pagina" + mensaje);
+                        }
+                        else {
+                            voz("Se edito la pagina" + mensaje);
+                        }
                         document.getElementById("btnCancelar").click();
                     } else
 
                         if (data == -1) {
                             //listar();
                             alert("Ya existe el curso");
+                            voz("Ya existe la pagina" + mensaje);
                             //document.getElementById("btnCancelar").click();
                         } else {
                             alert("Ocurrio un error;");
+                            voz("Ocurrio un error");
                         }
                 }
 
@@ -157,15 +187,22 @@ function abrirModal(id) {
 
 
     if (id == 0) {
-
+     
         BorrarDatos();
+        //alert("Agregando");
+        document.getElementById("lblTitulo").innerHTML = "Agregando Pagina";
+        voz("Agregando  pagina");
 
     }
     else {
-        $.get("Pagina/RecuperarDatos/?id=" + id, function (data) {
+        document.getElementById("lblTitulo").innerHTML = "Editando Pagina";
+        $.get("Pagina/RecuperarInformacion/?id=" + id, function (data) {
 
             document.getElementById("txtIdPagina").value = data.IIDPAGINA;
+
+
             document.getElementById("txtMensaje").value = data.MENSAJE;
+            voz("Editando  pagina" + data.MENSAJE);
             document.getElementById("txtControlador").value = data.CONTROLADOR;
             document.getElementById("txtAccion").value = data.ACCION;
 
