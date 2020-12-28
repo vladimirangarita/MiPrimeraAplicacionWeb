@@ -26,7 +26,8 @@ function BuscarCurso() {
     var idGrado = document.getElementById("cboGrado").value;
 
     if (idPeriodo != "" && idGrado != "") {
-        $.get("ProfesorNotas/ListarCursos/?iidPeriodo=" + idPeriodo + "&iidGrado" + idGrado, function (data) {
+
+        $.get("ProfesorNotas/ListarCursos/?iidPeriodo=" + idPeriodo + "&iidGrado=" + idGrado, function (data) {
 
             llenarCombo(data, document.getElementById("cboCurso"),true);
 
@@ -39,10 +40,10 @@ function BuscarCurso() {
 function BuscarAlumnos() {
     var idPeriodo = document.getElementById("cboPeriodo").value;
     var idGrado = document.getElementById("cboGrado").value;
-    var idCurso = document.getElementById("cbocurso").value;
+    var idCurso = document.getElementById("cboCurso").value;
 
     if (idPeriodo != "" && idGrado != "" && idCurso !="") {
-        $.get("ProfesorNotas/ListarAlumnos/?iidPeriodo=" + idPeriodo + "&iidGrado" + idGrado + "&iidCurso" + idCurso, function (data) {
+        $.get("ProfesorNotas/ListarAlumnos/?iidPeriodo=" + idPeriodo + "&iidGrado=" + idGrado + "&iidCurso=" + idCurso, function (data) {
 
             //llenarCombo(data, document.getElementById("cboCurso"), true);
             crearListado(["Id Alumno", "Nombre", "Nota I", "Nota II", "Nota III", "Nota IV", "Promedio"], data);

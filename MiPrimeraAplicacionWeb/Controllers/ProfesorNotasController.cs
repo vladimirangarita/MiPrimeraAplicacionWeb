@@ -90,7 +90,7 @@ namespace MiPrimeraAplicacionWeb.Controllers
                                 && grado.IIDGRADO == iidGrado
                               select new
                               {
-                                  curso.IIDCURSO,
+                                IID =  curso.IIDCURSO,
                                   curso.NOMBRE
 
                               }).ToList();
