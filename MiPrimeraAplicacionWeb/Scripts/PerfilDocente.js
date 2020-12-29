@@ -93,7 +93,8 @@ function crearListado(arrayColumnas, data) {
         contenido += "<td>"
         contenido += arrayColumnas[i];
     }
-
+    contenido += "<td>Operaciones";
+    contenido += "</td>";
     //contenido += "<td>Operaciones</td>"
     contenido += "</tr>";
 
@@ -117,8 +118,16 @@ function crearListado(arrayColumnas, data) {
                 contenido += "<td>";
                 contenido += data[i][valorLLaves];
                 contenido += "</td>";
+
             }
-            
+            var llaveId = llaves[0];
+            var idAlumno = data[i][llaveId];
+            contenido += "<td>";
+            contenido += "<button class='btn btn-primary' id='btnEditar" + idAlumno + "' onclick='HabilitarEdicion(this," + idAlumno +")'>Editar</button>";
+            contenido += "<button class='btn btn-success' style='display:none' id='btnGuardar" + idAlumno + "'>Guardar</button>";
+            contenido += "<button class='btn btn-danger' style='display:none' id='btnCancelar" + idAlumno +"' onclick='Cancelar(this,"+idAlumno+")'>Cancelar</button>";
+            contenido += "</td>";
+
             contenido += "</tr>";
 
         }
@@ -139,6 +148,50 @@ function crearListado(arrayColumnas, data) {
         }
 
     );
+
+
+}
+
+function Cancelar(button, idAlumno) {
+    document.getElementById("btnEditar" + idAlumno).style.display = "inline-block";
+    document.getElementById("btnGuardar" + idAlumno).style.display = "none";
+    document.getElementById("btnCancelar" + idAlumno).style.display = "none";
+
+    var celda = button.parentNode;
+    var fila = celda.parentNode;
+
+    var nota1 = fila.cells[2].childNodes[0].getAttribute("data-val");
+    var nota2 = fila.cells[3].childNodes[0].getAttribute("data-val");
+    var nota3 = fila.cells[4].childNodes[0].getAttribute("data-val");
+    var nota4 = fila.cells[5].childNodes[0].getAttribute("data-val");
+
+    fila.cells[2].innerHTML = nota1;
+    fila.cells[3].innerHTML = nota2;
+    fila.cells[4].innerHTML = nota3;
+    fila.cells[5].innerHTML = nota4;
+
+
+
+}
+
+function HabilitarEdicion(button, idAlumno) {
+
+    document.getElementById("btnEditar" + idAlumno).style.display = "none";
+    document.getElementById("btnGuardar" + idAlumno).style.display = "inline-block";
+    document.getElementById("btnCancelar" + idAlumno).style.display = "inline-block";
+
+    var celda = button.parentNode;
+    var fila = celda.parentNode;
+
+    var nota1 = fila.cells[2].innerHTML;
+    var nota2 = fila.cells[3].innerHTML;
+    var nota3 = fila.cells[4].innerHTML;
+    var nota4 = fila.cells[5].innerHTML;
+
+    fila.cells[2].innerHTML="<input data-val='"+nota1+"' type='number' value='"+nota1+"' min='0' max='20'/>"
+    fila.cells[3].innerHTML = "<input data-val='" + nota2 +"' type='number' value='" + nota2 + "' min='0' max='20'/>"
+    fila.cells[4].innerHTML = "<input data-val='" + nota3 +"' type='number' value='" + nota3 + "' min='0' max='20'/>"
+    fila.cells[5].innerHTML = "<input data-val='" + nota4 +"' type='number' value='" + nota4 + "' min='0' max='20'/>"
 
 
 }
