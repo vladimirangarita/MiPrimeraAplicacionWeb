@@ -90,11 +90,44 @@ namespace MiPrimeraAplicacionWeb.Controllers
                                 && grado.IIDGRADO == iidGrado
                               select new
                               {
-                                IID =  curso.IIDCURSO,
+                                  IID = curso.IIDCURSO,
                                   curso.NOMBRE
 
                               }).ToList();
             return Json(ListaCurso, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public decimal IngresarNota(DetalleMatricula oDetalleMatriculaForm)
+        {
+            decimal rpta = 0;
+            try
+            {
+
+           
+
+            PruebaDataContext bd = new PruebaDataContext();
+            DetalleMatricula oDetalleMatricula = new DetalleMatricula();
+            oDetalleMatricula = bd.DetalleMatricula.Where(p => p.IIDMATRICULA == oDetalleMatriculaForm.IIDMATRICULA
+                && p.IIDCURSO == oDetalleMatriculaForm.IIDCURSO).First();
+                oDetalleMatricula.NOTA1 = oDetalleMatriculaForm.NOTA1;
+                oDetalleMatricula.NOTA2 = oDetalleMatriculaForm.NOTA2;
+                oDetalleMatricula.NOTA3 = oDetalleMatriculaForm.NOTA3;
+                oDetalleMatricula.NOTA4 = oDetalleMatriculaForm.NOTA4;
+                oDetalleMatricula.PROMEDIO = Decimal.Divide((decimal)(oDetalleMatricula.NOTA1 +
+                oDetalleMatricula.NOTA2 + oDetalleMatricula.NOTA3 +
+                oDetalleMatricula.NOTA4), 4);
+                bd.SubmitChanges();
+                rpta = (decimal)oDetalleMatricula.PROMEDIO;
+
+            }
+            catch (Exception ex)
+            {
+                rpta = 0;
+                //throw;
+            }
+
+            return rpta;
 
         }
 
@@ -119,7 +152,8 @@ namespace MiPrimeraAplicacionWeb.Controllers
                                     detalleMatricula.NOTA3,
                                     detalleMatricula.NOTA4,
                                     detalleMatricula.PROMEDIO,
-
+                                    detalleMatricula.IIDMATRICULA,
+                                    detalleMatricula.IIDCURSO
                                 }).Distinct();
 
                     return Json(ListaAlumnos,JsonRequestBehavior.AllowGet);
