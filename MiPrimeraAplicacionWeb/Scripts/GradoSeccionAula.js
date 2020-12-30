@@ -1,7 +1,18 @@
 ﻿
 
 
+window.onload = function () {
+    voz("Bienvenido a la pagina Grado Seccion y Aula");
+}
+
 Listar();
+
+function voz(mensaje) {
+
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
 
 var periodo = document.getElementById("cboPeriodo");
 var gradoseccion = document.getElementById("cboGradoSeccion");
@@ -16,6 +27,8 @@ periodo.onchange = function () {
 
             
         })
+
+        voz("Seleccione un grado seccion");
     }
 
 }
@@ -30,6 +43,7 @@ gradoseccion.onchange = function () {
 
 
         })
+        voz("Seleccione un curso");
     }
 
 }
@@ -142,15 +156,24 @@ function Agregar() {
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    if (data==-1) {
+                    if (data == -1) {
+                        
                         alert("Ya existe");
+                        voz("Ya existe ");
                     }else 
-                    if (data == 1) {
+                        if (data == 1) {
+                            
                         Listar();
-                        alert("Se ejecuto correctamente");
+                            alert("Se ejecuto correctamente");
+                            if (id == "") {
+                                voz("Se agrego bien ");
+                            } else {
+                                voz("Se edito bien ");
+                            }
                         document.getElementById("btnCancelar").click();
                     } else {
-                        alert("Ocurrio un error;");
+                            alert("Ocurrio un error");
+                            voz("Ocurrio un error ");
                     }
                 }
 
@@ -195,9 +218,12 @@ function abrirModal(id) {
     if (id == 0) {
 
         BorrarDatos();
-
+        document.getElementById("lblTitulo").innerHTML = "Agregando Grado, secion y aula";
+        voz("Agregando Grado, secion y aula");
     }
     else {
+        document.getElementById("lblTitulo").innerHTML = "Editando Grado, secion y aula";
+        voz("Agregando Grado, secion y aula");
         //alert("Se llamo desde el boton Editar gradoseccionaula");
         $.get("GradoSeccionAula/RecuperarInformacion/?id=" + id, function (data) {
 

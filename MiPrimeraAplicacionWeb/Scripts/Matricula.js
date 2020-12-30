@@ -1,6 +1,15 @@
-﻿
+﻿window.onload = function () {
+    voz("Bienvenido a la pagina Mtricula");
+}
 
 Listar();
+
+function voz(mensaje) {
+
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
 
 function Listar() {
 
@@ -232,6 +241,8 @@ function abrirModal(idMatricula) {
     document.getElementById("tablaCurso").innerHTML = "";
     document.getElementById("spnContenido").style.display = "none";
     if (idMatricula != 0) {
+        document.getElementById("lblTitulo").innerHTML = "Editando Matricula";
+        voz("Editando Matricula")
         $.get("Matricula/ObtenerMatricula/?idmatricula=" + idMatricula, function (data) {
 
             document.getElementById("cboAlumno").style.display = "none";
@@ -241,6 +252,9 @@ function abrirModal(idMatricula) {
             document.getElementById("cboAlumno").value = data.IIDALUMNO;
         })
     } else {
+        document.getElementById("lblTitulo").innerHTML = "Agregando Matricula";
+        voz("Agregando Matricula")
+   
         document.getElementById("cboAlumno").style.display = "block";
         document.getElementById("spnContenido").style.display = "block";
     }

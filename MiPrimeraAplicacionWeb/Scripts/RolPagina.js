@@ -1,11 +1,20 @@
-﻿Listar();
+﻿window.onload = function () {
+    voz("Bienvenido a los roles");
+}
+
+Listar();
 
 function Listar() {
     $.get("RolPagina/ListarRol", function (data) {
         crearListado(["Id Rol", "Nombre", "Descripcion"], data);
     })
 }
+function voz(mensaje) {
 
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
 function BorrarDatos() {
 
     var controles = document.getElementsByClassName("borrar");
@@ -48,13 +57,17 @@ function abrirModal(id) {
         if (id > 0) {
 
             ObtenerPaginasRol();
+            document.getElementById("lblTitulo").innerHTML = "Editando Rol";
+            voz("Editando rol");
         }
 
     })
 
     if (id == 0) {
-
+       
         BorrarDatos();
+        document.getElementById("lblTitulo").innerHTML = "Agregar Rol";
+        voz("Agregando rol");
 
     }
   
