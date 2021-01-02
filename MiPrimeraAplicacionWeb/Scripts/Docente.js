@@ -10,6 +10,16 @@
 
 );
 
+window.onload = function () {
+    voz("Bienvenido a la pagina de Docente");
+}
+function voz(mensaje) {
+
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.speechSynthesis.speak(vozHablar);
+
+}
+
 
 listar();
 ListarComboModalidad();
@@ -150,15 +160,19 @@ function abrirModal(id) {
     if (id == 0) {
 
         BorrarDatos();
-
+        document.getElementById("lblTitulo").innerHTML = "Agregar Docente";
+        voz("Agregar Docente");
     }
     else {
         $.get("Docente/RecuperarInformacion/?id=" + id, function (data) {
 
             document.getElementById("txtIdDocente").value = data[0].IIDDOCENTE;
+            document.getElementById("lblTitulo").innerHTML = "Agregar Docente" + data[0].IIDDOCENTE;
             document.getElementById("txtNombre").value = data[0].NOMBRE;
             document.getElementById("txtApPaterno").value = data[0].APPATERNO;
             document.getElementById("txtApMaterno").value = data[0].APMATERNO;
+            var NombreCompleto = data[0].NOMBRE + " " + data[0].APPATERNO + " " + data[0].APMATERNO
+            voz("Editando Docente" + NombreCompleto);
             document.getElementById("txtDireccion").value = data[0].DIRECCION;
             document.getElementById("txttelefonofijo").value = data[0].TELEFONOFIJO;
 
@@ -253,6 +267,8 @@ function BorrarDatos() {
             var imgFoto = document.getElementById("imgFoto").src.replace("data:image/png;base64,","");
             var bhabilitado = 1;
 
+            var NombreCompleto = nombre + " " + apPaterno + " " + apMaterno
+
             frm.append("IIDDOCENTE", IdDocente);
             frm.append("NOMBRE", nombre);
             frm.append("APPATERNO", apPaterno);
@@ -280,10 +296,21 @@ function BorrarDatos() {
                         if (data == 0) {
 
                             alert("Ocurrio un error");
+                            voz("Ocurrio un error");
                         } else if (data == -1) {
-                            alert("Ya existe el docente");
+                            alert("Ya existe el docente: " + NombreCompleto );
+                            voz("Ya existe el docente:" + NombreCompleto);
                         }
                         else {
+
+                            if (IdDocente==0) {
+
+                                voz("Se agrego correctamente el docente " + NombreCompleto)
+
+                            }
+                            else {
+                                voz("Se edito correctamente el docente " + NombreCompleto)
+                            }
 
                             alert("Se ejecuto exitosamente");
                             listar();

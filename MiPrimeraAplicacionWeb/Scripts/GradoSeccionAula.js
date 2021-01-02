@@ -19,6 +19,7 @@ var gradoseccion = document.getElementById("cboGradoSeccion");
 
 periodo.onchange = function () {
     //alert("Le di a Periodo");
+    voz("Seleccione un grado y seccion");
     if (perido.value!="" && gradoseccion.value!="") {
 
            $.get("GradoSeccionAula/ListarCursos/?IIDPERIODO=" + periodo.value + "&IIDGRADOSECCION=" + gradoseccion.value, function (data) {
@@ -28,13 +29,14 @@ periodo.onchange = function () {
             
         })
 
-        voz("Seleccione un grado seccion");
+        //voz("Seleccione un grado seccion");
     }
 
 }
 
 gradoseccion.onchange = function () {
     //alert("Le di a gradoseccion");
+    voz("Seleccione un curso");
     if (periodo.value!="" && gradoseccion.value!="") {
         //alert("No estan vacios peiodo y grado seccion, Valores periodo: " + periodo.value);
         $.get("GradoSeccionAula/ListarCursos/?IIDPERIODO=" + periodo.value + "&IIDGRADOSECCION=" + gradoseccion.value, function (data) {
@@ -43,7 +45,7 @@ gradoseccion.onchange = function () {
 
 
         })
-        voz("Seleccione un curso");
+       
     }
 
 }
